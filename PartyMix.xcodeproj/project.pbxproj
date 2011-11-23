@@ -26,6 +26,7 @@
 		17ACB3CD14789242008832E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A014789242008832E5 /* Foundation.framework */; };
 		17ACB3D514789242008832E5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 17ACB3D314789242008832E5 /* InfoPlist.strings */; };
 		17ACB3D814789242008832E5 /* PartyMixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 17ACB3D714789242008832E5 /* PartyMixTests.m */; };
+		17ACB3E2147893B3008832E5 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3E1147893B3008832E5 /* GameKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,28 +44,29 @@
 		17ACB39E14789242008832E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		17ACB3A014789242008832E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		17ACB3A214789242008832E5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		17ACB3A614789242008832E5 /* PartyMix-Info.plist */ = {isa = PBXFileReference; path = "PartyMix-Info.plist"; sourceTree = "<group>"; };
+		17ACB3A614789242008832E5 /* PartyMix-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PartyMix-Info.plist"; sourceTree = "<group>"; };
 		17ACB3A814789242008832E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		17ACB3AA14789242008832E5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		17ACB3AC14789242008832E5 /* PartyMix-Prefix.pch */ = {isa = PBXFileReference; path = "PartyMix-Prefix.pch"; sourceTree = "<group>"; };
-		17ACB3AD14789242008832E5 /* RJAppDelegate.h */ = {isa = PBXFileReference; path = RJAppDelegate.h; sourceTree = "<group>"; };
+		17ACB3AC14789242008832E5 /* PartyMix-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PartyMix-Prefix.pch"; sourceTree = "<group>"; };
+		17ACB3AD14789242008832E5 /* RJAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RJAppDelegate.h; sourceTree = "<group>"; };
 		17ACB3AE14789242008832E5 /* RJAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RJAppDelegate.m; sourceTree = "<group>"; };
 		17ACB3B114789242008832E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		17ACB3B414789242008832E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		17ACB3B614789242008832E5 /* RJFirstViewController.h */ = {isa = PBXFileReference; path = RJFirstViewController.h; sourceTree = "<group>"; };
+		17ACB3B614789242008832E5 /* RJFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RJFirstViewController.h; sourceTree = "<group>"; };
 		17ACB3B714789242008832E5 /* RJFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RJFirstViewController.m; sourceTree = "<group>"; };
 		17ACB3B914789242008832E5 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		17ACB3BB14789242008832E5 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
-		17ACB3BD14789242008832E5 /* RJSecondViewController.h */ = {isa = PBXFileReference; path = RJSecondViewController.h; sourceTree = "<group>"; };
+		17ACB3BD14789242008832E5 /* RJSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RJSecondViewController.h; sourceTree = "<group>"; };
 		17ACB3BE14789242008832E5 /* RJSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RJSecondViewController.m; sourceTree = "<group>"; };
 		17ACB3C014789242008832E5 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		17ACB3C214789242008832E5 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		17ACB3C914789242008832E5 /* PartyMixTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PartyMixTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17ACB3CA14789242008832E5 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		17ACB3D214789242008832E5 /* PartyMixTests-Info.plist */ = {isa = PBXFileReference; path = "PartyMixTests-Info.plist"; sourceTree = "<group>"; };
+		17ACB3D214789242008832E5 /* PartyMixTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PartyMixTests-Info.plist"; sourceTree = "<group>"; };
 		17ACB3D414789242008832E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		17ACB3D614789242008832E5 /* PartyMixTests.h */ = {isa = PBXFileReference; path = PartyMixTests.h; sourceTree = "<group>"; };
+		17ACB3D614789242008832E5 /* PartyMixTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartyMixTests.h; sourceTree = "<group>"; };
 		17ACB3D714789242008832E5 /* PartyMixTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PartyMixTests.m; sourceTree = "<group>"; };
+		17ACB3E1147893B3008832E5 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17ACB3E2147893B3008832E5 /* GameKit.framework in Frameworks */,
 				17ACB39F14789242008832E5 /* UIKit.framework in Frameworks */,
 				17ACB3A114789242008832E5 /* Foundation.framework in Frameworks */,
 				17ACB3A314789242008832E5 /* CoreGraphics.framework in Frameworks */,
@@ -113,6 +116,7 @@
 		17ACB39D14789242008832E5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				17ACB3E1147893B3008832E5 /* GameKit.framework */,
 				17ACB39E14789242008832E5 /* UIKit.framework */,
 				17ACB3A014789242008832E5 /* Foundation.framework */,
 				17ACB3A214789242008832E5 /* CoreGraphics.framework */,
