@@ -8,18 +8,29 @@
 
 #import <UIKit/UIKit.h>
 #import <GameKit/GameKit.h>
-@interface RJFirstViewController : UIViewController <GKPeerPickerControllerDelegate, GKSessionDelegate, UIAlertViewDelegate, GKMatchmakerViewControllerDelegate> {
+@interface RJFirstViewController : UIViewController <GKSessionDelegate,
+UIAlertViewDelegate, UIActionSheetDelegate> {
 
-    GKPeerPickerController  *mPicker;
-    NSMutableDictionary     *mSessions;
+    NSMutableDictionary     *_Sessions;
     
-    UILabel                 *mStatusLabel;
+    UILabel                 *_StatusLabel;
+    
+    //Server
+    NSString                *_PendingPeerId;
+    UILabel                 *_ServerLabel;
+    
+    BOOL                    _isServer;
+    NSString                *_serverPeerId;
 }
 
-@property (nonatomic, retain)           GKPeerPickerController    *picker;
-@property (nonatomic, retain)           NSMutableDictionary       *sessions;
 @property (nonatomic, retain) IBOutlet  UILabel                   *statusLabel;
 
+//Server
+@property (nonatomic, retain)           GKSession                   *session;
+@property (nonatomic, retain)           NSString                  *pendingPeerId;
+@property (nonatomic, retain) IBOutlet  UILabel                  *serverLabel;
+@property (nonatomic, assign)           BOOL                      isServer;
+@property (nonatomic, retain)           NSString                   *serverPeerId;
 -(IBAction)sendDataPushed:(id)sender;
 
 @end
