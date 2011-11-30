@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <GameKit/GameKit.h>
 @interface RJFirstViewController : UIViewController <GKSessionDelegate,
-UIAlertViewDelegate, UIActionSheetDelegate> {
+UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDelegate, UITableViewDataSource> {
 
     NSMutableDictionary     *_Sessions;
     
@@ -21,16 +21,10 @@ UIAlertViewDelegate, UIActionSheetDelegate> {
     
     BOOL                    _isServer;
     NSString                *_serverPeerId;
+    
+    UITableView             *_tableView;
+    
+    NSMutableArray          *_peersConnected;
 }
-
-@property (nonatomic, retain) IBOutlet  UILabel                   *statusLabel;
-
-//Server
-@property (nonatomic, retain)           GKSession                   *session;
-@property (nonatomic, retain)           NSString                  *pendingPeerId;
-@property (nonatomic, retain) IBOutlet  UILabel                  *serverLabel;
-@property (nonatomic, assign)           BOOL                      isServer;
-@property (nonatomic, retain)           NSString                   *serverPeerId;
--(IBAction)sendDataPushed:(id)sender;
 
 @end

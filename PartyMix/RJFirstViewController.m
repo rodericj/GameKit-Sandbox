@@ -11,6 +11,22 @@
 #define kSessionRequestAlert            100
 #define kSessionSendText                101
 
+
+@interface RJFirstViewController()
+
+@property (nonatomic, retain) IBOutlet  UILabel                   *statusLabel;
+
+//Server
+@property (nonatomic, retain)           GKSession                   *session;
+@property (nonatomic, retain)           NSString                  *pendingPeerId;
+@property (nonatomic, retain) IBOutlet  UILabel                  *serverLabel;
+@property (nonatomic, assign)           BOOL                      isServer;
+@property (nonatomic, retain)           NSString                   *serverPeerId;
+@property (nonatomic, retain) IBOutlet  UITableView                 *tableView;
+@property (nonatomic, retain)           NSMutableArray              *peersConnected;
+@end
+
+
 @implementation RJFirstViewController
 
 @synthesize statusLabel = mStatusLabel;
@@ -21,6 +37,8 @@
 @synthesize serverLabel     = _ServerLabel;
 @synthesize isServer        = _isServer;
 @synthesize serverPeerId    = _serverPeerId;
+@synthesize tableView       = _tableView;
+@synthesize peersConnected  = _peersConnected;
 
 - (void)didReceiveMemoryWarning
 {
@@ -82,6 +100,10 @@
     [alert release];
 }
 
+-(IBAction)disconnectButtonPushed:(id)sender {
+    [self.session disconnectFromAllPeers];
+}
+
 
 #pragma mark - The Alert View
 
@@ -134,7 +156,9 @@
     
     switch (alertView.tag) {
         case kSessionRequestAlert:
-            [self handleSessionRequestWithButton:buttonIndex];
+            if (buttonIndex) {
+                [self handleSessionRequestWithButton:buttonIndex];
+            }
             break;
             
         case kSessionSendText: {
@@ -168,15 +192,17 @@
     
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title
                                                        delegate:self
-                                              cancelButtonTitle:@"No" 
-                                         destructiveButtonTitle:nil 
+                                              cancelButtonTitle:@"Cancel" 
+                                         destructiveButtonTitle:@"Cancel" 
                                               otherButtonTitles:@"Ok", nil];
     [sheet showInView:self.view];
     [sheet release];
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [self.session connectToPeer:self.pendingPeerId withTimeout:10];
+    if (buttonIndex != actionSheet.cancelButtonIndex) {
+        [self.session connectToPeer:self.pendingPeerId withTimeout:10];
+    }
 }
 
 #pragma mark - Session change event handling
@@ -188,10 +214,25 @@
                                           otherButtonTitles:nil, nil];
     [alert show];
     [alert release];
+    
+    NSString *toRemove = nil;
+    //Remove peer from list
+    for (NSString *existingPeer in self.peersConnected) {
+        if ([peerID isEqualToString:existingPeer]) {
+            toRemove = existingPeer;
+            break;
+        }
+    }
+    [self.peersConnected removeObject:toRemove];
+    
+    //reload table
+    [self.tableView reloadData];
 }
 
 -(void)handleConnecting:(NSString *) peerID {
     NSLog(@"peer is connecting");
+
+
 }
                          
 -(void)handleUnavailable:(NSString *) peerID {
@@ -215,6 +256,13 @@
     if (!self.isServer) {
         self.serverPeerId = self.pendingPeerId;
     }
+    
+    //Add peer to the list
+    [self.peersConnected addObject:peerID];
+    
+    //reload table
+    [self.tableView reloadData];
+    
     self.pendingPeerId = nil;
 }
 #pragma mark - GKSessionDelegate
@@ -258,7 +306,12 @@
 - (void)session:(GKSession *)session didReceiveConnectionRequestFromPeer:(NSString *)peerID {
     NSLog(@"The session didReceiveConnectionRequestFromPeer %@, %@", session.displayName, peerID);
     
-    UIAlertView *connectionAlert = [[UIAlertView alloc] initWithTitle:@"Allow connection" message:@"should we?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    NSString *title = [NSString stringWithFormat:@"Allow connection from %@", [self.session displayNameForPeer:peerID]];
+    UIAlertView *connectionAlert = [[UIAlertView alloc] initWithTitle:title 
+                                                              message:nil 
+                                                             delegate:self 
+                                                    cancelButtonTitle:@"Cancel" 
+                                                    otherButtonTitles:@"Ok", nil];
     connectionAlert.tag = kSessionRequestAlert;
     self.pendingPeerId = peerID;
     [connectionAlert show];
@@ -277,13 +330,34 @@
 - (void)session:(GKSession *)session didFailWithError:(NSError *)error {
     NSLog(@"GKSession didFailWithError %@", error);
 }
+#pragma mark - UITableView method
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.peersConnected count];
+}
+
+// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
+// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *reuseIdentifier = @"client identifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+    }
+    NSString *peerId = [self.peersConnected objectAtIndex:indexPath.row];
+    NSString *displayName = [self.session displayNameForPeer:peerId];
+    cell.textLabel.text = displayName;
+    cell.detailTextLabel.text = peerId;
+    return cell;
+}
+
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.peersConnected = [[NSMutableArray alloc] initWithCapacity:8];
 }
 
 - (void)viewDidUnload
@@ -317,7 +391,8 @@
     self.serverLabel    = nil;
     self.pendingPeerId  = nil;
     self.serverPeerId   = nil;
-    
+    self.tableView      = nil;
+    self.peersConnected = nil;
     [super dealloc];
 }
 
