@@ -125,6 +125,7 @@
 -(IBAction)disconnectButtonPushed:(id)sender {
     [self.peersConnected removeAllObjects];
     [self.tableView reloadData];
+    self.serverPeerId = nil;
     self.isServer = NO;
     [self.session disconnectFromAllPeers];
     self.session = nil;
@@ -257,12 +258,18 @@
     }
     [self.peersConnected removeObject:toRemove];
     
+    //If it was the server, nil the server variable
+    if ([peerID isEqualToString:self.serverPeerId]) {
+        self.serverPeerId = nil;
+    }
+    
     //reload table
     [self.tableView reloadData];
     
     if (![self.peersConnected count]) {
         self.session = nil;
         self.statusLabel.text = not_listening;
+        self.serverPeerId = nil;
     }
 }
 
@@ -385,6 +392,9 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier] autorelease];
     }
     NSString *peerId = [self.peersConnected objectAtIndex:indexPath.row];
+    if ([peerId isEqualToString:self.serverPeerId]) {
+        cell.imageView.image = [UIImage imageNamed:@"first.png"];
+    }
     NSString *displayName = [self.session displayNameForPeer:peerId];
     cell.textLabel.text = displayName;
     cell.detailTextLabel.text = peerId;
@@ -415,6 +425,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    self.serverLabel.text = self.session.isAvailable ? listening : not_listening;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
