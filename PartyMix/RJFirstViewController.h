@@ -10,8 +10,6 @@
 #import <GameKit/GameKit.h>
 @interface RJFirstViewController : UIViewController <GKSessionDelegate,
 UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDelegate, UITableViewDataSource> {
-
-    NSMutableDictionary     *_Sessions;
     
     UILabel                 *_StatusLabel;
     

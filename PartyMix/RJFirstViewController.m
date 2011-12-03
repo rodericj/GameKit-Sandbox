@@ -10,7 +10,7 @@
 
 #define kSessionRequestAlert            100
 #define kSessionSendText                101
-
+#define kSessionName                    @"com.rodericj.partymix.session"
 
 @interface RJFirstViewController()
 
@@ -69,11 +69,11 @@
 }
 #pragma mark - Buttons
 
--(IBAction)startServer:(id)sender {
+-(IBAction)toggleServerAvailabilty:(id)sender {
     //start server
     
     if (!self.session) {
-        self.session = [[GKSession alloc] initWithSessionID:@"thesessionid" displayName:nil sessionMode:GKSessionModeServer];
+        self.session = [[GKSession alloc] initWithSessionID:kSessionName displayName:nil sessionMode:GKSessionModeServer];
         self.session.delegate = self;
         [self.session setDataReceiveHandler:self withContext:nil];
         self.isServer = YES;
@@ -85,7 +85,9 @@
 }
 
 -(IBAction)findServer:(id)sender {
-    self.session = [[GKSession alloc] initWithSessionID:@"thesessionid" displayName:nil sessionMode:GKSessionModeClient];
+    self.session = [[GKSession alloc] initWithSessionID:kSessionName 
+                                            displayName:nil 
+                                            sessionMode:GKSessionModeClient];
     self.session.delegate = self;
     self.session.available = YES;
     self.isServer = NO;
@@ -102,6 +104,7 @@
 
 -(IBAction)disconnectButtonPushed:(id)sender {
     [self.session disconnectFromAllPeers];
+    self.session = nil;
 }
 
 
@@ -187,13 +190,20 @@
 
 #pragma mark - action sheet
 -(void)showActionSheetForServer {
-    NSString *title = [NSString stringWithFormat:@"Would you like to connect to %@", 
-                       [self.session displayNameForPeer:self.pendingPeerId]];
+    NSString *displayName = [self.session displayNameForPeer:self.pendingPeerId];
+    
+    //Handle an odd situation where the session returns nil for the peer
+    if (!displayName) {
+        self.pendingPeerId = nil;
+        return;
+    }
+    
+    NSString *title = [NSString stringWithFormat:@"Would you like to connect to %@", displayName];
     
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel" 
-                                         destructiveButtonTitle:@"Cancel" 
+                                         destructiveButtonTitle:nil     
                                               otherButtonTitles:@"Ok", nil];
     [sheet showInView:self.view];
     [sheet release];
@@ -227,6 +237,10 @@
     
     //reload table
     [self.tableView reloadData];
+    
+    if (![self.peersConnected count]) {
+        self.session = nil;
+    }
 }
 
 -(void)handleConnecting:(NSString *) peerID {
@@ -246,14 +260,15 @@
 }
 
 -(void)handleConnected:(NSString *) peerID {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Now Connected"
-                                                    message:[self.session displayNameForPeer:peerID]
-                                                   delegate:nil 
-                                          cancelButtonTitle:@"OK" 
-                                          otherButtonTitles:nil, nil];
-    [alert show];
-    [alert release];
-    if (!self.isServer) {
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Now Connected"
+//                                                    message:[self.session displayNameForPeer:peerID]
+//                                                   delegate:nil 
+//                                          cancelButtonTitle:@"OK" 
+//                                          otherButtonTitles:nil, nil];
+//    [alert show];
+//    [alert release];
+    if (!self.isServer && !self.serverPeerId) {
+        //TODO I can't set the serverPeerId here. I get 2 connections here.
         self.serverPeerId = self.pendingPeerId;
     }
     
@@ -305,8 +320,9 @@
  */
 - (void)session:(GKSession *)session didReceiveConnectionRequestFromPeer:(NSString *)peerID {
     NSLog(@"The session didReceiveConnectionRequestFromPeer %@, %@", session.displayName, peerID);
-    
-    NSString *title = [NSString stringWithFormat:@"Allow connection from %@", [self.session displayNameForPeer:peerID]];
+    NSString *displayName = [self.session displayNameForPeer:peerID];
+    NSAssert(displayName, @"Display name must not be nill");
+    NSString *title = [NSString stringWithFormat:@"Allow connection from %@", displayName];
     UIAlertView *connectionAlert = [[UIAlertView alloc] initWithTitle:title 
                                                               message:nil 
                                                              delegate:self 
