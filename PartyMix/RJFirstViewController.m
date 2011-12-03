@@ -62,7 +62,7 @@
 
 -(NSDictionary *)extractDictionaryFromPayload:(NSData *)data {
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    NSDictionary *myDictionary = [[unarchiver decodeObjectForKey:@"data"] retain];
+    NSDictionary *myDictionary = [unarchiver decodeObjectForKey:@"data"];
     [unarchiver finishDecoding];
     [unarchiver release];
     return myDictionary;
@@ -73,7 +73,7 @@
     //start server
     
     if (!self.session) {
-        self.session = [[GKSession alloc] initWithSessionID:kSessionName displayName:nil sessionMode:GKSessionModeServer];
+        self.session = [[[GKSession alloc] initWithSessionID:kSessionName displayName:nil sessionMode:GKSessionModeServer] autorelease];
         self.session.delegate = self;
         [self.session setDataReceiveHandler:self withContext:nil];
         self.isServer = YES;
@@ -85,9 +85,9 @@
 }
 
 -(IBAction)findServer:(id)sender {
-    self.session = [[GKSession alloc] initWithSessionID:kSessionName 
+    self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
                                             displayName:nil 
-                                            sessionMode:GKSessionModeClient];
+                                            sessionMode:GKSessionModeClient] autorelease];
     self.session.delegate = self;
     self.session.available = YES;
     self.isServer = NO;
@@ -103,6 +103,7 @@
 }
 
 -(IBAction)disconnectButtonPushed:(id)sender {
+    self.isServer = NO;
     [self.session disconnectFromAllPeers];
     self.session = nil;
 }
@@ -179,7 +180,6 @@
     //NSString *messageString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSDictionary *dict = [self extractDictionaryFromPayload:data];
     NSString *messageString = [dict objectForKey:@"message"];
-    [dict release];
     NSLog(@"we got some data %@", messageString);
     self.statusLabel.text = messageString;
     
@@ -205,7 +205,7 @@
                                               cancelButtonTitle:@"Cancel" 
                                          destructiveButtonTitle:nil     
                                               otherButtonTitles:@"Ok", nil];
-    [sheet showInView:self.view];
+    [sheet showInView:self.tabBarController.view];
     [sheet release];
 }
 
@@ -270,6 +270,7 @@
     if (!self.isServer && !self.serverPeerId) {
         //TODO I can't set the serverPeerId here. I get 2 connections here.
         self.serverPeerId = self.pendingPeerId;
+        self.session.available = NO;
     }
     
     //Add peer to the list
@@ -358,7 +359,7 @@
     NSString *reuseIdentifier = @"client identifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier] autorelease];
     }
     NSString *peerId = [self.peersConnected objectAtIndex:indexPath.row];
     NSString *displayName = [self.session displayNameForPeer:peerId];
@@ -373,7 +374,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.peersConnected = [[NSMutableArray alloc] initWithCapacity:8];
+    self.peersConnected = [[[NSMutableArray alloc] initWithCapacity:8] autorelease];
 }
 
 - (void)viewDidUnload
