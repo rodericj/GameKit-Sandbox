@@ -84,23 +84,25 @@
 #pragma mark - Buttons
 
 -(IBAction)toggleServerAvailabilty:(id)sender {
-    //start server
     
+    //If we have no session at this point, then start server    
     if (!self.session) {
-        self.session = [[[GKSession alloc] initWithSessionID:kSessionName displayName:nil sessionMode:GKSessionModeServer] autorelease];
+        self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
+                                                 displayName:nil 
+                                                 sessionMode:GKSessionModeServer] autorelease];
         self.session.delegate = self;
         [self.session setDataReceiveHandler:self withContext:nil];
         self.isServer = YES;
     }
 
-    
     self.session.available = !self.session.available;
     self.serverLabel.text = self.session.available ? listening : not_listening;
-    
 }
 
 -(IBAction)findServer:(id)sender {
-    if (self.isServer) {
+    
+    //Do nothing if we are the server or have a session
+    if (self.session) {
         return;
     }
     self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
@@ -121,6 +123,8 @@
 }
 
 -(IBAction)disconnectButtonPushed:(id)sender {
+    [self.peersConnected removeAllObjects];
+    [self.tableView reloadData];
     self.isServer = NO;
     [self.session disconnectFromAllPeers];
     self.session = nil;
@@ -258,6 +262,7 @@
     
     if (![self.peersConnected count]) {
         self.session = nil;
+        self.statusLabel.text = not_listening;
     }
 }
 
