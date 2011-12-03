@@ -12,6 +12,20 @@
 #define kSessionSendText                101
 #define kSessionName                    @"com.rodericj.partymix.session"
 
+#define send_a_message                  @"Send a message"
+#define error_sending_data              @"Error sending data"
+
+#define listening                       @"Listening"
+#define not_listening                   @"Not Listening"
+#define would_you_like_to_connect_to    @"Would you like to connect to %@"
+
+#define cancel                          @"Cancel"
+#define ok                              @"OK"
+
+#define disconnected                    @"disconnected"
+#define unavailable                     @"Unavailable"
+#define allow_connections_from          @"Allow connection from %@"
+
 @interface RJFirstViewController()
 
 @property (nonatomic, retain) IBOutlet  UILabel                   *statusLabel;
@@ -78,13 +92,17 @@
         [self.session setDataReceiveHandler:self withContext:nil];
         self.isServer = YES;
     }
+
     
     self.session.available = !self.session.available;
-    self.serverLabel.text = self.session.available ? @"listening" : @"not listening";
+    self.serverLabel.text = self.session.available ? listening : not_listening;
     
 }
 
 -(IBAction)findServer:(id)sender {
+    if (self.isServer) {
+        return;
+    }
     self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
                                             displayName:nil 
                                             sessionMode:GKSessionModeClient] autorelease];
@@ -95,7 +113,7 @@
 }
 
 -(IBAction)sendDataPushed:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"send a message" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:send_a_message message:nil delegate:self cancelButtonTitle:ok otherButtonTitles:nil, nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     alert.tag = kSessionSendText;
     [alert show];
@@ -143,11 +161,10 @@
     }
     if (error) {
         NSLog(@"error sending data %@", error);
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error sending data"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error_sending_data
                                                         message:[NSString stringWithFormat:@"%@", error] 
                                                        delegate:nil 
-                                              cancelButtonTitle:@"Ok" 
+                                              cancelButtonTitle:ok 
                                               otherButtonTitles:nil, nil];
         [alert show];
         [alert release];
@@ -197,14 +214,14 @@
         self.pendingPeerId = nil;
         return;
     }
-    
-    NSString *title = [NSString stringWithFormat:@"Would you like to connect to %@", displayName];
+
+    NSString *title = [NSString stringWithFormat:would_you_like_to_connect_to, displayName];
     
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title
                                                        delegate:self
-                                              cancelButtonTitle:@"Cancel" 
+                                              cancelButtonTitle:cancel 
                                          destructiveButtonTitle:nil     
-                                              otherButtonTitles:@"Ok", nil];
+                                              otherButtonTitles:ok, nil];
     [sheet showInView:self.tabBarController.view];
     [sheet release];
 }
@@ -215,12 +232,13 @@
     }
 }
 
+
 #pragma mark - Session change event handling
 -(void)handleDisconnect:(NSString *)peerID {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"disconnected"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:disconnected
                                                     message:[self.session displayNameForPeer:peerID]
                                                    delegate:nil 
-                                          cancelButtonTitle:@"OK" 
+                                          cancelButtonTitle:ok 
                                           otherButtonTitles:nil, nil];
     [alert show];
     [alert release];
@@ -248,12 +266,12 @@
 
 
 }
-                         
+
 -(void)handleUnavailable:(NSString *) peerID {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unavailable"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:unavailable
                                                     message:[self.session displayNameForPeer:peerID]
                                                    delegate:nil 
-                                          cancelButtonTitle:@"OK" 
+                                          cancelButtonTitle:ok
                                           otherButtonTitles:nil, nil];
     [alert show];
     [alert release];
@@ -323,12 +341,12 @@
     NSLog(@"The session didReceiveConnectionRequestFromPeer %@, %@", session.displayName, peerID);
     NSString *displayName = [self.session displayNameForPeer:peerID];
     NSAssert(displayName, @"Display name must not be nill");
-    NSString *title = [NSString stringWithFormat:@"Allow connection from %@", displayName];
+    NSString *title = [NSString stringWithFormat:allow_connections_from, displayName];
     UIAlertView *connectionAlert = [[UIAlertView alloc] initWithTitle:title 
                                                               message:nil 
                                                              delegate:self 
-                                                    cancelButtonTitle:@"Cancel" 
-                                                    otherButtonTitles:@"Ok", nil];
+                                                    cancelButtonTitle:cancel 
+                                                    otherButtonTitles:ok, nil];
     connectionAlert.tag = kSessionRequestAlert;
     self.pendingPeerId = peerID;
     [connectionAlert show];
