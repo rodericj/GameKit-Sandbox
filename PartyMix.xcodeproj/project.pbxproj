@@ -40,7 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		17ACB39A14789242008832E5 /* PartyMix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PartyMix.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		17ACB39A14789242008832E5 /* partymix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = partymix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17ACB39E14789242008832E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		17ACB3A014789242008832E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		17ACB3A214789242008832E5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -107,7 +107,7 @@
 		17ACB39B14789242008832E5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				17ACB39A14789242008832E5 /* PartyMix.app */,
+				17ACB39A14789242008832E5 /* partymix.app */,
 				17ACB3C914789242008832E5 /* PartyMixTests.octest */,
 			);
 			name = Products;
@@ -192,7 +192,7 @@
 			);
 			name = PartyMix;
 			productName = PartyMix;
-			productReference = 17ACB39A14789242008832E5 /* PartyMix.app */;
+			productReference = 17ACB39A14789242008832E5 /* partymix.app */;
 			productType = "com.apple.product-type.application";
 		};
 		17ACB3C814789242008832E5 /* PartyMixTests */ = {
@@ -352,7 +352,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: roderic campbell (6453R9QR3T)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -367,6 +367,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2FA20A8E-FB77-4C1E-A0A7-B44CE6C4FA5F";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -386,6 +388,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -398,7 +401,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PartyMix/PartyMix-Prefix.pch";
 				INFOPLIST_FILE = "PartyMix/PartyMix-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = partymix;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -409,7 +412,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PartyMix/PartyMix-Prefix.pch";
 				INFOPLIST_FILE = "PartyMix/PartyMix-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = partymix;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -467,6 +470,7 @@
 				17ACB3DD14789242008832E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		17ACB3DE14789242008832E5 /* Build configuration list for PBXNativeTarget "PartyMixTests" */ = {
 			isa = XCConfigurationList;
@@ -475,6 +479,7 @@
 				17ACB3E014789242008832E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
