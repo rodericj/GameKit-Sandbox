@@ -7,6 +7,9 @@
 //
 
 #import "RJFirstViewController.h"
+#import <MediaPlayer/MediaPlayer.h>
+
+#import <malloc/malloc.h>
 
 #define kSessionRequestAlert            100
 #define kSessionSendText                101
@@ -26,6 +29,7 @@
 #define unavailable                     @"Unavailable"
 #define allow_connections_from          @"Allow connection from %@"
 
+#define fetch_all_songs_by_artist       @"fetchAllSongsByArtist"
 @interface RJFirstViewController()
 
 @property (nonatomic, retain) IBOutlet  UILabel                   *statusLabel;
@@ -64,6 +68,10 @@
 -(NSData *)buildPayLoadWithMessage:(NSString *)message {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
     [dict setObject:message forKey:@"message"];
+    
+    if ([message isEqualToString:@"getmusic"]) {
+        [dict setObject:fetch_all_songs_by_artist forKey:@"action"];
+    }
     
     NSMutableData *data = [[[NSMutableData alloc] init] autorelease];
 	NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -197,6 +205,23 @@
     }    
 }
 
+-(void)fetchAllSongsByArtist {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"fetchAllSongsByArtist" message:nil delegate:nil cancelButtonTitle:ok otherButtonTitles:nil, nil];
+    [alert show];
+    [alert release];
+    NSArray *media = [MPMediaQuery songsQuery].items;
+    for (MPMediaItem *song in media) {
+        NSLog(@"song is %@\n%@\n%@\n%@\n%@\n%@\n%@\n\n", [song valueForProperty: MPMediaItemPropertyTitle],
+              [song valueForProperty:MPMediaItemPropertyAlbumTitle], 
+              [song valueForProperty:MPMediaItemPropertyArtist], 
+              [song valueForProperty:MPMediaItemPropertyArtwork],
+              [song valueForProperty:MPMediaItemPropertyPersistentID],
+              [song valueForProperty:MPMediaItemPropertyPlaybackDuration],
+              [song valueForProperty:MPMediaItemPropertyTitle]);
+        NSLog(@"size of myObject: %zd", malloc_size(song));
+    }
+
+}
 #pragma mark Session Data
 - (void) receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
     //NSString *messageString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -208,6 +233,11 @@
     if ([messageString isEqualToString:@"next"]) {
         [self.tabBarController setSelectedIndex:1];
     }
+    NSString *action = [dict objectForKey:@"action"];
+    if (action) {
+        [self performSelector:NSSelectorFromString([dict objectForKey:@"action"])];
+    }
+
 }
 
 #pragma mark - action sheet
@@ -425,7 +455,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.serverLabel.text = self.session.isAvailable ? listening : not_listening;
+    self.statusLabel.text = self.session.isAvailable ? listening : not_listening;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
