@@ -97,10 +97,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17040AA5148AF98C00231BD9 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = lib;
+			sourceTree = "<group>";
+		};
 		17ACB38F14789241008832E5 = {
 			isa = PBXGroup;
 			children = (
-				17040AA2148A120500231BD9 /* MediaPlayer.framework */,
 				17ACB3A414789242008832E5 /* PartyMix */,
 				17ACB3D014789242008832E5 /* PartyMixTests */,
 				17ACB39D14789242008832E5 /* Frameworks */,
@@ -120,6 +126,7 @@
 		17ACB39D14789242008832E5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				17040AA2148A120500231BD9 /* MediaPlayer.framework */,
 				17ACB3E1147893B3008832E5 /* GameKit.framework */,
 				17ACB39E14789242008832E5 /* UIKit.framework */,
 				17ACB3A014789242008832E5 /* Foundation.framework */,
@@ -132,6 +139,7 @@
 		17ACB3A414789242008832E5 /* PartyMix */ = {
 			isa = PBXGroup;
 			children = (
+				17040AA5148AF98C00231BD9 /* lib */,
 				17ACB3AD14789242008832E5 /* RJAppDelegate.h */,
 				17ACB3AE14789242008832E5 /* RJAppDelegate.m */,
 				17ACB3B014789242008832E5 /* MainStoryboard_iPhone.storyboard */,
