@@ -65,14 +65,8 @@
 }
 
 #pragma mark - Private method stuff
--(NSData *)buildPayLoadWithMessage:(NSString *)message {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
-    [dict setObject:message forKey:@"message"];
-    
-    if ([message isEqualToString:@"getmusic"]) {
-        [dict setObject:fetch_all_songs_by_artist forKey:@"action"];
-    }
-    
+-(NSData *)buildPayLoadWithDictionary:(NSDictionary *)dict {
+
     NSMutableData *data = [[[NSMutableData alloc] init] autorelease];
 	NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 	[archiver encodeObject:dict forKey:@"data"];
@@ -157,10 +151,14 @@
 -(void)handleSendTextThroughAlert:(UIAlertView *)alert {
     NSString *messageString = [alert textFieldAtIndex:0].text;
     
-    NSLog(@"send the string to all sessions %@", messageString);
-    NSLog(@"session %@ %@", self.session.peerID,  self.session.isAvailable ? @"is available" : @"is not available");
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
+    [dict setObject:messageString forKey:@"message"];
+    
+    if ([messageString isEqualToString:@"getmusic"]) {
+        [dict setObject:fetch_all_songs_by_artist forKey:@"action"];
+    }
 
-    NSData *data = [self buildPayLoadWithMessage:messageString];
+    NSData *data = [self buildPayLoadWithDictionary:dict];
     NSError *error = nil;
     
     if (self.isServer) {    
@@ -210,7 +208,10 @@
     [alert show];
     [alert release];
     NSArray *media = [MPMediaQuery songsQuery].items;
+
+    int counter = 0;
     for (MPMediaItem *song in media) {
+        
         NSLog(@"song is %@\n%@\n%@\n%@\n%@\n%@\n%@\n\n", [song valueForProperty: MPMediaItemPropertyTitle],
               [song valueForProperty:MPMediaItemPropertyAlbumTitle], 
               [song valueForProperty:MPMediaItemPropertyArtist], 
@@ -298,7 +299,7 @@
     
     if (![self.peersConnected count]) {
         self.session = nil;
-        self.statusLabel.text = not_listening;
+        self.serverLabel.text = not_listening;
         self.serverPeerId = nil;
     }
 }
@@ -455,7 +456,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.statusLabel.text = self.session.isAvailable ? listening : not_listening;
+    self.serverLabel.text = self.session.isAvailable ? listening : not_listening;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
