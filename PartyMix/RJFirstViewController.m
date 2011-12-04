@@ -208,17 +208,8 @@
     [alert show];
     [alert release];
     NSArray *media = [MPMediaQuery songsQuery].items;
-
-    int counter = 0;
+    
     for (MPMediaItem *song in media) {
-        
-        NSLog(@"song is %@\n%@\n%@\n%@\n%@\n%@\n%@\n\n", [song valueForProperty: MPMediaItemPropertyTitle],
-              [song valueForProperty:MPMediaItemPropertyAlbumTitle], 
-              [song valueForProperty:MPMediaItemPropertyArtist], 
-              [song valueForProperty:MPMediaItemPropertyArtwork],
-              [song valueForProperty:MPMediaItemPropertyPersistentID],
-              [song valueForProperty:MPMediaItemPropertyPlaybackDuration],
-              [song valueForProperty:MPMediaItemPropertyTitle]);
         NSLog(@"size of myObject: %zd", malloc_size(song));
     }
 
