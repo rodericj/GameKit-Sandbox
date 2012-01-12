@@ -9,6 +9,8 @@
 #import "RJFirstViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
 
+#import "NSArray+PageableArray.h"
+
 #import <malloc/malloc.h>
 
 #define kSessionRequestAlert            100
@@ -30,6 +32,8 @@
 #define allow_connections_from          @"Allow connection from %@"
 
 #define fetch_all_songs_by_artist       @"fetchAllSongsByArtist"
+#define media_key                       @"media key"
+
 @interface RJFirstViewController()
 
 @property (nonatomic, retain) IBOutlet  UILabel                   *statusLabel;
@@ -204,13 +208,18 @@
 }
 
 -(void)fetchAllSongsByArtist {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"fetchAllSongsByArtist" message:nil delegate:nil cancelButtonTitle:ok otherButtonTitles:nil, nil];
-    [alert show];
-    [alert release];
+
     NSArray *media = [MPMediaQuery songsQuery].items;
-    
-    for (MPMediaItem *song in media) {
-        NSLog(@"size of myObject: %zd", malloc_size(song));
+
+    NSUInteger pageSize = 10;
+    for (int i = 0; i * pageSize < [media count]; i++ ) {
+        NSArray *page = [media getPage:i withPageSize:pageSize];
+        NSMutableDictionary *payloadData = [NSMutableDictionary dictionary];
+        [payloadData setObject:page forKey:media_key];
+        
+        //NSData *data = [self buildPayLoadWithDictionary:payloadData];
+        //[self sen
+        NSLog(@"size of myObject: %zd", malloc_size(payloadData));
     }
 
 }
