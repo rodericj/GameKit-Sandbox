@@ -4,8 +4,9 @@
         <attribute name="mediaItem" optional="YES" attributeType="Binary" valueTransformerName="NSColor" syncable="YES"/>
         <attribute name="persistentID" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
+        <attribute name="titleFirstLetter" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MediaItem" positionX="160" positionY="192" width="128" height="90"/>
+        <element name="MediaItem" positionX="160" positionY="192" width="128" height="105"/>
     </elements>
 </model>

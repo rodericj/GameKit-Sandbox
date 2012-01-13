@@ -22,7 +22,6 @@
 @interface DataModel ()
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator		*persistentStoreCoordinator;
 @property (nonatomic, retain, readonly) NSManagedObjectModel				*managedObjectModel;
-@property (nonatomic, retain, readonly) NSManagedObjectContext				*managedObjectContext;
 
 @end
 
@@ -235,7 +234,6 @@ static DataModel *_dataModel = nil;
     NSMutableArray *managedMediaItems = [NSMutableArray arrayWithCapacity:[mediaItems count]];
  
     for (MPMediaItem *song in mediaItems) {
-        //Get the keys we care about
         MediaItem *item = [self insertNewMediaItem:song];
         [managedMediaItems addObject:item];
     }

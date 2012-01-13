@@ -17,6 +17,8 @@
 +(DataModel*)sharedInstance;
 -(NSArray *)insertArrayOfMPMediaItems:(NSArray *)mediaItems;
 
+@property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
+
 #if TARGET_IPHONE_SIMULATOR
 -(NSArray *)insertDummyMediaItems;
 #endif

@@ -1,5 +1,5 @@
 //
-//  MediaItem.m
+//  MediaItem+Additions.h
 //  PartyMix
 //
 //  Created by Roderic Campbell on 1/12/12.
@@ -8,12 +8,6 @@
 
 #import "MediaItem.h"
 
-
-@implementation MediaItem
-
-@dynamic mediaItem;
-@dynamic persistentID;
-@dynamic title;
-@dynamic titleFirstLetter;
+@interface MediaItem (Additions)
 
 @end

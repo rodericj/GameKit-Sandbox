@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 
-@interface RJSecondViewController : UIViewController
+@interface RJSecondViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate> {
+    NSFetchedResultsController *_fetchController;
+}
 
 -(IBAction)getMPMediaItems:(id)sender;
 
