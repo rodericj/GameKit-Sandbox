@@ -70,7 +70,6 @@
 
 #pragma mark - Private method stuff
 -(NSData *)buildPayLoadWithDictionary:(NSDictionary *)dict {
-
     NSMutableData *data = [[[NSMutableData alloc] init] autorelease];
 	NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 	[archiver encodeObject:dict forKey:@"data"];
@@ -209,6 +208,7 @@
 
 -(void)fetchAllSongsByArtist {
 
+    
     NSArray *media = [MPMediaQuery songsQuery].items;
 
     NSUInteger pageSize = 10;

@@ -10,4 +10,6 @@
 
 @interface RJSecondViewController : UIViewController
 
+-(IBAction)getMPMediaItems:(id)sender;
+
 @end

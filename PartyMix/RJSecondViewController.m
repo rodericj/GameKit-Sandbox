@@ -6,9 +6,29 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import <MediaPlayer/MediaPlayer.h>
+
+#import "DataModel.h"
 #import "RJSecondViewController.h"
 
 @implementation RJSecondViewController
+
+-(IBAction)getMPMediaItems:(id)sender {
+    NSLog(@"getting");
+#if TARGET_IPHONE_SIMULATOR
+    NSLog(@"In the simulator Simulator");
+    [[DataModel sharedInstance] insertDummyMediaItems];
+    return;
+#endif
+    
+    //From the Apple documentation
+    MPMediaQuery *everything = [[MPMediaQuery alloc] init];
+    
+    NSLog(@"Logging items from a generic query...");
+    NSArray *itemsFromGenericQuery = [everything items];
+    [[DataModel sharedInstance] insertArrayOfMPMediaItems:itemsFromGenericQuery];
+
+}
 
 - (void)didReceiveMemoryWarning
 {
