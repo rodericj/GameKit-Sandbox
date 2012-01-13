@@ -37,6 +37,8 @@
 		17FCA61414C00BA4004DDAA8 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA61214C00BA4004DDAA8 /* MediaItem.m */; };
 		17FCA61714C00BD8004DDAA8 /* MediaItem+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA61614C00BD8004DDAA8 /* MediaItem+Additions.m */; };
 		17FCA61814C00BD8004DDAA8 /* MediaItem+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA61614C00BD8004DDAA8 /* MediaItem+Additions.m */; };
+		17FCA61B14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA61A14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m */; };
+		17FCA61C14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA61A14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +90,8 @@
 		17FCA61214C00BA4004DDAA8 /* MediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaItem.m; path = "DataModel/Generated Data Model/MediaItem.m"; sourceTree = "<group>"; };
 		17FCA61514C00BD8004DDAA8 /* MediaItem+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MediaItem+Additions.h"; path = "DataModel/MediaItem+Additions.h"; sourceTree = "<group>"; };
 		17FCA61614C00BD8004DDAA8 /* MediaItem+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MediaItem+Additions.m"; path = "DataModel/MediaItem+Additions.m"; sourceTree = "<group>"; };
+		17FCA61914C01077004DDAA8 /* FetchedResultsBackedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchedResultsBackedTableViewController.h; sourceTree = "<group>"; };
+		17FCA61A14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchedResultsBackedTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +188,8 @@
 		17ACB3A514789242008832E5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				17FCA61914C01077004DDAA8 /* FetchedResultsBackedTableViewController.h */,
+				17FCA61A14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m */,
 				17ACB3A614789242008832E5 /* PartyMix-Info.plist */,
 				17ACB3A714789242008832E5 /* InfoPlist.strings */,
 				17ACB3AA14789242008832E5 /* main.m */,
@@ -353,6 +359,7 @@
 				17D8825314BFF07D004D3722 /* DataModel.m in Sources */,
 				17FCA61314C00BA4004DDAA8 /* MediaItem.m in Sources */,
 				17FCA61714C00BD8004DDAA8 /* MediaItem+Additions.m in Sources */,
+				17FCA61B14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,6 +371,7 @@
 				175CDCCC148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */,
 				17FCA61414C00BA4004DDAA8 /* MediaItem.m in Sources */,
 				17FCA61814C00BD8004DDAA8 /* MediaItem+Additions.m in Sources */,
+				17FCA61C14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,29 +13,11 @@
 #import "MediaItem+Additions.h"
 #import "RJSecondViewController.h"
 
-@interface RJSecondViewController()
-
-@property (nonatomic, retain) NSFetchedResultsController *fetchController;
-
-@end
-
 @implementation RJSecondViewController
 
-@synthesize fetchController = _fetchController;
-
 #pragma mark - Table View Datasource and Delegate Functions
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    NSInteger ret = [[self.fetchController sections] count];
-    return ret;
-}
-
-- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Media Cell"];
     MediaItem *managedObject = (MediaItem *)[self.fetchController objectAtIndexPath:indexPath];
     cell.textLabel.text = managedObject.title;
@@ -44,20 +26,9 @@
     return cell;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section { 
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchController sections] objectAtIndex:section];
-    return [sectionInfo name];
-}
 
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    return [self.fetchController sectionIndexTitles];
-}
 
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-    return [self.fetchController sectionForSectionIndexTitle:title atIndex:index];
-}
-
-#pragma mark - Responding to changes
+#pragma mark - Responding to changes - NSFetchedResultsControllerDelegate
 /*
  Assume self has a property 'tableView' -- as is the case for an instance of a UITableViewController
  subclass -- and a method configureCell:atIndexPath: which updates the contents of a given cell

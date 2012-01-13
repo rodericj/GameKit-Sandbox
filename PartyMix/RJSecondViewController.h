@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "FetchedResultsBackedTableViewController.h"
 
-@interface RJSecondViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate> {
-    NSFetchedResultsController *_fetchController;
+@interface RJSecondViewController : FetchedResultsBackedTableViewController <UITableViewDelegate, UITableViewDataSource> {
 }
 
 -(IBAction)getMPMediaItems:(id)sender;
