@@ -7,30 +7,11 @@
 //
 
 #import <MediaPlayer/MediaPlayer.h>
-#import <CoreData/CoreData.h>
 
 #import "DataModel.h"
-#import "MediaItem+Additions.h"
 #import "RJSecondViewController.h"
 
 @implementation RJSecondViewController
-
-#pragma mark - Table View Datasource and Delegate Functions
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *reuseId = @"Media Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
-    
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseId];
-    }
-    
-    MediaItem *managedObject = (MediaItem *)[self.fetchController objectAtIndexPath:indexPath];
-    cell.textLabel.text = managedObject.title;
-    
-    // Configure the cell with data from the managed object.
-    return cell;
-}
 
 #pragma mark - Get Media
 

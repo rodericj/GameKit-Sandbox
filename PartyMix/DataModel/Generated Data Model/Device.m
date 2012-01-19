@@ -1,20 +1,18 @@
 //
-//  MediaItem.m
+//  Device.m
 //  PartyMix
 //
 //  Created by Roderic Campbell on 1/13/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import "Device.h"
 #import "MediaItem.h"
 
 
-@implementation MediaItem
+@implementation Device
 
+@dynamic deviceId;
 @dynamic mediaItem;
-@dynamic persistentID;
-@dynamic title;
-@dynamic titleFirstLetter;
-@dynamic deviceHome;
 
 @end
