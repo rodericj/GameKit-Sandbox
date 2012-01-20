@@ -7,22 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FetchedResultsBackedTableViewController.h"
 #import <GameKit/GameKit.h>
-@interface RJFirstViewController : UIViewController <GKSessionDelegate,
-UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDelegate, UITableViewDataSource> {
-    
-    UILabel                 *_StatusLabel;
-    
-    //Server
-    NSString                *_PendingPeerId;
+#import "DataModel.h"
+
+@interface RJFirstViewController : FetchedResultsBackedTableViewController <UIAlertViewDelegate, UIActionSheetDelegate, GKSessionDelegate, MessageRecipient> {
+
     UILabel                 *_ServerLabel;
-    
-    BOOL                    _isServer;
-    NSString                *_serverPeerId;
-    
+    UILabel                 *_StatusLabel;
     UITableView             *_tableView;
-    
-    NSMutableArray          *_peersConnected;
+    Device                  *_deviceToConnectTo;
+
 }
 
 @end

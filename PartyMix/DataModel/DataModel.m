@@ -11,17 +11,32 @@
 
 #import "DataModel.h"
 #import "MediaItem.h"
+#import "PayloadTranslator.h"
 
 #define kEntityNameMediaItem                    @"MediaItem"
+#define kEntityNameDevice                       @"Device"
 
 #define kPartyMixCoreDataBackupTempFile         @"PartyMixBackupTemp"
 #define kPartyMixCoreDataBackupFile             @"PartyMixBackup"
 #define kPartyMixCoreDataFile					@"PartyMix"
 #define kPartyMixCoreDataFileExtension			@"sqlite"
 
+
+#define kSessionName                    @"com.rodericj.partymix.session"
+
+#define unavailable                     @"Unavailable"
+
 @interface DataModel ()
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator		*persistentStoreCoordinator;
 @property (nonatomic, retain, readonly) NSManagedObjectModel				*managedObjectModel;
+
+//Server
+@property (nonatomic, retain)           GKSession                   *session;
+@property (nonatomic, retain)           NSString                  *pendingPeerId;
+@property (nonatomic, assign)           BOOL                      isServer;
+@property (nonatomic, retain)           NSString                   *serverPeerId;
+@property (nonatomic, retain)           NSMutableArray              *peersConnected;
+@property (nonatomic, assign)           id <GKSessionDelegate>      sessionDelegate;
 
 @end
 
@@ -29,6 +44,14 @@
 @implementation DataModel
 
 static DataModel *_dataModel = nil;
+
+//Server
+@synthesize pendingPeerId   = _PendingPeerId;
+@synthesize session         = _Session;
+@synthesize isServer        = _isServer;
+@synthesize serverPeerId    = _serverPeerId;
+@synthesize peersConnected  = _peersConnected;
+@synthesize sessionDelegate = _sessionDelegate;
 
 //NSString *const MPMediaItemPropertyPersistentID;            // filterable
 //NSString *const MPMediaItemPropertyAlbumPersistentID;       // filterable
@@ -57,6 +80,7 @@ static DataModel *_dataModel = nil;
 //NSString *const MPMediaItemPropertyComments;
 //NSString *const MPMediaItemPropertyAssetURL;
 
+#pragma mark - core data setup
 + (NSString *)getDocumentsDirectory {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	return [paths objectAtIndex:0];	
@@ -212,13 +236,16 @@ static DataModel *_dataModel = nil;
 	return _persistentStoreCoordinator;
 }
 
+#pragma mark - Set up of the singleton
 +(DataModel*)sharedInstance {
     if (_dataModel == nil) {
         _dataModel = [[super allocWithZone:NULL] init];
+        _dataModel.peersConnected = [[[NSMutableArray alloc] initWithCapacity:8] autorelease];
     }
     return _dataModel;
 }
 
+#pragma mark - insertion of NSManagedObjects
 -(MediaItem *)insertNewMediaItem:(MPMediaItem *)mpMediaItem {
     
     MediaItem *newEntity = (MediaItem *)[NSEntityDescription insertNewObjectForEntityForName:kEntityNameMediaItem
@@ -260,9 +287,276 @@ static DataModel *_dataModel = nil;
     newEntity.persistentID = [NSNumber numberWithInt:2];
     [tmp addObject:newEntity];
 
-    [self.managedObjectContext save:nil];
+    [self save];
     return tmp;
 }
 #endif
+
+#pragma mark - Fetching of NSManagedObjects
+- (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId {
+	NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:kEntityNameDevice
+											  inManagedObjectContext:self.managedObjectContext];
+	
+	NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(peerId == %@) ", peerId];
+	
+	NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"peerId" ascending:YES];
+    
+	theFetchRequest.sortDescriptors = [NSArray arrayWithObject:sort];
+	theFetchRequest.fetchLimit = 1;
+	theFetchRequest.predicate = filterPredicate;
+	theFetchRequest.entity = entity;
+	
+	NSFetchedResultsController *fetchedResults = [[[NSFetchedResultsController alloc] initWithFetchRequest:theFetchRequest 
+																					  managedObjectContext:self.managedObjectContext 
+																						sectionNameKeyPath:nil cacheName:nil] autorelease];	
+	[theFetchRequest release];
+	[sort release];
+	
+	if([fetchedResults performFetch:nil]) {
+		//If we have a result, return it
+		if ([[fetchedResults fetchedObjects] count])
+			return [[fetchedResults fetchedObjects] objectAtIndex:0];
+		
+		//If we don't have a result, create one and return it
+		else {
+			Device *device = [NSEntityDescription insertNewObjectForEntityForName:kEntityNameDevice
+                                                           inManagedObjectContext:self.managedObjectContext];  
+            device.peerId = peerId;
+            return device;
+        }
+	}
+	
+	//Something has gone wrong with the fetch
+	else
+		NSLog(@"Error while fetching");
+	
+	return nil;
+}
+
+#pragma mark -
+- (void)toggleServerAvailabilty {
+    
+    // Tell the data Model that the server availability button was pressed
+    
+    //If we have no session at this point, then start server    
+    if (!self.session) {
+        self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
+                                                 displayName:nil 
+                                                 sessionMode:GKSessionModeServer] autorelease];
+        self.session.delegate = self;
+        [self.session setDataReceiveHandler:self withContext:nil];
+        self.isServer = YES;
+    }
+    
+    self.session.available = !self.session.available;
+}
+
+-(void)handleConnected:(NSString *) peerID {
+    
+    if (!self.isServer && !self.serverPeerId) {
+        //TODO I can't set the serverPeerId here. I get 2 connections here.
+        self.serverPeerId = self.pendingPeerId;
+        self.session.available = NO;
+    }
+    
+    //Add peer to the list
+    [self.peersConnected addObject:peerID];
+    self.pendingPeerId = nil;
+}
+
+-(void)showActionSheetForServer {
+    //TODO no op here right now
+}
+
+-(void)handleDisconnect:(NSString *)peerID {
+    NSString *toRemove = nil;
+    //Remove peer from list
+    for (NSString *existingPeer in self.peersConnected) {
+        if ([peerID isEqualToString:existingPeer]) {
+            toRemove = existingPeer;
+            break;
+        }
+    }
+    [self.peersConnected removeObject:toRemove];
+    
+    //If it was the server, nil the server variable
+    if ([peerID isEqualToString:self.serverPeerId]) {
+        self.serverPeerId = nil;
+    }
+    
+    
+    
+    if (![self.peersConnected count]) {
+        self.session = nil;
+        self.serverPeerId = nil;
+    }
+
+}
+
+- (void)handleUnavailable:(NSString *)peerID {
+    NSLog(@"the peer %@ is unavailable", peerID);
+}
+
+#pragma mark - GKSessionDelegate
+/* Indicates a state change for the given peer.
+ */
+- (void)session:(GKSession *)aSession peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state {
+    NSLog(@"The session state changed %@ %d", [self.session displayNameForPeer:peerID], state);
+    Device *device = [self fetchOrInsertDeviceWithPeerId:peerID];
+    device.state = state;
+    [self.managedObjectContext save:nil];
+    switch (state) {
+        case GKPeerStateAvailable: {
+            
+            //Handle an odd situation where the session returns nil for the peer
+            NSString *displayName = [self.session displayNameForPeer:peerID];
+            
+            if (!displayName) {
+                self.pendingPeerId = nil;
+                return;
+            }
+            
+            self.pendingPeerId = peerID;
+            [self showActionSheetForServer];
+            break;
+        }
+        case GKPeerStateConnected:
+            [self handleConnected:peerID];
+            NSLog(@"the session is now connected to: %@, %@ Do what you need to do.", aSession.displayName, peerID);
+            break;
+            
+        case GKPeerStateDisconnected:
+            [self handleDisconnect:peerID];
+            break;
+            
+        case GKPeerStateConnecting:
+
+            break;
+            
+        case GKPeerStateUnavailable:
+            [self handleUnavailable:peerID];
+            break;
+        default:
+            break;
+    }
+    // No need to send this data to the views, they have fetched results controllers for that
+    //[self.sessionDelegate session:aSession peer:peerID didChangeState:state];
+    
+}
+
+/* Indicates a connection request was received from another peer. 
+ 
+ Accept by calling -acceptConnectionFromPeer:
+ Deny by calling -denyConnectionFromPeer:
+ */
+- (void)session:(GKSession *)aSession didReceiveConnectionRequestFromPeer:(NSString *)peerID {
+    //TODO, currently there is no way to receive a request from a peer
+    NSLog(@"The session didReceiveConnectionRequestFromPeer %@, %@", aSession.displayName, peerID);
+    NSString *displayName = [self.session displayNameForPeer:peerID];
+    NSAssert(displayName, @"Display name must not be nill");
+
+    self.pendingPeerId = peerID;
+    
+    // No need to tell the views about this. if you add it to core data, it'll show up via the fetched results controller
+    //[self.sessionDelegate session:aSession didReceiveConnectionRequestFromPeer:peerID];
+}
+
+#pragma mark Session Data
+- (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
+    NSDictionary *dict = [PayloadTranslator extractDictionaryFromPayload:data];
+    NSString *messageString = [dict objectForKey:@"message"];
+    NSLog(@"we got some data %@", messageString);
+    
+    NSString *action = [dict objectForKey:@"action"];
+    if (action) {
+        [self performSelector:NSSelectorFromString([dict objectForKey:@"action"])];
+    }
+    
+    //[self.sessionDelegate 
+}
+
+/* Indicates a connection error occurred with a peer, which includes connection request failures, or disconnects due to timeouts.
+ */
+- (void)session:(GKSession *)thisSession connectionWithPeerFailed:(NSString *)peerID withError:(NSError *)error {
+    NSLog(@"connectionWithPeerFailed %@, %@ %@", thisSession.displayName, peerID, error);
+}
+
+/* Indicates an error occurred with the session such as failing to make available.
+ */
+- (void)session:(GKSession *)session didFailWithError:(NSError *)error {
+    NSLog(@"GKSession didFailWithError %@", error);
+}
+
+- (BOOL)isSessionAvailable {
+    return self.session.available;
+}
+
+- (void)findServer {
+    //Do nothing if we are the server or have a session
+    if (self.session) {
+        return;
+    }
+    self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
+                                             displayName:nil 
+                                             sessionMode:GKSessionModeClient] autorelease];
+    self.session.delegate = self;
+    self.session.available = YES;
+    self.isServer = NO;
+    [self.session setDataReceiveHandler:self withContext:nil];
+}
+
+- (void)disconnect {
+    [self.peersConnected removeAllObjects];
+    self.serverPeerId = nil;
+    self.isServer = NO;
+    [self.session disconnectFromAllPeers];
+    self.session = nil;
+}
+
+#pragma mark SERVER
+- (NSError *)handleSessionRequestFrom:(Device *)device {
+    NSError *error = nil;
+    [self.session acceptConnectionFromPeer:device.peerId
+                                     error:&error];
+    self.pendingPeerId = nil;
+
+    return error;
+}
+
+- (NSError *)sendPayload:(NSData *)payload {
+    NSError *error = nil;
+    if (self.isServer) {    
+        [self.session sendDataToAllPeers:payload 
+                            withDataMode:GKSendDataReliable 
+                                   error:&error];
+    }
+    else {
+        NSArray *peer = [NSArray arrayWithObject:self.serverPeerId];
+        [self.session sendData:payload
+                       toPeers:peer 
+                  withDataMode:GKSendDataReliable error:&error];
+    }
+    
+    return error;
+}
+
+- (NSString *)displayNameForPeer:(NSString *)peerId {
+    
+    NSString *displayName = [self.session displayNameForPeer:peerId];
+    return displayName;
+    
+}
+
+- (void)connectToPeer:(Device *)device {
+    [self.session connectToPeer:device.peerId withTimeout:10];
+}
+
+- (void)save {
+    [self.managedObjectContext save:nil];
+}
+//self.pendingPeerId  = nil;
+//self.serverPeerId   = nil;
+//self.peersConnected = nil;
 
 @end

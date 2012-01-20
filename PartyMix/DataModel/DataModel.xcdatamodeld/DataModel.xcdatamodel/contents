@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="872" systemVersion="11C74" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Device" representedClassName="Device" syncable="YES">
-        <attribute name="deviceId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="peerId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="4" defaultValueString="1" syncable="YES"/>
+        <attribute name="titleFirstLetter" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <relationship name="mediaItem" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MediaItem" inverseName="deviceHome" inverseEntity="MediaItem" syncable="YES"/>
     </entity>
     <entity name="MediaItem" representedClassName="MediaItem" syncable="YES">
@@ -9,10 +11,10 @@
         <attribute name="persistentID" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
         <attribute name="titleFirstLetter" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <relationship name="deviceHome" toMany="YES" minCount="1" deletionRule="No Action" destinationEntity="Device" inverseName="mediaItem" inverseEntity="Device" syncable="YES"/>
+        <relationship name="deviceHome" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="Device" inverseName="mediaItem" inverseEntity="Device" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MediaItem" positionX="160" positionY="192" width="128" height="120"/>
-        <element name="Device" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="Device" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="MediaItem" positionX="160" positionY="192" width="128" height="105"/>
     </elements>
 </model>

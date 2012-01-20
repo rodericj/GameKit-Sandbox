@@ -25,7 +25,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="sendDataPushed:" destination="2" eventType="touchUpInside" id="m3j-vC-87S"/>
+                                    <action selector="sendDataButtonPushed:" destination="2" eventType="touchUpInside" id="20o-i5-5jE"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="T93-Fv-Jud">
@@ -47,7 +47,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="findServer:" destination="2" eventType="touchUpInside" id="Gxz-sn-pyN"/>
+                                    <action selector="findServerButtonPushed:" destination="2" eventType="touchUpInside" id="Hgk-5k-qu1"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zkn-u5-2tk">
@@ -62,7 +62,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="toggleServerAvailabilty:" destination="2" eventType="touchUpInside" id="XjL-YJ-MCC"/>
+                                    <action selector="toggleServerAvailabiltyButtonPushed:" destination="2" eventType="touchUpInside" id="Deb-Mc-0Jg"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dUY-T4-115">
@@ -86,7 +86,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="disconnectButtonPushed:" destination="2" eventType="touchUpInside" id="f7V-Iy-Kuo"/>
+                                    <action selector="disconnectButtonPushed:" destination="2" eventType="touchUpInside" id="wZY-Go-jDM"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="TXe-7A-q2R">
@@ -98,6 +98,10 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="2" id="Anw-aa-Zcu"/>
+                            <outlet property="delegate" destination="2" id="ugX-bM-5y5"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="7"/>
                     <connections>
@@ -206,7 +210,7 @@
         <class className="FetchedResultsBackedTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FetchedResultsBackedTableViewController.h"/>
         </class>
-        <class className="RJFirstViewController" superclassName="UIViewController">
+        <class className="RJFirstViewController" superclassName="FetchedResultsBackedTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RJFirstViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="serverLabel" candidateClass="UILabel"/>

@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "FetchedResultsBackedTableViewController.h"
+#import "DataModel.h"
 
-@interface RJThirdViewController : FetchedResultsBackedTableViewController
+@interface RJThirdViewController : FetchedResultsBackedTableViewController <GKSessionDelegate>
 
 -(IBAction)getRemoteMedia:(id)sender;
+
 @end

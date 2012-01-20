@@ -6,30 +6,30 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "RJFirstViewController.h"
+#import <malloc/malloc.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+#import "common.h"
+#import "DataModel.h"
+#import "Device.h"
 #import "NSArray+PageableArray.h"
-
-#import <malloc/malloc.h>
-
-#define kSessionRequestAlert            100
-#define kSessionSendText                101
-#define kSessionName                    @"com.rodericj.partymix.session"
+#import "PayloadTranslator.h"
+#import "RJFirstViewController.h"
 
 #define send_a_message                  @"Send a message"
 #define error_sending_data              @"Error sending data"
 
+#define disconnected                    @"disconnected"
 #define listening                       @"Listening"
 #define not_listening                   @"Not Listening"
 #define would_you_like_to_connect_to    @"Would you like to connect to %@"
+#define allow_connections_from          @"Allow connection from %@"
 
 #define cancel                          @"Cancel"
 #define ok                              @"OK"
 
-#define disconnected                    @"disconnected"
-#define unavailable                     @"Unavailable"
-#define allow_connections_from          @"Allow connection from %@"
+#define kSessionRequestAlert            100
+#define kSessionSendText                101
 
 #define fetch_all_songs_by_artist       @"fetchAllSongsByArtist"
 #define media_key                       @"media key"
@@ -37,30 +37,19 @@
 @interface RJFirstViewController()
 
 @property (nonatomic, retain) IBOutlet  UILabel                   *statusLabel;
-
-//Server
-@property (nonatomic, retain)           GKSession                   *session;
-@property (nonatomic, retain)           NSString                  *pendingPeerId;
 @property (nonatomic, retain) IBOutlet  UILabel                  *serverLabel;
-@property (nonatomic, assign)           BOOL                      isServer;
-@property (nonatomic, retain)           NSString                   *serverPeerId;
 @property (nonatomic, retain) IBOutlet  UITableView                 *tableView;
-@property (nonatomic, retain)           NSMutableArray              *peersConnected;
+@property (nonatomic, retain)           Device                     *deviceToConnectTo;
+
 @end
 
 
 @implementation RJFirstViewController
 
 @synthesize statusLabel = mStatusLabel;
-
-//Server
-@synthesize pendingPeerId   = _PendingPeerId;
-@synthesize session         = _Session;
 @synthesize serverLabel     = _ServerLabel;
-@synthesize isServer        = _isServer;
-@synthesize serverPeerId    = _serverPeerId;
 @synthesize tableView       = _tableView;
-@synthesize peersConnected  = _peersConnected;
+@synthesize deviceToConnectTo   = _deviceToConnectTo;
 
 - (void)didReceiveMemoryWarning
 {
@@ -68,58 +57,23 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-#pragma mark - Private method stuff
--(NSData *)buildPayLoadWithDictionary:(NSDictionary *)dict {
-    NSMutableData *data = [[[NSMutableData alloc] init] autorelease];
-	NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-	[archiver encodeObject:dict forKey:@"data"];
-	[archiver finishEncoding];
-	[archiver release];
-    
-    return data;    
-}
-
--(NSDictionary *)extractDictionaryFromPayload:(NSData *)data {
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    NSDictionary *myDictionary = [unarchiver decodeObjectForKey:@"data"];
-    [unarchiver finishDecoding];
-    [unarchiver release];
-    return myDictionary;
-}
 #pragma mark - Buttons
 
--(IBAction)toggleServerAvailabilty:(id)sender {
+-(IBAction)toggleServerAvailabiltyButtonPushed:(id)sender {
     
-    //If we have no session at this point, then start server    
-    if (!self.session) {
-        self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
-                                                 displayName:nil 
-                                                 sessionMode:GKSessionModeServer] autorelease];
-        self.session.delegate = self;
-        [self.session setDataReceiveHandler:self withContext:nil];
-        self.isServer = YES;
-    }
-
-    self.session.available = !self.session.available;
-    self.serverLabel.text = self.session.available ? listening : not_listening;
+    [[DataModel sharedInstance] toggleServerAvailabilty];
+    NSString *listeningState = [[DataModel sharedInstance] isSessionAvailable] ? listening : not_listening;
+    self.serverLabel.text = listeningState;
+    
 }
 
--(IBAction)findServer:(id)sender {
+-(IBAction)findServerButtonPushed:(id)sender {
     
-    //Do nothing if we are the server or have a session
-    if (self.session) {
-        return;
-    }
-    self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
-                                            displayName:nil 
-                                            sessionMode:GKSessionModeClient] autorelease];
-    self.session.delegate = self;
-    self.session.available = YES;
-    self.isServer = NO;
-    [self.session setDataReceiveHandler:self withContext:nil];
+    [[DataModel sharedInstance] findServer];
+
 }
 
--(IBAction)sendDataPushed:(id)sender {
+-(IBAction)sendDataButtonPushed:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:send_a_message message:nil delegate:self cancelButtonTitle:ok otherButtonTitles:nil, nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     alert.tag = kSessionSendText;
@@ -128,28 +82,14 @@
 }
 
 -(IBAction)disconnectButtonPushed:(id)sender {
-    [self.peersConnected removeAllObjects];
+    [[DataModel sharedInstance] disconnect];
+
     [self.tableView reloadData];
-    self.serverPeerId = nil;
-    self.isServer = NO;
-    [self.session disconnectFromAllPeers];
-    self.session = nil;
+
 }
 
 
 #pragma mark - The Alert View
-
-#pragma mark SERVER
--(void)handleSessionRequestWithButton:(NSInteger)buttonIndex {
-    NSError *error = nil;
-    [self.session acceptConnectionFromPeer:self.pendingPeerId error:&error];
-    self.pendingPeerId = nil;
-    
-    if (error) {
-        NSLog(@"error handling session request %@", error);
-    }
-    
-}
 #pragma mark SERVER/CLIENT
 -(void)handleSendTextThroughAlert:(UIAlertView *)alert {
     NSString *messageString = [alert textFieldAtIndex:0].text;
@@ -161,18 +101,11 @@
         [dict setObject:fetch_all_songs_by_artist forKey:@"action"];
     }
 
-    NSData *data = [self buildPayLoadWithDictionary:dict];
+    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
     NSError *error = nil;
     
-    if (self.isServer) {    
-        [self.session sendDataToAllPeers:data 
-                            withDataMode:GKSendDataReliable 
-                                   error:&error];
-    }
-    else {
-        NSArray *peer = [NSArray arrayWithObject:self.serverPeerId];
-        [self.session sendData:data toPeers:peer withDataMode:GKSendDataReliable error:&error];
-    }
+    [[DataModel sharedInstance] sendPayload:data];
+    
     if (error) {
         NSLog(@"error sending data %@", error);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error_sending_data
@@ -192,7 +125,10 @@
     switch (alertView.tag) {
         case kSessionRequestAlert:
             if (buttonIndex) {
-                [self handleSessionRequestWithButton:buttonIndex];
+                NSError *error = [[DataModel sharedInstance] handleSessionRequestFrom:self.deviceToConnectTo];
+                if (error) {
+                    NSLog(@"error handling session request %@", error);
+                }
             }
             break;
             
@@ -208,7 +144,6 @@
 
 -(void)fetchAllSongsByArtist {
 
-    
     NSArray *media = [MPMediaQuery songsQuery].items;
 
     NSUInteger pageSize = 10;
@@ -221,36 +156,81 @@
         //[self sen
         NSLog(@"size of myObject: %zd", malloc_size(payloadData));
     }
-
-}
-#pragma mark Session Data
-- (void) receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
-    //NSString *messageString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSDictionary *dict = [self extractDictionaryFromPayload:data];
-    NSString *messageString = [dict objectForKey:@"message"];
-    NSLog(@"we got some data %@", messageString);
-    self.statusLabel.text = messageString;
-    
-    if ([messageString isEqualToString:@"next"]) {
-        [self.tabBarController setSelectedIndex:1];
-    }
-    NSString *action = [dict objectForKey:@"action"];
-    if (action) {
-        [self performSelector:NSSelectorFromString([dict objectForKey:@"action"])];
-    }
-
 }
 
 #pragma mark - action sheet
 -(void)showActionSheetForServer {
-    NSString *displayName = [self.session displayNameForPeer:self.pendingPeerId];
-    
-    //Handle an odd situation where the session returns nil for the peer
-    if (!displayName) {
-        self.pendingPeerId = nil;
-        return;
-    }
+  }
 
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != actionSheet.cancelButtonIndex) {        
+        [[DataModel sharedInstance] connectToPeer:self.deviceToConnectTo];
+    }
+}
+#pragma mark - MessageRecipient
+-(void)newMessage:(NSDictionary *)data {
+    NSLog(@"we got a new message %@", data);
+}
+#pragma mark - Session change event handling
+-(void)handleDisconnect:(NSString *)peerID {
+    
+    //TODO Until we find a way to get notified of the DELETION from the peersConnected list, we don't show that they left
+    //This will most likely be an NSFetchedResultsController thing.
+    
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:disconnected
+//                                                    message:[self.session displayNameForPeer:peerID]
+//                                                   delegate:nil 
+//                                          cancelButtonTitle:ok 
+//                                          otherButtonTitles:nil, nil];
+//    [alert show];
+//    [alert release];
+    //reload table
+    //[self.tableView reloadData];
+
+    //TODO There is logic to tell the serverLabel that we are not listening. Need to KVO that on the self.session
+//    if (![self.peersConnected count]) {
+//        self.session = nil;
+//        self.serverLabel.text = not_listening;
+//        self.serverPeerId = nil;
+//    }
+}
+
+-(void)handleUnavailable:(NSString *) peerID {
+    //TODO nop right now for handle unavailable
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:unavailable
+//                                                    message:[self.session displayNameForPeer:peerID]
+//                                                   delegate:nil 
+//                                          cancelButtonTitle:ok
+//                                          otherButtonTitles:nil, nil];
+//    [alert show];
+//    [alert release];
+}
+
+-(void)handleConnecting:(Device *) device {
+    NSLog(@"peer is connecting %@", device);
+    NSString *displayName = [[DataModel sharedInstance] displayNameForPeer:device.peerId];
+    
+    self.deviceToConnectTo = device;
+    NSString *title = [NSString stringWithFormat:allow_connections_from, displayName];
+    UIAlertView *connectionAlert = [[UIAlertView alloc] initWithTitle:title 
+                                                              message:nil 
+                                                             delegate:self 
+                                                    cancelButtonTitle:cancel 
+                                                    otherButtonTitles:ok, nil];
+    connectionAlert.tag = kSessionRequestAlert;
+    [connectionAlert show];
+    [connectionAlert release];
+
+
+}
+
+#pragma mark - UITableView method
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // if you are not the server
+    self.deviceToConnectTo = [self.fetchController objectAtIndexPath:indexPath];
+    NSString *displayName = [[DataModel sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
+    
     NSString *title = [NSString stringWithFormat:would_you_like_to_connect_to, displayName];
     
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title
@@ -260,185 +240,83 @@
                                               otherButtonTitles:ok, nil];
     [sheet showInView:self.tabBarController.view];
     [sheet release];
-}
-
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex != actionSheet.cancelButtonIndex) {
-        [self.session connectToPeer:self.pendingPeerId withTimeout:10];
-    }
-}
-
-
-#pragma mark - Session change event handling
--(void)handleDisconnect:(NSString *)peerID {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:disconnected
-                                                    message:[self.session displayNameForPeer:peerID]
-                                                   delegate:nil 
-                                          cancelButtonTitle:ok 
-                                          otherButtonTitles:nil, nil];
-    [alert show];
-    [alert release];
-    
-    NSString *toRemove = nil;
-    //Remove peer from list
-    for (NSString *existingPeer in self.peersConnected) {
-        if ([peerID isEqualToString:existingPeer]) {
-            toRemove = existingPeer;
-            break;
-        }
-    }
-    [self.peersConnected removeObject:toRemove];
-    
-    //If it was the server, nil the server variable
-    if ([peerID isEqualToString:self.serverPeerId]) {
-        self.serverPeerId = nil;
-    }
-    
-    //reload table
-    [self.tableView reloadData];
-    
-    if (![self.peersConnected count]) {
-        self.session = nil;
-        self.serverLabel.text = not_listening;
-        self.serverPeerId = nil;
-    }
-}
-
--(void)handleConnecting:(NSString *) peerID {
-    NSLog(@"peer is connecting");
-
 
 }
-
--(void)handleUnavailable:(NSString *) peerID {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:unavailable
-                                                    message:[self.session displayNameForPeer:peerID]
-                                                   delegate:nil 
-                                          cancelButtonTitle:ok
-                                          otherButtonTitles:nil, nil];
-    [alert show];
-    [alert release];
-}
-
--(void)handleConnected:(NSString *) peerID {
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Now Connected"
-//                                                    message:[self.session displayNameForPeer:peerID]
-//                                                   delegate:nil 
-//                                          cancelButtonTitle:@"OK" 
-//                                          otherButtonTitles:nil, nil];
-//    [alert show];
-//    [alert release];
-    if (!self.isServer && !self.serverPeerId) {
-        //TODO I can't set the serverPeerId here. I get 2 connections here.
-        self.serverPeerId = self.pendingPeerId;
-        self.session.available = NO;
-    }
-    
-    //Add peer to the list
-    [self.peersConnected addObject:peerID];
-    
-    //reload table
-    [self.tableView reloadData];
-    
-    self.pendingPeerId = nil;
-}
-#pragma mark - GKSessionDelegate
-/* Indicates a state change for the given peer.
- */
-- (void)session:(GKSession *)session peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state {
-    NSLog(@"The session state changed %@ %d", peerID, state);
+- (NSString *)GKSessionTitleForState:(NSInteger)state {
     switch (state) {
         case GKPeerStateAvailable:
-            self.pendingPeerId = peerID;
-            [self showActionSheetForServer];
-            break;
-            
+            return @"Available";
+
         case GKPeerStateConnected:
-            [self handleConnected:peerID];
-            NSLog(@"the session is now connected to: %@, %@ Do what you need to do.", session.displayName, peerID);
-            break;
+            return @"Connected";
+            
+        case  GKPeerStateConnecting:
+            return @"Connecting";
             
         case GKPeerStateDisconnected:
-            [self handleDisconnect:peerID];
-            break;
-            
-        case GKPeerStateConnecting:
-            [self handleConnecting:peerID];
-            break;
+            return @"Disconnected";
             
         case GKPeerStateUnavailable:
-            [self handleUnavailable:peerID];
-            break;
+            return @"Unavailable";
         default:
             break;
     }
+    return @"unknown";
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *reuseId = self.entityName;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
     
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.lineBreakMode = UILineBreakModeTailTruncation;
+    }
+    
+    Device *device = (Device *)[self.fetchController objectAtIndexPath:indexPath];
+    NSString *deviceName = [[DataModel sharedInstance] displayNameForPeer:device.peerId];
+    
+    int substringIndex = MIN(deviceName.length, 20);
+    cell.textLabel.text = [deviceName substringToIndex:substringIndex];
+    
+    cell.detailTextLabel.text = [self GKSessionTitleForState:device.state];
+
+    if (device.state == GKPeerStateConnecting) {
+        [self handleConnecting:device];
+    }
+    
+    // Configure the cell with data from the managed object.
+    return cell;
 }
 
-/* Indicates a connection request was received from another peer. 
- 
- Accept by calling -acceptConnectionFromPeer:
- Deny by calling -denyConnectionFromPeer:
- */
-- (void)session:(GKSession *)session didReceiveConnectionRequestFromPeer:(NSString *)peerID {
-    NSLog(@"The session didReceiveConnectionRequestFromPeer %@, %@", session.displayName, peerID);
-    NSString *displayName = [self.session displayNameForPeer:peerID];
-    NSAssert(displayName, @"Display name must not be nill");
-    NSString *title = [NSString stringWithFormat:allow_connections_from, displayName];
-    UIAlertView *connectionAlert = [[UIAlertView alloc] initWithTitle:title 
-                                                              message:nil 
-                                                             delegate:self 
-                                                    cancelButtonTitle:cancel 
-                                                    otherButtonTitles:ok, nil];
-    connectionAlert.tag = kSessionRequestAlert;
-    self.pendingPeerId = peerID;
-    [connectionAlert show];
-    [connectionAlert release];
-
-}
-
-/* Indicates a connection error occurred with a peer, which includes connection request failures, or disconnects due to timeouts.
- */
-- (void)session:(GKSession *)session connectionWithPeerFailed:(NSString *)peerID withError:(NSError *)error {
-    NSLog(@"connectionWithPeerFailed %@, %@ %@", session.displayName, peerID, error);
-}
-
-/* Indicates an error occurred with the session such as failing to make available.
- */
-- (void)session:(GKSession *)session didFailWithError:(NSError *)error {
-    NSLog(@"GKSession didFailWithError %@", error);
-}
-#pragma mark - UITableView method
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.peersConnected count];
-}
+//TODO NSFetchedResultsController
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    return [self.peersConnected count];
+//}
 
 // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
 // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *reuseIdentifier = @"client identifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    if (!cell) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier] autorelease];
-    }
-    NSString *peerId = [self.peersConnected objectAtIndex:indexPath.row];
-    if ([peerId isEqualToString:self.serverPeerId]) {
-        cell.imageView.image = [UIImage imageNamed:@"first.png"];
-    }
-    NSString *displayName = [self.session displayNameForPeer:peerId];
-    cell.textLabel.text = displayName;
-    cell.detailTextLabel.text = peerId;
-    return cell;
-}
 
 
 #pragma mark - View lifecycle
 
+-(NSPredicate *)predicate {
+    return [NSPredicate predicateWithFormat:@"state != %d", 1];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.peersConnected = [[[NSMutableArray alloc] initWithCapacity:8] autorelease];
+    self.entityName = kEntityPeer;
+    self.sortBy     = @"peerId";
+    self.fetchController.delegate = self;
+    
+    for (Device *d in self.fetchController.fetchedObjects) {
+        d.state = GKPeerStateUnavailable;
+    }
+    [[DataModel sharedInstance] save];
 }
 
 - (void)viewDidUnload
@@ -456,7 +334,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.serverLabel.text = self.session.isAvailable ? listening : not_listening;
+    self.serverLabel.text = [DataModel sharedInstance].isSessionAvailable ? listening : not_listening;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -471,10 +349,8 @@
 
 -(void) dealloc {
     self.serverLabel    = nil;
-    self.pendingPeerId  = nil;
-    self.serverPeerId   = nil;
     self.tableView      = nil;
-    self.peersConnected = nil;
+    self.deviceToConnectTo = nil;
     [super dealloc];
 }
 

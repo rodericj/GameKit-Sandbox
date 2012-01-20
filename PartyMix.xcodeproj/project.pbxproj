@@ -14,8 +14,10 @@
 		178685B214C01BCC000EDF48 /* RJThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685B014C01BCC000EDF48 /* RJThirdViewController.m */; };
 		178685B614C01E68000EDF48 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685B514C01E68000EDF48 /* MediaItem.m */; };
 		178685B714C01E68000EDF48 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685B514C01E68000EDF48 /* MediaItem.m */; };
-		178685BA14C01E69000EDF48 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685B914C01E69000EDF48 /* Device.m */; };
-		178685BB14C01E69000EDF48 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685B914C01E69000EDF48 /* Device.m */; };
+		178685BE14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */; };
+		178685BF14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */; };
+		1788014214C93ABF009F59EB /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 1788014114C93ABF009F59EB /* Device.m */; };
+		1788014314C93ABF009F59EB /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 1788014114C93ABF009F59EB /* Device.m */; };
 		17ACB39F14789242008832E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB39E14789242008832E5 /* UIKit.framework */; };
 		17ACB3A114789242008832E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A014789242008832E5 /* Foundation.framework */; };
 		17ACB3A314789242008832E5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A214789242008832E5 /* CoreGraphics.framework */; };
@@ -63,8 +65,11 @@
 		178685B014C01BCC000EDF48 /* RJThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJThirdViewController.m; sourceTree = "<group>"; };
 		178685B414C01E68000EDF48 /* MediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaItem.h; path = "DataModel/Generated Data Model/MediaItem.h"; sourceTree = "<group>"; };
 		178685B514C01E68000EDF48 /* MediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaItem.m; path = "DataModel/Generated Data Model/MediaItem.m"; sourceTree = "<group>"; };
-		178685B814C01E69000EDF48 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = "DataModel/Generated Data Model/Device.h"; sourceTree = "<group>"; };
-		178685B914C01E69000EDF48 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = "DataModel/Generated Data Model/Device.m"; sourceTree = "<group>"; };
+		178685BC14C7D4C4000EDF48 /* PayloadTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayloadTranslator.h; path = PartyMix/PayloadTranslator.h; sourceTree = "<group>"; };
+		178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayloadTranslator.m; path = PartyMix/PayloadTranslator.m; sourceTree = "<group>"; };
+		178685C014C7E29A000EDF48 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		1788014014C93ABF009F59EB /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = "DataModel/Generated Data Model/Device.h"; sourceTree = "<group>"; };
+		1788014114C93ABF009F59EB /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = "DataModel/Generated Data Model/Device.m"; sourceTree = "<group>"; };
 		17ACB39A14789242008832E5 /* partymix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = partymix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17ACB39E14789242008832E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		17ACB3A014789242008832E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -141,6 +146,8 @@
 		17ACB38F14789241008832E5 = {
 			isa = PBXGroup;
 			children = (
+				178685BC14C7D4C4000EDF48 /* PayloadTranslator.h */,
+				178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */,
 				17ACB3A414789242008832E5 /* PartyMix */,
 				17ACB3D014789242008832E5 /* PartyMixTests */,
 				17ACB39D14789242008832E5 /* Frameworks */,
@@ -200,6 +207,7 @@
 			children = (
 				17FCA61914C01077004DDAA8 /* FetchedResultsBackedTableViewController.h */,
 				17FCA61A14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m */,
+				178685C014C7E29A000EDF48 /* common.h */,
 				17ACB3A614789242008832E5 /* PartyMix-Info.plist */,
 				17ACB3A714789242008832E5 /* InfoPlist.strings */,
 				17ACB3AA14789242008832E5 /* main.m */,
@@ -243,8 +251,8 @@
 		17D8824A14BE914F004D3722 /* Generated Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				178685B814C01E69000EDF48 /* Device.h */,
-				178685B914C01E69000EDF48 /* Device.m */,
+				1788014014C93ABF009F59EB /* Device.h */,
+				1788014114C93ABF009F59EB /* Device.m */,
 				178685B414C01E68000EDF48 /* MediaItem.h */,
 				178685B514C01E68000EDF48 /* MediaItem.m */,
 			);
@@ -373,7 +381,8 @@
 				17FCA61B14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */,
 				178685B114C01BCC000EDF48 /* RJThirdViewController.m in Sources */,
 				178685B614C01E68000EDF48 /* MediaItem.m in Sources */,
-				178685BA14C01E69000EDF48 /* Device.m in Sources */,
+				178685BE14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */,
+				1788014214C93ABF009F59EB /* Device.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,7 +396,8 @@
 				17FCA61C14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */,
 				178685B214C01BCC000EDF48 /* RJThirdViewController.m in Sources */,
 				178685B714C01E68000EDF48 /* MediaItem.m in Sources */,
-				178685BB14C01E69000EDF48 /* Device.m in Sources */,
+				178685BF14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */,
+				1788014314C93ABF009F59EB /* Device.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,29 +13,43 @@
 @implementation FetchedResultsBackedTableViewController : UITableViewController
 
 @synthesize fetchController = _fetchController;
+@synthesize entityName      = _entityName;
+@synthesize sortBy          = _sortBy;
 
 #pragma mark -
+-(NSPredicate *)predicate {
+    return nil;
+}
 
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"configure Cell");
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
+                          withRowAnimation:UITableViewRowAnimationNone];
+}
 #pragma mark - Fetched Results Controller
 -(NSFetchedResultsController *)fetchController {
     
     if (_fetchController) {
         return _fetchController;
     }
+    
     NSManagedObjectContext *context = [[DataModel sharedInstance] managedObjectContext];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MediaItem"];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self.entityName];
     // Configure the request's entity, and optionally its predicate.
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:self.sortBy ascending:YES];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    fetchRequest.predicate = [self predicate];
+    
     [sortDescriptors release];
     [sortDescriptor release];
     _fetchController = [[NSFetchedResultsController alloc]
                         initWithFetchRequest:fetchRequest
                         managedObjectContext:context
-                        sectionNameKeyPath:@"titleFirstLetter"
-                        cacheName:@"MediaItems"];
+                        sectionNameKeyPath:nil//@"titleFirstLetter"
+                        cacheName:self.entityName];
     [fetchRequest release];
     
     NSError *error;
@@ -112,20 +126,7 @@
 
 #pragma mark - Table View Datasource and Delegate Functions
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *reuseId = @"Media Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
-    
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseId];
-    }
-    
-    MediaItem *managedObject = (MediaItem *)[self.fetchController objectAtIndexPath:indexPath];
-    cell.textLabel.text = managedObject.title;
-    
-    // Configure the cell with data from the managed object.
-    return cell;
-}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger ret = [[self.fetchController sections] count];
@@ -148,5 +149,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
     return [self.fetchController sectionForSectionIndexTitle:title atIndex:index];
+}
+
+- (void)dealloc {
+    
+    self.entityName         = nil;
+    self.sortBy             = nil;
+    self.fetchController    = nil;
+    
+    [super dealloc];
 }
 @end

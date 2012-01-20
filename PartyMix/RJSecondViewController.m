@@ -8,7 +8,9 @@
 
 #import <MediaPlayer/MediaPlayer.h>
 
+#import "common.h"
 #import "DataModel.h"
+#import "MediaItem.h"
 #import "RJSecondViewController.h"
 
 @implementation RJSecondViewController
@@ -36,12 +38,34 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+#pragma mark - Cell for the row
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *reuseId = self.entityName;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseId];
+    }
+    
+    MediaItem *mediaItem = (MediaItem *)[self.fetchController objectAtIndexPath:indexPath];
+    cell.textLabel.text = mediaItem.title;
+
+    // Configure the cell with data from the managed object.
+    return cell;
+}
+
+#pragma mark - PendingPeerChangedDelegate call
+-(void)pendingPeerChanged:(NSString *)peerId {
+    NSLog(@"the pending peer changed");
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    self.entityName = kEntityMediaItem;
+    self.sortBy     = @"title";
     self.fetchController.delegate = self;
 }
 

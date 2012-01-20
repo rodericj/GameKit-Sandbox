@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "FetchedResultsBackedTableViewController.h"
 
-@interface RJSecondViewController : FetchedResultsBackedTableViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface RJSecondViewController : FetchedResultsBackedTableViewController <UITableViewDelegate, UITableViewDataSource, GKSessionDelegate> {
 }
 
 -(IBAction)getMPMediaItems:(id)sender;
