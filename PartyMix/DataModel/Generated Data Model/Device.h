@@ -2,7 +2,7 @@
 //  Device.h
 //  PartyMix
 //
-//  Created by Roderic Campbell on 1/19/12.
+//  Created by Roderic Campbell on 1/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -14,8 +14,9 @@
 @interface Device : NSManagedObject
 
 @property (nonatomic, retain) NSString * peerId;
-@property (nonatomic, retain) NSString * titleFirstLetter;
 @property (nonatomic) int16_t state;
+@property (nonatomic, retain) NSString * titleFirstLetter;
+@property (nonatomic) BOOL isServer;
 @property (nonatomic, retain) NSSet *mediaItem;
 @end
 

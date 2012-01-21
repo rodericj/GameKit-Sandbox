@@ -419,7 +419,7 @@ static DataModel *_dataModel = nil;
             
             //Handle an odd situation where the session returns nil for the peer
             NSString *displayName = [self.session displayNameForPeer:peerID];
-            
+            device.isServer = YES;
             if (!displayName) {
                 NSAssert(false, @"I think this should never happen. no display name and available");
                 return;

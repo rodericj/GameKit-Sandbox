@@ -256,6 +256,10 @@
     
     cell.detailTextLabel.text = [self sessionTitleForState:device.state];
 
+    if (device.isServer) {
+        cell.imageView.image = [UIImage imageNamed:@"first.png"];
+    }
+    
     if (device.state == GKPeerStateConnecting) {
         [self handleConnecting:device];
     }
