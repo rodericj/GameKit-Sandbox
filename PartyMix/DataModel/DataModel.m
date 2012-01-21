@@ -379,7 +379,7 @@ static DataModel *_dataModel = nil;
     self.session.available = !self.session.available;
 }
 
--(void)handleConnected:(NSString *) peerID {
+-(void)handleConnected:(Device *) device {
     //TODO if we are not the server and we connect, describe the device that is the server (probably core data)
     //TODO turn off available if we are not the server
     if (!self.isServer && !self.serverPeerId) {
@@ -388,10 +388,9 @@ static DataModel *_dataModel = nil;
     }
 }
 
--(void)handleDisconnect:(NSString *)peerID {
-    
+-(void)handleDisconnect:(Device *) device  {
     //If it was the server, nil the server variable
-    if ([peerID isEqualToString:self.serverPeerId]) {
+    if ([device.peerId isEqualToString:self.serverPeerId]) {
         self.serverPeerId = nil;
     }
 
@@ -399,10 +398,12 @@ static DataModel *_dataModel = nil;
         self.session = nil;
         self.serverPeerId = nil;
     }
+    [self.managedObjectContext deleteObject:device];
+    [self save];
 }
 
-- (void)handleUnavailable:(NSString *)peerID {
-    NSLog(@"the peer %@ is unavailable", peerID);
+- (void)handleUnavailable:(Device *) device {
+    NSLog(@"the peer %@ is unavailable", device.peerId);
 }
 
 #pragma mark - GKSessionDelegate
@@ -427,12 +428,12 @@ static DataModel *_dataModel = nil;
             break;
         }
         case GKPeerStateConnected:
-            [self handleConnected:peerID];
+            [self handleConnected:device];
             NSLog(@"the session is now connected to: %@, %@ Do what you need to do.", aSession.displayName, peerID);
             break;
             
         case GKPeerStateDisconnected:
-            [self handleDisconnect:peerID];
+            [self handleDisconnect:device];
             break;
             
         case GKPeerStateConnecting:
@@ -440,7 +441,7 @@ static DataModel *_dataModel = nil;
             break;
             
         case GKPeerStateUnavailable:
-            [self handleUnavailable:peerID];
+            [self handleUnavailable:device];
             break;
         default:
             break;
