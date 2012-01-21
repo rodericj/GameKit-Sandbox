@@ -83,9 +83,6 @@
 
 -(IBAction)disconnectButtonPushed:(id)sender {
     [[DataModel sharedInstance] disconnect];
-
-    [self.tableView reloadData];
-
 }
 
 
@@ -172,40 +169,7 @@
     NSLog(@"we got a new message %@", data);
 }
 #pragma mark - Session change event handling
--(void)handleDisconnect:(NSString *)peerID {
     
-    //TODO Until we find a way to get notified of the DELETION from the peersConnected list, we don't show that they left
-    //This will most likely be an NSFetchedResultsController thing.
-    
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:disconnected
-//                                                    message:[self.session displayNameForPeer:peerID]
-//                                                   delegate:nil 
-//                                          cancelButtonTitle:ok 
-//                                          otherButtonTitles:nil, nil];
-//    [alert show];
-//    [alert release];
-    //reload table
-    //[self.tableView reloadData];
-
-    //TODO There is logic to tell the serverLabel that we are not listening. Need to KVO that on the self.session
-//    if (![self.peersConnected count]) {
-//        self.session = nil;
-//        self.serverLabel.text = not_listening;
-//        self.serverPeerId = nil;
-//    }
-}
-
--(void)handleUnavailable:(NSString *) peerID {
-    //TODO nop right now for handle unavailable
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:unavailable
-//                                                    message:[self.session displayNameForPeer:peerID]
-//                                                   delegate:nil 
-//                                          cancelButtonTitle:ok
-//                                          otherButtonTitles:nil, nil];
-//    [alert show];
-//    [alert release];
-}
-
 -(void)handleConnecting:(Device *) device {
     NSLog(@"peer is connecting %@", device);
     NSString *displayName = [[DataModel sharedInstance] displayNameForPeer:device.peerId];
@@ -301,16 +265,6 @@
     // Configure the cell with data from the managed object.
     return cell;
 }
-
-//TODO NSFetchedResultsController
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return [self.peersConnected count];
-//}
-
-// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
-
-
 
 #pragma mark - View lifecycle
 

@@ -23,13 +23,9 @@
     
     //Server
     GKSession                   *session;
-    NSString                *_PendingPeerId;
     
     BOOL                    _isServer;
     NSString                *_serverPeerId;
-        
-    NSMutableArray          *_peersConnected;
-
     id<GKSessionDelegate> _sessionDelegate;
 }
 

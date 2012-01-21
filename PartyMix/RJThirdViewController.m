@@ -49,11 +49,6 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-#pragma mark - PendingPeerChangedDelegate call
--(void)pendingPeerChanged:(NSString *)peerId {
-    NSLog(@"the pending peer changed");
-}
-
 #pragma mark - View lifecycle
 
 /*

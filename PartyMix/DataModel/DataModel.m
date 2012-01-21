@@ -32,10 +32,8 @@
 
 //Server
 @property (nonatomic, retain)           GKSession                   *session;
-@property (nonatomic, retain)           NSString                  *pendingPeerId;
 @property (nonatomic, assign)           BOOL                      isServer;
 @property (nonatomic, retain)           NSString                   *serverPeerId;
-@property (nonatomic, retain)           NSMutableArray              *peersConnected;
 @property (nonatomic, assign)           id <GKSessionDelegate>      sessionDelegate;
 
 @end
@@ -46,11 +44,9 @@
 static DataModel *_dataModel = nil;
 
 //Server
-@synthesize pendingPeerId   = _PendingPeerId;
 @synthesize session         = _Session;
 @synthesize isServer        = _isServer;
 @synthesize serverPeerId    = _serverPeerId;
-@synthesize peersConnected  = _peersConnected;
 @synthesize sessionDelegate = _sessionDelegate;
 
 //NSString *const MPMediaItemPropertyPersistentID;            // filterable
@@ -240,7 +236,6 @@ static DataModel *_dataModel = nil;
 +(DataModel*)sharedInstance {
     if (_dataModel == nil) {
         _dataModel = [[super allocWithZone:NULL] init];
-        _dataModel.peersConnected = [[[NSMutableArray alloc] initWithCapacity:8] autorelease];
     }
     return _dataModel;
 }
@@ -292,26 +287,35 @@ static DataModel *_dataModel = nil;
 }
 #endif
 
+- (NSArray *)sortBy:(NSString *)sortBy {
+    NSSortDescriptor *sort = [[[NSSortDescriptor alloc] initWithKey:sortBy
+                                                         ascending:YES] autorelease];
+    return [NSArray arrayWithObject:sort];
+}
+
+- (NSEntityDescription *)entityDescriptionWithName:name {
+    NSEntityDescription *entity = [NSEntityDescription entityForName:name
+											  inManagedObjectContext:self.managedObjectContext];
+    return entity;
+}
+
 #pragma mark - Fetching of NSManagedObjects
 - (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId {
-	NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:kEntityNameDevice
-											  inManagedObjectContext:self.managedObjectContext];
-	
-	NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(peerId == %@) ", peerId];
-	
-	NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"peerId" ascending:YES];
     
-	theFetchRequest.sortDescriptors = [NSArray arrayWithObject:sort];
+	NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];	
+    
+	NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(peerId == %@) ", peerId];
+    theFetchRequest.predicate = filterPredicate;
+
+	theFetchRequest.sortDescriptors = [self sortBy:@"peerId"];
 	theFetchRequest.fetchLimit = 1;
-	theFetchRequest.predicate = filterPredicate;
-	theFetchRequest.entity = entity;
+	theFetchRequest.entity =[self entityDescriptionWithName:kEntityNameDevice];
 	
-	NSFetchedResultsController *fetchedResults = [[[NSFetchedResultsController alloc] initWithFetchRequest:theFetchRequest 
-																					  managedObjectContext:self.managedObjectContext 
-																						sectionNameKeyPath:nil cacheName:nil] autorelease];	
+	NSFetchedResultsController *fetchedResults;
+    fetchedResults = [[[NSFetchedResultsController alloc] initWithFetchRequest:theFetchRequest 
+                                                          managedObjectContext:self.managedObjectContext 
+                                                            sectionNameKeyPath:nil cacheName:nil] autorelease];	
 	[theFetchRequest release];
-	[sort release];
 	
 	if([fetchedResults performFetch:nil]) {
 		//If we have a result, return it
@@ -334,6 +338,29 @@ static DataModel *_dataModel = nil;
 	return nil;
 }
 
+- (NSArray *)fetchConnectedPeers {
+    NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];	
+    
+	NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(state == %d) ", GKPeerStateConnected];
+    theFetchRequest.predicate = filterPredicate;
+    
+	theFetchRequest.sortDescriptors = [self sortBy:@"peerId"];
+	theFetchRequest.entity =[self entityDescriptionWithName:kEntityNameDevice];
+	
+	NSFetchedResultsController *fetchedResults;
+    fetchedResults = [[[NSFetchedResultsController alloc] initWithFetchRequest:theFetchRequest 
+                                                          managedObjectContext:self.managedObjectContext 
+                                                            sectionNameKeyPath:nil cacheName:nil] autorelease];	
+	[theFetchRequest release];
+	
+	if([fetchedResults performFetch:nil]) {
+        return [fetchedResults fetchedObjects];
+    } else {
+		NSLog(@"Error while fetching");
+	}
+	return nil;
+}
+
 #pragma mark -
 - (void)toggleServerAvailabilty {
     
@@ -353,45 +380,25 @@ static DataModel *_dataModel = nil;
 }
 
 -(void)handleConnected:(NSString *) peerID {
-    
+    //TODO if we are not the server and we connect, describe the device that is the server (probably core data)
+    //TODO turn off available if we are not the server
     if (!self.isServer && !self.serverPeerId) {
         //TODO I can't set the serverPeerId here. I get 2 connections here.
-        self.serverPeerId = self.pendingPeerId;
         self.session.available = NO;
     }
-    
-    //Add peer to the list
-    [self.peersConnected addObject:peerID];
-    self.pendingPeerId = nil;
-}
-
--(void)showActionSheetForServer {
-    //TODO no op here right now
 }
 
 -(void)handleDisconnect:(NSString *)peerID {
-    NSString *toRemove = nil;
-    //Remove peer from list
-    for (NSString *existingPeer in self.peersConnected) {
-        if ([peerID isEqualToString:existingPeer]) {
-            toRemove = existingPeer;
-            break;
-        }
-    }
-    [self.peersConnected removeObject:toRemove];
     
     //If it was the server, nil the server variable
     if ([peerID isEqualToString:self.serverPeerId]) {
         self.serverPeerId = nil;
     }
-    
-    
-    
-    if (![self.peersConnected count]) {
+
+    if (![[self fetchConnectedPeers] count]) {
         self.session = nil;
         self.serverPeerId = nil;
     }
-
 }
 
 - (void)handleUnavailable:(NSString *)peerID {
@@ -406,6 +413,7 @@ static DataModel *_dataModel = nil;
     Device *device = [self fetchOrInsertDeviceWithPeerId:peerID];
     device.state = state;
     [self.managedObjectContext save:nil];
+    
     switch (state) {
         case GKPeerStateAvailable: {
             
@@ -413,12 +421,9 @@ static DataModel *_dataModel = nil;
             NSString *displayName = [self.session displayNameForPeer:peerID];
             
             if (!displayName) {
-                self.pendingPeerId = nil;
+                NSAssert(false, @"I think this should never happen. no display name and available");
                 return;
             }
-            
-            self.pendingPeerId = peerID;
-            [self showActionSheetForServer];
             break;
         }
         case GKPeerStateConnected:
@@ -451,15 +456,11 @@ static DataModel *_dataModel = nil;
  Deny by calling -denyConnectionFromPeer:
  */
 - (void)session:(GKSession *)aSession didReceiveConnectionRequestFromPeer:(NSString *)peerID {
-    //TODO, currently there is no way to receive a request from a peer
-    NSLog(@"The session didReceiveConnectionRequestFromPeer %@, %@", aSession.displayName, peerID);
+    //TODO There may be a way to have this function notify the clients instead of the FetchedResultsController way
+    NSLog(@"The session %@ didReceiveConnectionRequestFromPeer %@", aSession.displayName, peerID);
     NSString *displayName = [self.session displayNameForPeer:peerID];
-    NSAssert(displayName, @"Display name must not be nill");
-
-    self.pendingPeerId = peerID;
-    
-    // No need to tell the views about this. if you add it to core data, it'll show up via the fetched results controller
-    //[self.sessionDelegate session:aSession didReceiveConnectionRequestFromPeer:peerID];
+    NSLog(@"displayName for peer: %@", displayName);
+    NSAssert(displayName, @"Display name must not be nil");
 }
 
 #pragma mark Session Data
@@ -507,11 +508,16 @@ static DataModel *_dataModel = nil;
 }
 
 - (void)disconnect {
-    [self.peersConnected removeAllObjects];
     self.serverPeerId = nil;
     self.isServer = NO;
     [self.session disconnectFromAllPeers];
     self.session = nil;
+    
+    NSArray *connectedPeers = [self fetchConnectedPeers];
+    for (Device *peer in connectedPeers) {
+        peer.state = GKPeerStateDisconnected;
+    }
+    [self save];
 }
 
 #pragma mark SERVER
@@ -519,7 +525,6 @@ static DataModel *_dataModel = nil;
     NSError *error = nil;
     [self.session acceptConnectionFromPeer:device.peerId
                                      error:&error];
-    self.pendingPeerId = nil;
 
     return error;
 }
@@ -555,8 +560,6 @@ static DataModel *_dataModel = nil;
 - (void)save {
     [self.managedObjectContext save:nil];
 }
-//self.pendingPeerId  = nil;
 //self.serverPeerId   = nil;
-//self.peersConnected = nil;
 
 @end

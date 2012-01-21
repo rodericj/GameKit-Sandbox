@@ -54,11 +54,6 @@
     return cell;
 }
 
-#pragma mark - PendingPeerChangedDelegate call
--(void)pendingPeerChanged:(NSString *)peerId {
-    NSLog(@"the pending peer changed");
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
