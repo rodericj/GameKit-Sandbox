@@ -227,22 +227,34 @@
 #pragma mark - UITableView method
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    // if you are not the server
-    self.deviceToConnectTo = [self.fetchController objectAtIndexPath:indexPath];
-    NSString *displayName = [[DataModel sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
+    Device *tappedDevice = [self.fetchController objectAtIndexPath:indexPath];
+    switch (tappedDevice.state) {
+        case GKPeerStateConnected:
+            NSLog(@"Logic to push a view controller or send data");
+            break;
+            
+        case GKPeerStateAvailable: {
+            self.deviceToConnectTo = tappedDevice;
+            NSString *displayName = [[DataModel sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
+            
+            NSString *title = [NSString stringWithFormat:would_you_like_to_connect_to, displayName];
+            
+            UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title
+                                                               delegate:self
+                                                      cancelButtonTitle:cancel 
+                                                 destructiveButtonTitle:nil     
+                                                      otherButtonTitles:ok, nil];
+            [sheet showInView:self.tabBarController.view];
+            [sheet release];
+        }
+            
+        default:
+            break;
+    }
     
-    NSString *title = [NSString stringWithFormat:would_you_like_to_connect_to, displayName];
-    
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title
-                                                       delegate:self
-                                              cancelButtonTitle:cancel 
-                                         destructiveButtonTitle:nil     
-                                              otherButtonTitles:ok, nil];
-    [sheet showInView:self.tabBarController.view];
-    [sheet release];
 
 }
-- (NSString *)GKSessionTitleForState:(NSInteger)state {
+- (NSString *)sessionTitleForState:(NSInteger)state {
     switch (state) {
         case GKPeerStateAvailable:
             return @"Available";
@@ -280,7 +292,7 @@
     int substringIndex = MIN(deviceName.length, 20);
     cell.textLabel.text = [deviceName substringToIndex:substringIndex];
     
-    cell.detailTextLabel.text = [self GKSessionTitleForState:device.state];
+    cell.detailTextLabel.text = [self sessionTitleForState:device.state];
 
     if (device.state == GKPeerStateConnecting) {
         [self handleConnecting:device];
@@ -303,7 +315,7 @@
 #pragma mark - View lifecycle
 
 -(NSPredicate *)predicate {
-    return [NSPredicate predicateWithFormat:@"state != %d", 1];
+    return [NSPredicate predicateWithFormat:@"state != %d && state != %d", GKPeerStateDisconnected, GKPeerStateUnavailable];
 }
 
 - (void)viewDidLoad
