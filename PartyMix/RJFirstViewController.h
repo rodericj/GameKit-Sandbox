@@ -14,7 +14,6 @@
 @interface RJFirstViewController : FetchedResultsBackedTableViewController <UIAlertViewDelegate, UIActionSheetDelegate, GKSessionDelegate, MessageRecipient> {
 
     UILabel                 *_ServerLabel;
-    UILabel                 *_StatusLabel;
     UITableView             *_tableView;
     Device                  *_deviceToConnectTo;
 

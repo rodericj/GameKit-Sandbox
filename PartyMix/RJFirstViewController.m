@@ -36,7 +36,6 @@
 
 @interface RJFirstViewController()
 
-@property (nonatomic, retain) IBOutlet  UILabel                   *statusLabel;
 @property (nonatomic, retain) IBOutlet  UILabel                  *serverLabel;
 @property (nonatomic, retain) IBOutlet  UITableView                 *tableView;
 @property (nonatomic, retain)           Device                     *deviceToConnectTo;
@@ -46,7 +45,6 @@
 
 @implementation RJFirstViewController
 
-@synthesize statusLabel = mStatusLabel;
 @synthesize serverLabel     = _ServerLabel;
 @synthesize tableView       = _tableView;
 @synthesize deviceToConnectTo   = _deviceToConnectTo;

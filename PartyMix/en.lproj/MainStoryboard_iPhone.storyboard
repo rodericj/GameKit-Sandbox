@@ -28,13 +28,6 @@
                                     <action selector="sendDataButtonPushed:" destination="2" eventType="touchUpInside" id="20o-i5-5jE"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" id="T93-Fv-Jud">
-                                <rect key="frame" x="20" y="143" width="280" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="W4j-9U-mTZ">
                                 <rect key="frame" x="20" y="53" width="110" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -106,7 +99,6 @@
                     <tabBarItem key="tabBarItem" title="First" image="first" id="7"/>
                     <connections>
                         <outlet property="serverLabel" destination="TXe-7A-q2R" id="Vb5-mc-Hf3"/>
-                        <outlet property="statusLabel" destination="T93-Fv-Jud" id="6cN-nc-KUY"/>
                         <outlet property="tableView" destination="dUY-T4-115" id="4dM-f1-wyr"/>
                     </connections>
                 </viewController>
@@ -214,7 +206,6 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RJFirstViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="serverLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
