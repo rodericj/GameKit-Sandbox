@@ -317,113 +317,98 @@ static DataModel *_dataModel = nil;
 }
 
 #pragma mark - Fetching of NSManagedObjects
+- (NSFetchRequest *)fetchRequestForEntity:(NSString *)entity where:(NSPredicate *)predicate orderBy:(NSString *)sort {
+    NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];	
+    theFetchRequest.entity = [self entityDescriptionWithName:entity];
+    
+    
+    if (sort) {
+        theFetchRequest.sortDescriptors = [self sortBy:sort];
+    }
+    
+    return [theFetchRequest autorelease];
+}
 - (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId {
     
-	NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];	
+	NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
+                                                            where:[NSPredicate predicateWithFormat:@"(peerId == %@) ", peerId]
+                                                          orderBy:nil];
     
-	NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(peerId == %@) ", peerId];
-    theFetchRequest.predicate = filterPredicate;
-
-	theFetchRequest.sortDescriptors = [self sortBy:@"peerId"];
 	theFetchRequest.fetchLimit = 1;
-	theFetchRequest.entity =[self entityDescriptionWithName:kEntityNameDevice];
+
+    NSError *error = nil;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:theFetchRequest error:&error];
 	
-	NSFetchedResultsController *fetchedResults;
-    fetchedResults = [[[NSFetchedResultsController alloc] initWithFetchRequest:theFetchRequest 
-                                                          managedObjectContext:self.managedObjectContext 
-                                                            sectionNameKeyPath:nil cacheName:nil] autorelease];	
-	[theFetchRequest release];
-	
-	if([fetchedResults performFetch:nil]) {
-		//If we have a result, return it
-		if ([[fetchedResults fetchedObjects] count])
-			return [[fetchedResults fetchedObjects] objectAtIndex:0];
-		
-		//If we don't have a result, create one and return it
-		else {
-			Device *device = [NSEntityDescription insertNewObjectForEntityForName:kEntityNameDevice
-                                                           inManagedObjectContext:self.managedObjectContext];  
-            device.peerId = peerId;
-            return device;
-        }
-	}
-	
-	//Something has gone wrong with the fetch
-	else
-		NSLog(@"Error while fetching");
-	
-	return nil;
+    if (error) {
+        NSLog(@"There was an error when fetching %@", [error localizedDescription]);
+        return nil;
+    }
+    
+    //If we have a result, return it
+    if ([results count]) {
+        return [results objectAtIndex:0];
+    }
+    
+    //If we don't have a result, create one and return it
+    Device *device = [NSEntityDescription insertNewObjectForEntityForName:kEntityNameDevice
+                                                   inManagedObjectContext:self.managedObjectContext];  
+    device.peerId = peerId;
+    return device;
 }
 
+
 - (Device *)fetchCurrentServer {
-    NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];	
+    NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
+                                                            where:[NSPredicate predicateWithFormat:@"(state == %d) AND (isServer == YES)", GKPeerStateConnected]
+                                                          orderBy:nil];
     
-    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(state == %d) AND (isServer == YES)", GKPeerStateConnected];
-    theFetchRequest.predicate = filterPredicate;
-    
-    theFetchRequest.sortDescriptors = [self sortBy:@"peerId"];
-    theFetchRequest.entity =[self entityDescriptionWithName:kEntityNameDevice];
-    
-    NSFetchedResultsController *fetchedResults;
-    fetchedResults = [[[NSFetchedResultsController alloc] initWithFetchRequest:theFetchRequest 
-                                                          managedObjectContext:self.managedObjectContext 
-                                                            sectionNameKeyPath:nil cacheName:nil] autorelease];	
-    [theFetchRequest release];
-    
-    if([fetchedResults performFetch:nil]) {
-        NSAssert1([[fetchedResults fetchedObjects] count] == 1, @"We should have 1 currently connected server not %d",
-                  [[fetchedResults fetchedObjects] count] );
-        return [[fetchedResults fetchedObjects] objectAtIndex:0];
-    } else {
-        NSLog(@"Error while fetching");
+    NSError *error = nil;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:theFetchRequest error:&error];
+	
+    if (error) {
+        NSLog(@"There was an error when fetching %@", [error localizedDescription]);
+        return nil;
     }
+    
+    //If we have a result, return it
+    if ([results count]) {
+        return [results objectAtIndex:0];
+    }
+    
     return nil;
 }
 
 - (NSArray *)fetchConnectedPeers {
-    NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];	
+    NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
+                                                            where:[NSPredicate predicateWithFormat:@"(state == %d) ", GKPeerStateConnected]
+                                                          orderBy:nil];
     
-	NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(state == %d) ", GKPeerStateConnected];
-    theFetchRequest.predicate = filterPredicate;
+    NSError *error = nil;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:theFetchRequest error:&error];
+	
+    if (error) {
+        NSLog(@"There was an error when fetching %@", [error localizedDescription]);
+        return nil;
+    }
     
-	theFetchRequest.sortDescriptors = [self sortBy:@"peerId"];
-	theFetchRequest.entity =[self entityDescriptionWithName:kEntityNameDevice];
-	
-	NSFetchedResultsController *fetchedResults;
-    fetchedResults = [[[NSFetchedResultsController alloc] initWithFetchRequest:theFetchRequest 
-                                                          managedObjectContext:self.managedObjectContext 
-                                                            sectionNameKeyPath:nil cacheName:nil] autorelease];	
-	[theFetchRequest release];
-	
-	if([fetchedResults performFetch:nil]) {
-        return [fetchedResults fetchedObjects];
-    } else {
-		NSLog(@"Error while fetching");
-	}
-	return nil;
+    return results;
 }
 
 - (NSArray *)fetchAllLocalMedia {
-    NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];	
+    NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameMediaItem
+                                                            where:[NSPredicate predicateWithFormat:@"(deviceHome.peerId == %@) ", nil]
+                                                          orderBy:@"title"];	
     
-	NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(deviceHome.peerId == %@) ", nil];
-    theFetchRequest.predicate = filterPredicate;
+    	
+    NSError *error = nil;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:theFetchRequest error:&error];
+	
+    if (error) {
+        NSLog(@"There was an error when fetching %@", [error localizedDescription]);
+        return nil;
+    }
     
-	theFetchRequest.sortDescriptors = [self sortBy:@"title"];
-	theFetchRequest.entity =[self entityDescriptionWithName:kEntityNameMediaItem];
-	
-	NSFetchedResultsController *fetchedResults;
-    fetchedResults = [[[NSFetchedResultsController alloc] initWithFetchRequest:theFetchRequest 
-                                                          managedObjectContext:self.managedObjectContext 
-                                                            sectionNameKeyPath:nil cacheName:nil] autorelease];	
-	[theFetchRequest release];
-	
-	if([fetchedResults performFetch:nil]) {
-        return [fetchedResults fetchedObjects];
-    } else {
-		NSLog(@"Error while fetching");
-	}
-	return nil;
+    return results;    
 }
 
 #pragma mark -
