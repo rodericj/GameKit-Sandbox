@@ -11,16 +11,22 @@
 
 #import "DataModel.h"
 #import "MediaItem.h"
+#import "NSArray+PageableArray.h"
 #import "PayloadTranslator.h"
 
 #define kEntityNameMediaItem                    @"MediaItem"
 #define kEntityNameDevice                       @"Device"
 
+#define media_key                       @"media key"
+#define action                          @"action"   
 #define kPartyMixCoreDataBackupTempFile         @"PartyMixBackupTemp"
 #define kPartyMixCoreDataBackupFile             @"PartyMixBackup"
 #define kPartyMixCoreDataFile					@"PartyMix"
 #define kPartyMixCoreDataFileExtension			@"sqlite"
 
+//commands
+#define remoteFetchAllSongsByArtistCall       @"remoteFetchAllSongsByArtist:"
+#define addMediaFromListCall       @"addMediaFromList:"
 
 #define kSessionName                    @"com.rodericj.partymix.session"
 
@@ -241,37 +247,48 @@ static DataModel *_dataModel = nil;
 }
 
 #pragma mark - insertion of NSManagedObjects
--(MediaItem *)insertNewMediaItem:(MPMediaItem *)mpMediaItem {
+- (MediaItem *)insertNewMediaItem:(MediaItem *)mediaItem toDevice:(Device *)device {
+    MediaItem *newEntity = (MediaItem *)[NSEntityDescription insertNewObjectForEntityForName:kEntityNameMediaItem
+                                                                      inManagedObjectContext:self.managedObjectContext];
+    
+    newEntity.title = mediaItem.title;
+    newEntity.persistentID = mediaItem.persistentID;
+    newEntity.deviceHome = device;
+    return newEntity;
+}
+
+- (MediaItem *)insertNewMPMediaItem:(MPMediaItem *)mpMediaItem device:(Device *)device{
     
     MediaItem *newEntity = (MediaItem *)[NSEntityDescription insertNewObjectForEntityForName:kEntityNameMediaItem
                                                                       inManagedObjectContext:self.managedObjectContext];
 
     newEntity.title = [mpMediaItem valueForProperty:MPMediaItemPropertyTitle];
-    newEntity.persistentID = [mpMediaItem valueForProperty:MPMediaItemPropertyPersistentID];
+    newEntity.persistentID = [[mpMediaItem valueForProperty:MPMediaItemPropertyPersistentID] intValue];
+    newEntity.deviceHome = device;
     return newEntity;
 }
 
--(NSArray *)insertArrayOfMPMediaItems:(NSArray *)mediaItems {
+- (NSArray *)insertArrayOfMPMediaItems:(NSArray *)mediaItems device:(Device *)device{
         
     NSMutableArray *managedMediaItems = [NSMutableArray arrayWithCapacity:[mediaItems count]];
  
     for (MPMediaItem *song in mediaItems) {
-        MediaItem *item = [self insertNewMediaItem:song];
+        MediaItem *item = [self insertNewMPMediaItem:song device:device];
         [managedMediaItems addObject:item];
     }
-    
+    [self save];
     //save the managed object context
     return managedMediaItems;
 }
 
 #if TARGET_IPHONE_SIMULATOR
--(NSArray *)insertDummyMediaItems {
+- (NSArray *)insertDummyMediaItems {
     NSMutableArray *tmp = [NSMutableArray array];
     MediaItem *newEntity = (MediaItem *)[NSEntityDescription insertNewObjectForEntityForName:kEntityNameMediaItem
                                                                       inManagedObjectContext:self.managedObjectContext];
     
     newEntity.title = @"song title 1";
-    newEntity.persistentID = [NSNumber numberWithInt:1];
+    newEntity.persistentID = 1;
     [tmp addObject:newEntity];
     
     
@@ -279,7 +296,7 @@ static DataModel *_dataModel = nil;
                                                                       inManagedObjectContext:self.managedObjectContext];
     
     newEntity.title = @"song title 2";
-    newEntity.persistentID = [NSNumber numberWithInt:2];
+    newEntity.persistentID = 2;
     [tmp addObject:newEntity];
 
     [self save];
@@ -338,6 +355,31 @@ static DataModel *_dataModel = nil;
 	return nil;
 }
 
+- (Device *)fetchCurrentServer {
+    NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];	
+    
+    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(state == %d) AND (isServer == YES)", GKPeerStateConnected];
+    theFetchRequest.predicate = filterPredicate;
+    
+    theFetchRequest.sortDescriptors = [self sortBy:@"peerId"];
+    theFetchRequest.entity =[self entityDescriptionWithName:kEntityNameDevice];
+    
+    NSFetchedResultsController *fetchedResults;
+    fetchedResults = [[[NSFetchedResultsController alloc] initWithFetchRequest:theFetchRequest 
+                                                          managedObjectContext:self.managedObjectContext 
+                                                            sectionNameKeyPath:nil cacheName:nil] autorelease];	
+    [theFetchRequest release];
+    
+    if([fetchedResults performFetch:nil]) {
+        NSAssert1([[fetchedResults fetchedObjects] count] == 1, @"We should have 1 currently connected server not %d",
+                  [[fetchedResults fetchedObjects] count] );
+        return [[fetchedResults fetchedObjects] objectAtIndex:0];
+    } else {
+        NSLog(@"Error while fetching");
+    }
+    return nil;
+}
+
 - (NSArray *)fetchConnectedPeers {
     NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];	
     
@@ -346,6 +388,29 @@ static DataModel *_dataModel = nil;
     
 	theFetchRequest.sortDescriptors = [self sortBy:@"peerId"];
 	theFetchRequest.entity =[self entityDescriptionWithName:kEntityNameDevice];
+	
+	NSFetchedResultsController *fetchedResults;
+    fetchedResults = [[[NSFetchedResultsController alloc] initWithFetchRequest:theFetchRequest 
+                                                          managedObjectContext:self.managedObjectContext 
+                                                            sectionNameKeyPath:nil cacheName:nil] autorelease];	
+	[theFetchRequest release];
+	
+	if([fetchedResults performFetch:nil]) {
+        return [fetchedResults fetchedObjects];
+    } else {
+		NSLog(@"Error while fetching");
+	}
+	return nil;
+}
+
+- (NSArray *)fetchAllLocalMedia {
+    NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];	
+    
+	NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(deviceHome.peerId == %@) ", nil];
+    theFetchRequest.predicate = filterPredicate;
+    
+	theFetchRequest.sortDescriptors = [self sortBy:@"title"];
+	theFetchRequest.entity =[self entityDescriptionWithName:kEntityNameMediaItem];
 	
 	NSFetchedResultsController *fetchedResults;
     fetchedResults = [[[NSFetchedResultsController alloc] initWithFetchRequest:theFetchRequest 
@@ -464,15 +529,60 @@ static DataModel *_dataModel = nil;
     NSAssert(displayName, @"Display name must not be nil");
 }
 
+#pragma mark - protocol calls
+- (void)addMediaFromList:(NSArray *)packagedWithPeer {
+    NSString *peerId = [packagedWithPeer objectAtIndex:0];
+    Device *owner = [self fetchOrInsertDeviceWithPeerId:peerId];
+    
+    NSDictionary *data = [packagedWithPeer objectAtIndex:1];
+    NSLog(@"items are from %@\n %@", peerId, data);
+    
+    NSArray *mediaItems = [data objectForKey:media_key];
+    for (MediaItem *m in mediaItems) {
+        [self insertNewMediaItem:m toDevice:owner];
+    }
+    // TODO should I save here. It will take a long time, but is it better here than somewhere else? For now it's out
+    //[self save];
+
+}
+
+- (void)remoteFetchAllSongsByArtist:(NSArray *)packagedWithPeer {
+
+    NSString *peerId = [packagedWithPeer objectAtIndex:0];
+    
+    Device *device = [self fetchOrInsertDeviceWithPeerId:peerId];
+    NSArray *media = [self fetchAllLocalMedia];
+        
+    NSUInteger pageSize = 10;
+    
+    NSMutableArray *currentPackage = [NSMutableArray arrayWithCapacity:10];
+    for (int i = 0; i < [media count]; i++) {
+        [currentPackage addObject:[media objectAtIndex:i]];
+        
+        if ([currentPackage count] == pageSize) {
+            NSMutableDictionary *payloadData = [NSMutableDictionary dictionary];
+            [payloadData setObject:currentPackage 
+                            forKey:media_key];
+            [payloadData setObject:addMediaFromListCall
+                            forKey:action];
+
+            NSData *data = [PayloadTranslator buildPayLoadWithDictionary:payloadData];
+            [self sendPayload:data toDevice:device];
+            currentPackage = nil;
+            currentPackage = [NSMutableArray arrayWithCapacity:10];
+        }
+    }
+}
+
 #pragma mark Session Data
 - (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
     NSDictionary *dict = [PayloadTranslator extractDictionaryFromPayload:data];
-    NSString *messageString = [dict objectForKey:@"message"];
-    NSLog(@"we got some data %@", messageString);
-    
-    NSString *action = [dict objectForKey:@"action"];
-    if (action) {
-        [self performSelector:NSSelectorFromString([dict objectForKey:@"action"])];
+
+    NSLog(@"we got some data %@", dict);
+    NSArray *packagedWithPeer = [NSArray arrayWithObjects:peer, dict, nil];
+    NSString *executeAction = [dict objectForKey:action];
+    if (executeAction) {
+        [self performSelector:NSSelectorFromString(executeAction) withObject:packagedWithPeer];
     }
     
     //[self.sessionDelegate 
@@ -530,7 +640,7 @@ static DataModel *_dataModel = nil;
     return error;
 }
 
-- (NSError *)sendPayload:(NSData *)payload {
+- (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device{
     NSError *error = nil;
     if (self.isServer) {    
         [self.session sendDataToAllPeers:payload 
@@ -538,7 +648,7 @@ static DataModel *_dataModel = nil;
                                    error:&error];
     }
     else {
-        NSArray *peer = [NSArray arrayWithObject:self.serverPeerId];
+        NSArray *peer = [NSArray arrayWithObject:device.peerId];
         [self.session sendData:payload
                        toPeers:peer 
                   withDataMode:GKSendDataReliable error:&error];
@@ -552,6 +662,20 @@ static DataModel *_dataModel = nil;
     NSString *displayName = [self.session displayNameForPeer:peerId];
     return displayName;
     
+}
+
+- (void)requestSongsFromServer {
+    NSLog(@"request tracks from server");
+    Device *server = [self fetchCurrentServer];
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
+    [dict setObject:remoteFetchAllSongsByArtistCall 
+             forKey:action];
+
+    
+    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
+    
+    [self sendPayload:data toDevice:server];
 }
 
 - (void)connectToPeer:(Device *)device {

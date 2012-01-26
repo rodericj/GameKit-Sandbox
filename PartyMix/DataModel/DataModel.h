@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 #import "Device.h"
-
+#import <MediaPlayer/MediaPlayer.h>
 @protocol MessageRecipient <NSObject>
 
 @required
@@ -30,7 +30,25 @@
 }
 
 + (DataModel*)sharedInstance;
-- (NSArray *)insertArrayOfMPMediaItems:(NSArray *)mediaItems;
+
+/* 
+ * Given the array of MPMediaItems, insert these into CoreData 
+ * Attach to the passed in device.
+ * If the device is nil, we can assume the owner is self
+ */
+- (NSArray *)insertArrayOfMPMediaItems:(NSArray *)mediaItems device:(Device *)device;
+
+/*
+ * Insert an individual MPMediaItem for a given server. Used with insertArrayOfMPMediaItems:device:
+ */
+- (MediaItem *)insertNewMPMediaItem:(MPMediaItem *)mpMediaItem device:(Device *)device;
+
+/*
+ * Fetch the current server that this device is connected to
+ */
+- (Device *)fetchCurrentServer;
+
+    
 - (void)findServer;
 - (NSError *)handleSessionRequestFrom:(Device *)device;
 
@@ -60,8 +78,9 @@
  */
 - (void)connectToPeer:(Device *)device;
 
+- (void)requestSongsFromServer;
 
-- (NSError *)sendPayload:(NSData *)payload;
+- (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device;
 
 - (void)save;
 #if TARGET_IPHONE_SIMULATOR

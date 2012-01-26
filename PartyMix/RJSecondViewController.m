@@ -28,7 +28,7 @@
     
     NSLog(@"Logging items from a generic query...");
     NSArray *itemsFromGenericQuery = [everything items];
-    [[DataModel sharedInstance] insertArrayOfMPMediaItems:itemsFromGenericQuery];
+    [[DataModel sharedInstance] insertArrayOfMPMediaItems:itemsFromGenericQuery device:nil];
 
 }
 

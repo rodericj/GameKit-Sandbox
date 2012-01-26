@@ -22,7 +22,7 @@
 }
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"configure Cell");
+    NSLog(@"configure Cell %@", indexPath);
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
                           withRowAnimation:UITableViewRowAnimationNone];
 }

@@ -12,7 +12,7 @@
         <attribute name="persistentID" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
         <attribute name="titleFirstLetter" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <relationship name="deviceHome" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="Device" inverseName="mediaItem" inverseEntity="Device" syncable="YES"/>
+        <relationship name="deviceHome" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Device" inverseName="mediaItem" inverseEntity="Device" syncable="YES"/>
     </entity>
     <elements>
         <element name="Device" positionX="160" positionY="192" width="128" height="120"/>

@@ -31,9 +31,6 @@
 #define kSessionRequestAlert            100
 #define kSessionSendText                101
 
-#define fetch_all_songs_by_artist       @"fetchAllSongsByArtist"
-#define media_key                       @"media key"
-
 @interface RJFirstViewController()
 
 @property (nonatomic, retain) IBOutlet  UILabel                  *serverLabel;
@@ -91,10 +88,6 @@
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
     [dict setObject:messageString forKey:@"message"];
-    
-    if ([messageString isEqualToString:@"getmusic"]) {
-        [dict setObject:fetch_all_songs_by_artist forKey:@"action"];
-    }
 
     NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
     NSError *error = nil;
@@ -137,22 +130,6 @@
     }    
 }
 
--(void)fetchAllSongsByArtist {
-
-    NSArray *media = [MPMediaQuery songsQuery].items;
-
-    NSUInteger pageSize = 10;
-    for (int i = 0; i * pageSize < [media count]; i++ ) {
-        NSArray *page = [media getPage:i withPageSize:pageSize];
-        NSMutableDictionary *payloadData = [NSMutableDictionary dictionary];
-        [payloadData setObject:page forKey:media_key];
-        
-        //NSData *data = [self buildPayLoadWithDictionary:payloadData];
-        //[self sen
-        NSLog(@"size of myObject: %zd", malloc_size(payloadData));
-    }
-}
-
 #pragma mark - action sheet
 -(void)showActionSheetForServer {
   }
@@ -191,8 +168,12 @@
     
     Device *tappedDevice = [self.fetchController objectAtIndexPath:indexPath];
     switch (tappedDevice.state) {
-        case GKPeerStateConnected:
+        case GKPeerStateConnected: {
             NSLog(@"Logic to push a view controller or send data");
+            if (tappedDevice.isServer) {
+                [self.tabBarController setSelectedIndex:2];
+            }
+        }
             break;
             
         case GKPeerStateAvailable: {

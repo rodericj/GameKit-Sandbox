@@ -7,13 +7,18 @@
 //
 
 #import "common.h"
-#import "MediaItem.h"
+#import "MediaItem+Additions.h"
 #import "RJThirdViewController.h"
-
+#import "DataModel.h"
 @implementation RJThirdViewController
 
 -(IBAction)getRemoteMedia:(id)sender {
     NSLog(@"fetch remote");
+    [[DataModel sharedInstance] requestSongsFromServer];
+}
+
+-(NSPredicate *)predicate {
+    return [NSPredicate predicateWithFormat:@"deviceHome == %@", [[DataModel sharedInstance] fetchCurrentServer]];
 }
 
 #pragma mark - Cell for the media item
@@ -68,6 +73,7 @@
     [super viewDidLoad];
     self.entityName = kEntityMediaItem;
     self.sortBy     = @"title";
+    self.fetchController.delegate = self;
 }
 
 - (void)viewDidUnload
