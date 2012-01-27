@@ -10,7 +10,17 @@
 #import "MediaItem+Additions.h"
 #import "RJThirdViewController.h"
 #import "DataModel.h"
+
+#define kAddToRemotePlaylist    @"Would you like to add this song to the remote playlist"
+
+@interface RJThirdViewController () 
+
+@property (nonatomic, retain) MediaItem *mediaToSend;
+
+@end
 @implementation RJThirdViewController
+
+@synthesize mediaToSend = _mediaToSend;
 
 -(IBAction)getRemoteMedia:(id)sender {
     NSLog(@"fetch remote");
@@ -21,13 +31,14 @@
     return [NSPredicate predicateWithFormat:@"deviceHome == %@", [[DataModel sharedInstance] fetchCurrentServer]];
 }
 
-#pragma mark - Cell for the media item
+#pragma mark - UITableViewDelegate Methods
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *reuseId = self.entityName;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
     
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     MediaItem *mediaItem = (MediaItem *)[self.fetchController objectAtIndexPath:indexPath];
@@ -37,6 +48,28 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    self.mediaToSend = [self.fetchController objectAtIndexPath:indexPath];
+    //Show an alert vew asking if we want to add this song
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:kAddToRemotePlaylist
+                                                       delegate:self
+                                              cancelButtonTitle:kCancel 
+                                         destructiveButtonTitle:nil     
+                                              otherButtonTitles:kOk, nil];
+    [sheet showInView:self.tabBarController.view];
+    [sheet release];
+}
+
+#pragma mark - UIActionSheet
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != actionSheet.cancelButtonIndex) {        
+        NSLog(@"send song %@", self.mediaToSend);
+        [[DataModel sharedInstance] sendSingleSongRequest:self.mediaToSend];
+        self.mediaToSend = nil;
+        //[DataModel sharedInstance] 
+    }
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

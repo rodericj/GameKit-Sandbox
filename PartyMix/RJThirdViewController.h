@@ -10,7 +10,9 @@
 #import "FetchedResultsBackedTableViewController.h"
 #import "DataModel.h"
 
-@interface RJThirdViewController : FetchedResultsBackedTableViewController <GKSessionDelegate>
+@interface RJThirdViewController : FetchedResultsBackedTableViewController <GKSessionDelegate, UIActionSheetDelegate> {
+    MediaItem *_mediaToSend;
+}
 
 -(IBAction)getRemoteMedia:(id)sender;
 

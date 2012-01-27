@@ -16,18 +16,6 @@
 #import "PayloadTranslator.h"
 #import "RJFirstViewController.h"
 
-#define send_a_message                  @"Send a message"
-#define error_sending_data              @"Error sending data"
-
-#define disconnected                    @"disconnected"
-#define listening                       @"Listening"
-#define not_listening                   @"Not Listening"
-#define would_you_like_to_connect_to    @"Would you like to connect to %@"
-#define allow_connections_from          @"Allow connection from %@"
-
-#define cancel                          @"Cancel"
-#define ok                              @"OK"
-
 #define kSessionRequestAlert            100
 #define kSessionSendText                101
 
@@ -69,7 +57,11 @@
 }
 
 -(IBAction)sendDataButtonPushed:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:send_a_message message:nil delegate:self cancelButtonTitle:ok otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:send_a_message
+                                                    message:nil 
+                                                   delegate:self 
+                                          cancelButtonTitle:kOk
+                                          otherButtonTitles:nil, nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     alert.tag = kSessionSendText;
     [alert show];
@@ -99,7 +91,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error_sending_data
                                                         message:[NSString stringWithFormat:@"%@", error] 
                                                        delegate:nil 
-                                              cancelButtonTitle:ok 
+                                              cancelButtonTitle:kOk 
                                               otherButtonTitles:nil, nil];
         [alert show];
         [alert release];
@@ -131,8 +123,6 @@
 }
 
 #pragma mark - action sheet
--(void)showActionSheetForServer {
-  }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {        
@@ -154,8 +144,8 @@
     UIAlertView *connectionAlert = [[UIAlertView alloc] initWithTitle:title 
                                                               message:nil 
                                                              delegate:self 
-                                                    cancelButtonTitle:cancel 
-                                                    otherButtonTitles:ok, nil];
+                                                    cancelButtonTitle:kCancel 
+                                                    otherButtonTitles:kOk, nil];
     connectionAlert.tag = kSessionRequestAlert;
     [connectionAlert show];
     [connectionAlert release];
@@ -184,9 +174,9 @@
             
             UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title
                                                                delegate:self
-                                                      cancelButtonTitle:cancel 
+                                                      cancelButtonTitle:kCancel 
                                                  destructiveButtonTitle:nil     
-                                                      otherButtonTitles:ok, nil];
+                                                      otherButtonTitles:kOk, nil];
             [sheet showInView:self.tabBarController.view];
             [sheet release];
         }

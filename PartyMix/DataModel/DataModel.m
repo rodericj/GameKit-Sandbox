@@ -17,7 +17,7 @@
 #define kEntityNameMediaItem                    @"MediaItem"
 #define kEntityNameDevice                       @"Device"
 
-#define media_key                       @"media key"
+#define mediakey                       @"media key"
 #define action                          @"action"   
 #define kPartyMixCoreDataBackupTempFile         @"PartyMixBackupTemp"
 #define kPartyMixCoreDataBackupFile             @"PartyMixBackup"
@@ -25,8 +25,9 @@
 #define kPartyMixCoreDataFileExtension			@"sqlite"
 
 //commands
-#define remoteFetchAllSongsByArtistCall       @"remoteFetchAllSongsByArtist:"
-#define addMediaFromListCall       @"addMediaFromList:"
+#define remoteFetchAllSongsByArtistCall       @"remoteFetchAllSongsByArtistMethod:"
+#define addMediaFromListCall       @"addMediaFromListMethod:"
+#define sendSingleSongRequestCall       @"sendSingleSongMethod:"
 
 #define kSessionName                    @"com.rodericj.partymix.session"
 
@@ -515,14 +516,33 @@ static DataModel *_dataModel = nil;
 }
 
 #pragma mark - protocol calls
-- (void)addMediaFromList:(NSArray *)packagedWithPeer {
+- (void) sendSingleSongMethod:(NSString *)string {
+    NSLog(@"good");
+}
+
+- (void)sendSingleSongRequest:(MediaItem *)media {
+    Device *server = [self fetchCurrentServer];
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+    [dict setObject:media 
+             forKey:mediakey];
+    [dict setObject:sendSingleSongRequestCall 
+             forKey:action];
+    
+    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
+    
+    [self sendPayload:data 
+             toDevice:server];
+}
+
+- (void)addMediaFromListMethod:(NSArray *)packagedWithPeer {
     NSString *peerId = [packagedWithPeer objectAtIndex:0];
     Device *owner = [self fetchOrInsertDeviceWithPeerId:peerId];
     
     NSDictionary *data = [packagedWithPeer objectAtIndex:1];
     NSLog(@"items are from %@\n %@", peerId, data);
     
-    NSArray *mediaItems = [data objectForKey:media_key];
+    NSArray *mediaItems = [data objectForKey:mediakey];
     for (MediaItem *m in mediaItems) {
         [self insertNewMediaItem:m toDevice:owner];
     }
@@ -530,8 +550,25 @@ static DataModel *_dataModel = nil;
     //[self save];
 
 }
+#pragma mark - remoteFetchAllSongsByArtistCall: Client call
+ 
+- (void)requestSongsFromServer {
+    NSLog(@"request tracks from server");
+    Device *server = [self fetchCurrentServer];
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
+    [dict setObject:remoteFetchAllSongsByArtistCall 
+             forKey:action];
+    
+    
+    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
+    
+    [self sendPayload:data toDevice:server];
+}
 
-- (void)remoteFetchAllSongsByArtist:(NSArray *)packagedWithPeer {
+#pragma mark remoteFetchAllSongsByArtistCall: Server call
+ 
+- (void)remoteFetchAllSongsByArtistMethod:(NSArray *)packagedWithPeer {
 
     NSString *peerId = [packagedWithPeer objectAtIndex:0];
     
@@ -547,7 +584,7 @@ static DataModel *_dataModel = nil;
         if ([currentPackage count] == pageSize) {
             NSMutableDictionary *payloadData = [NSMutableDictionary dictionary];
             [payloadData setObject:currentPackage 
-                            forKey:media_key];
+                            forKey:mediakey];
             [payloadData setObject:addMediaFromListCall
                             forKey:action];
 
@@ -647,20 +684,6 @@ static DataModel *_dataModel = nil;
     NSString *displayName = [self.session displayNameForPeer:peerId];
     return displayName;
     
-}
-
-- (void)requestSongsFromServer {
-    NSLog(@"request tracks from server");
-    Device *server = [self fetchCurrentServer];
-    
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
-    [dict setObject:remoteFetchAllSongsByArtistCall 
-             forKey:action];
-
-    
-    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
-    
-    [self sendPayload:data toDevice:server];
 }
 
 - (void)connectToPeer:(Device *)device {

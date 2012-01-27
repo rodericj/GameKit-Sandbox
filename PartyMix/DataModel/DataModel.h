@@ -78,7 +78,10 @@
  */
 - (void)connectToPeer:(Device *)device;
 
+#pragma mark -
 - (void)requestSongsFromServer;
+
+- (void)sendSingleSongRequest:(MediaItem *)media;
 
 - (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device;
 
