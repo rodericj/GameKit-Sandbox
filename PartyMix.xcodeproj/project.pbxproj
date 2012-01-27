@@ -10,14 +10,14 @@
 		17040AA3148A120500231BD9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17040AA2148A120500231BD9 /* MediaPlayer.framework */; };
 		175CDCCB148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */; };
 		175CDCCC148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */; };
-		178685B114C01BCC000EDF48 /* RJThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685B014C01BCC000EDF48 /* RJThirdViewController.m */; };
-		178685B214C01BCC000EDF48 /* RJThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685B014C01BCC000EDF48 /* RJThirdViewController.m */; };
 		178685BE14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */; };
 		178685BF14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */; };
 		1786F24014CB8D9B003D3D43 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1786F23F14CB8D9B003D3D43 /* MediaItem.m */; };
 		1786F24114CB8D9B003D3D43 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1786F23F14CB8D9B003D3D43 /* MediaItem.m */; };
-		1789C15214D277450097CF81 /* RJFourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1789C15114D277440097CF81 /* RJFourthViewController.m */; };
-		1789C15314D277450097CF81 /* RJFourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1789C15114D277440097CF81 /* RJFourthViewController.m */; };
+		1789C15F14D278AF0097CF81 /* RJFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1789C15814D278AF0097CF81 /* RJFirstViewController.m */; };
+		1789C16014D278AF0097CF81 /* RJFourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1789C15A14D278AF0097CF81 /* RJFourthViewController.m */; };
+		1789C16114D278AF0097CF81 /* RJSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1789C15C14D278AF0097CF81 /* RJSecondViewController.m */; };
+		1789C16214D278AF0097CF81 /* RJThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1789C15E14D278AF0097CF81 /* RJThirdViewController.m */; };
 		17ACB39F14789242008832E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB39E14789242008832E5 /* UIKit.framework */; };
 		17ACB3A114789242008832E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A014789242008832E5 /* Foundation.framework */; };
 		17ACB3A314789242008832E5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A214789242008832E5 /* CoreGraphics.framework */; };
@@ -26,10 +26,8 @@
 		17ACB3AF14789242008832E5 /* RJAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17ACB3AE14789242008832E5 /* RJAppDelegate.m */; };
 		17ACB3B214789242008832E5 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17ACB3B014789242008832E5 /* MainStoryboard_iPhone.storyboard */; };
 		17ACB3B514789242008832E5 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17ACB3B314789242008832E5 /* MainStoryboard_iPad.storyboard */; };
-		17ACB3B814789242008832E5 /* RJFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17ACB3B714789242008832E5 /* RJFirstViewController.m */; };
 		17ACB3BA14789242008832E5 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 17ACB3B914789242008832E5 /* first.png */; };
 		17ACB3BC14789242008832E5 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17ACB3BB14789242008832E5 /* first@2x.png */; };
-		17ACB3BF14789242008832E5 /* RJSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17ACB3BE14789242008832E5 /* RJSecondViewController.m */; };
 		17ACB3C114789242008832E5 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 17ACB3C014789242008832E5 /* second.png */; };
 		17ACB3C314789242008832E5 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 17ACB3C214789242008832E5 /* second@2x.png */; };
 		17ACB3CB14789242008832E5 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3CA14789242008832E5 /* SenTestingKit.framework */; };
@@ -63,15 +61,19 @@
 		17040AA2148A120500231BD9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		175CDCC9148AFA7300B385E8 /* NSArray+PageableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+PageableArray.h"; path = "lib/NSArray+PageableArray.h"; sourceTree = "<group>"; };
 		175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+PageableArray.m"; path = "lib/NSArray+PageableArray.m"; sourceTree = "<group>"; };
-		178685AF14C01BCC000EDF48 /* RJThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJThirdViewController.h; sourceTree = "<group>"; };
-		178685B014C01BCC000EDF48 /* RJThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJThirdViewController.m; sourceTree = "<group>"; };
 		178685BC14C7D4C4000EDF48 /* PayloadTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayloadTranslator.h; path = PartyMix/PayloadTranslator.h; sourceTree = "<group>"; };
 		178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayloadTranslator.m; path = PartyMix/PayloadTranslator.m; sourceTree = "<group>"; };
 		178685C014C7E29A000EDF48 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		1786F23E14CB8D9B003D3D43 /* MediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaItem.h; path = "DataModel/Generated Data Model/MediaItem.h"; sourceTree = "<group>"; };
 		1786F23F14CB8D9B003D3D43 /* MediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaItem.m; path = "DataModel/Generated Data Model/MediaItem.m"; sourceTree = "<group>"; };
-		1789C15014D277440097CF81 /* RJFourthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJFourthViewController.h; sourceTree = "<group>"; };
-		1789C15114D277440097CF81 /* RJFourthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJFourthViewController.m; sourceTree = "<group>"; };
+		1789C15714D278AF0097CF81 /* RJFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJFirstViewController.h; path = PrototypeUI/RJFirstViewController.h; sourceTree = "<group>"; };
+		1789C15814D278AF0097CF81 /* RJFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJFirstViewController.m; path = PrototypeUI/RJFirstViewController.m; sourceTree = "<group>"; };
+		1789C15914D278AF0097CF81 /* RJFourthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJFourthViewController.h; path = PrototypeUI/RJFourthViewController.h; sourceTree = "<group>"; };
+		1789C15A14D278AF0097CF81 /* RJFourthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJFourthViewController.m; path = PrototypeUI/RJFourthViewController.m; sourceTree = "<group>"; };
+		1789C15B14D278AF0097CF81 /* RJSecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJSecondViewController.h; path = PrototypeUI/RJSecondViewController.h; sourceTree = "<group>"; };
+		1789C15C14D278AF0097CF81 /* RJSecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJSecondViewController.m; path = PrototypeUI/RJSecondViewController.m; sourceTree = "<group>"; };
+		1789C15D14D278AF0097CF81 /* RJThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJThirdViewController.h; path = PrototypeUI/RJThirdViewController.h; sourceTree = "<group>"; };
+		1789C15E14D278AF0097CF81 /* RJThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJThirdViewController.m; path = PrototypeUI/RJThirdViewController.m; sourceTree = "<group>"; };
 		17ACB39A14789242008832E5 /* partymix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = partymix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17ACB39E14789242008832E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		17ACB3A014789242008832E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -84,12 +86,8 @@
 		17ACB3AE14789242008832E5 /* RJAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RJAppDelegate.m; sourceTree = "<group>"; };
 		17ACB3B114789242008832E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		17ACB3B414789242008832E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		17ACB3B614789242008832E5 /* RJFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RJFirstViewController.h; sourceTree = "<group>"; };
-		17ACB3B714789242008832E5 /* RJFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RJFirstViewController.m; sourceTree = "<group>"; };
 		17ACB3B914789242008832E5 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		17ACB3BB14789242008832E5 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
-		17ACB3BD14789242008832E5 /* RJSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RJSecondViewController.h; sourceTree = "<group>"; };
-		17ACB3BE14789242008832E5 /* RJSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RJSecondViewController.m; sourceTree = "<group>"; };
 		17ACB3C014789242008832E5 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		17ACB3C214789242008832E5 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		17ACB3C914789242008832E5 /* PartyMixTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PartyMixTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,19 +145,19 @@
 			name = lib;
 			sourceTree = "<group>";
 		};
-		1789C15614D278110097CF81 /* New Group */ = {
+		1789C15614D278110097CF81 /* PrototypeUI */ = {
 			isa = PBXGroup;
 			children = (
-				17ACB3B614789242008832E5 /* RJFirstViewController.h */,
-				17ACB3B714789242008832E5 /* RJFirstViewController.m */,
-				17ACB3BD14789242008832E5 /* RJSecondViewController.h */,
-				17ACB3BE14789242008832E5 /* RJSecondViewController.m */,
-				178685AF14C01BCC000EDF48 /* RJThirdViewController.h */,
-				178685B014C01BCC000EDF48 /* RJThirdViewController.m */,
-				1789C15014D277440097CF81 /* RJFourthViewController.h */,
-				1789C15114D277440097CF81 /* RJFourthViewController.m */,
+				1789C15714D278AF0097CF81 /* RJFirstViewController.h */,
+				1789C15814D278AF0097CF81 /* RJFirstViewController.m */,
+				1789C15914D278AF0097CF81 /* RJFourthViewController.h */,
+				1789C15A14D278AF0097CF81 /* RJFourthViewController.m */,
+				1789C15B14D278AF0097CF81 /* RJSecondViewController.h */,
+				1789C15C14D278AF0097CF81 /* RJSecondViewController.m */,
+				1789C15D14D278AF0097CF81 /* RJThirdViewController.h */,
+				1789C15E14D278AF0097CF81 /* RJThirdViewController.m */,
 			);
-			name = "New Group";
+			name = PrototypeUI;
 			sourceTree = "<group>";
 		};
 		17ACB38F14789241008832E5 = {
@@ -200,7 +198,7 @@
 		17ACB3A414789242008832E5 /* PartyMix */ = {
 			isa = PBXGroup;
 			children = (
-				1789C15614D278110097CF81 /* New Group */,
+				1789C15614D278110097CF81 /* PrototypeUI */,
 				17D8824514BE8BBA004D3722 /* Data Model */,
 				17040AA5148AF98C00231BD9 /* lib */,
 				17ACB3AD14789242008832E5 /* RJAppDelegate.h */,
@@ -386,18 +384,14 @@
 			files = (
 				17ACB3AB14789242008832E5 /* main.m in Sources */,
 				17ACB3AF14789242008832E5 /* RJAppDelegate.m in Sources */,
-				17ACB3B814789242008832E5 /* RJFirstViewController.m in Sources */,
-				17ACB3BF14789242008832E5 /* RJSecondViewController.m in Sources */,
 				175CDCCB148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */,
 				17D8824914BE8D8F004D3722 /* DataModel.xcdatamodeld in Sources */,
 				17D8825314BFF07D004D3722 /* DataModel.m in Sources */,
 				17FCA61714C00BD8004DDAA8 /* MediaItem+Additions.m in Sources */,
 				17FCA61B14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */,
-				178685B114C01BCC000EDF48 /* RJThirdViewController.m in Sources */,
 				178685BE14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */,
 				17F0506114CB64AD00FF9AC1 /* Device.m in Sources */,
 				1786F24014CB8D9B003D3D43 /* MediaItem.m in Sources */,
-				1789C15214D277450097CF81 /* RJFourthViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,11 +403,13 @@
 				175CDCCC148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */,
 				17FCA61814C00BD8004DDAA8 /* MediaItem+Additions.m in Sources */,
 				17FCA61C14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */,
-				178685B214C01BCC000EDF48 /* RJThirdViewController.m in Sources */,
 				178685BF14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */,
 				17F0506214CB64AD00FF9AC1 /* Device.m in Sources */,
 				1786F24114CB8D9B003D3D43 /* MediaItem.m in Sources */,
-				1789C15314D277450097CF81 /* RJFourthViewController.m in Sources */,
+				1789C15F14D278AF0097CF81 /* RJFirstViewController.m in Sources */,
+				1789C16014D278AF0097CF81 /* RJFourthViewController.m in Sources */,
+				1789C16114D278AF0097CF81 /* RJSecondViewController.m in Sources */,
+				1789C16214D278AF0097CF81 /* RJThirdViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
