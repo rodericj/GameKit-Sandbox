@@ -1,23 +1,22 @@
 //
-//  Device.m
+//  PlaylistItem.m
 //  PartyMix
 //
 //  Created by Roderic Campbell on 1/28/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import "PlaylistItem.h"
 #import "Device.h"
 #import "MediaItem.h"
-#import "PlaylistItem.h"
+#import "Playlist.h"
 
 
-@implementation Device
+@implementation PlaylistItem
 
-@dynamic isServer;
-@dynamic peerId;
-@dynamic state;
-@dynamic titleFirstLetter;
+@dynamic addedDate;
+@dynamic device;
 @dynamic mediaItem;
-@dynamic playListItem;
+@dynamic playlist;
 
 @end

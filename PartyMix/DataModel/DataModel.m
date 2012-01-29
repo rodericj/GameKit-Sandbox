@@ -15,6 +15,8 @@
 #import "PayloadTranslator.h"
 
 #define kEntityNameMediaItem                    @"MediaItem"
+#define kEntityNamePlaylistItem                 @"PlaylistItem"
+#define kEntityNamePlaylist                     @"Playlist"
 #define kEntityNameDevice                       @"Device"
 
 #define mediakey                       @"media key"
@@ -248,9 +250,13 @@ static DataModel *_dataModel = nil;
 }
 
 #pragma mark - insertion of NSManagedObjects
+- (NSManagedObject *)insertNewObjectOfType:(NSString *)entityName {
+    return (NSManagedObject *)[NSEntityDescription insertNewObjectForEntityForName:entityName
+                                                            inManagedObjectContext:self.managedObjectContext];
+}
+
 - (MediaItem *)insertNewMediaItem:(MediaItem *)mediaItem toDevice:(Device *)device {
-    MediaItem *newEntity = (MediaItem *)[NSEntityDescription insertNewObjectForEntityForName:kEntityNameMediaItem
-                                                                      inManagedObjectContext:self.managedObjectContext];
+    MediaItem *newEntity = (MediaItem *)[self insertNewObjectOfType:kEntityNameMediaItem];
     
     newEntity.title = mediaItem.title;
     newEntity.persistentID = mediaItem.persistentID;
@@ -259,9 +265,8 @@ static DataModel *_dataModel = nil;
 }
 
 - (MediaItem *)insertNewMPMediaItem:(MPMediaItem *)mpMediaItem device:(Device *)device{
+    MediaItem *newEntity = (MediaItem *)[self insertNewObjectOfType:kEntityNameMediaItem];
     
-    MediaItem *newEntity = (MediaItem *)[NSEntityDescription insertNewObjectForEntityForName:kEntityNameMediaItem
-                                                                      inManagedObjectContext:self.managedObjectContext];
 
     newEntity.title = [mpMediaItem valueForProperty:MPMediaItemPropertyTitle];
     newEntity.persistentID = [[mpMediaItem valueForProperty:MPMediaItemPropertyPersistentID] intValue];
@@ -280,6 +285,27 @@ static DataModel *_dataModel = nil;
     [self save];
     //save the managed object context
     return managedMediaItems;
+}
+
+/*
+ * Insert an individual PlaylistItem for a given server.
+ */
+- (PlaylistItem *)insertNewPlaylistItem:(MPMediaItem *)mediaItem fromDevice:(Device *)device toPlaylist:(Playlist *)playlist {
+    PlaylistItem *newPlaylistItem = (PlaylistItem *)[self insertNewObjectOfType:kEntityNamePlaylistItem];
+    newPlaylistItem.device = device;
+    newPlaylistItem.playlist = playlist;
+    newPlaylistItem.addedDate = [NSDate date];
+    return newPlaylistItem;
+}
+
+/*
+ * Insert an individual Playlist with a title
+ */
+- (Playlist *)insertNewPlaylistWithTitle:(NSString *)title {
+    Playlist *playlist = (Playlist *)[self insertNewObjectOfType:kEntityNamePlaylist];
+    playlist.title = title;
+    [self save];
+    return playlist;
 }
 
 #if TARGET_IPHONE_SIMULATOR

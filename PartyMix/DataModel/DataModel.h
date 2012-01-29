@@ -10,6 +10,9 @@
 #import <GameKit/GameKit.h>
 #import "Device.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "Playlist.h"
+#import "PlaylistItem.h"
+
 @protocol MessageRecipient <NSObject>
 
 @required
@@ -42,6 +45,16 @@
  * Insert an individual MPMediaItem for a given server. Used with insertArrayOfMPMediaItems:device:
  */
 - (MediaItem *)insertNewMPMediaItem:(MPMediaItem *)mpMediaItem device:(Device *)device;
+
+/*
+ * Insert an individual PlaylistItem for a given server.
+ */
+- (PlaylistItem *)insertNewPlaylistItem:(MPMediaItem *)mediaItem fromDevice:(Device *)device toPlaylist:(Playlist *)playlist;
+
+/*
+ * Insert an individual Playlist with a title
+ */
+- (Playlist *)insertNewPlaylistWithTitle:(NSString *)playlistItem;
 
 /*
  * Fetch the current server that this device is connected to

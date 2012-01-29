@@ -6,9 +6,10 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#define kEntityMediaItem    @"MediaItem"
-#define kEntityPeer         @"Device"
-
+#define kEntityNameMediaItem                    @"MediaItem"
+#define kEntityNamePlaylistItem                 @"PlaylistItem"
+#define kEntityNamePlaylist                     @"Playlist"
+#define kEntityNameDevice                       @"Device"
 
 //Strings
 #define send_a_message                  @"Send a message"

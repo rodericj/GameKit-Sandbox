@@ -7,8 +7,38 @@
 //
 
 #import "RJFourthViewController.h"
+#import "common.h"
+#import "DataModel.h"
+#import "Playlist.h"
+#import "RJPlaylistViewController.h"
 
 @implementation RJFourthViewController
+
+#pragma mark -
+#pragma mark - UITableViewDelegate Methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    Playlist *playlist = [self.fetchController objectAtIndexPath:indexPath];
+    RJPlaylistViewController *view = [RJPlaylistViewController RJPlaylistViewControllerWithPlaylist:playlist];
+    [self.navigationController pushViewController:view 
+                                         animated:YES];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *reuseId = self.entityName;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    
+    Playlist *playlist = (Playlist *)[self.fetchController objectAtIndexPath:indexPath];
+    cell.textLabel.text = playlist.title;
+    
+    return cell;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,20 +59,38 @@
 
 #pragma mark - View lifecycle
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.entityName = kEntityNamePlaylist;
+    self.sortBy     = @"title";
+    self.fetchController.delegate = self;
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd 
+                                                                                 target:self 
+                                                                                 action:@selector(addPlaylist:)];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObject:rightButton];
+    [rightButton release];
 }
-*/
+
+- (IBAction)addPlaylist:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Playlist" 
+                                                    message:nil 
+                                                   delegate:self
+                                          cancelButtonTitle:kCancel 
+                                          otherButtonTitles:kOk, nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+    [alert release];
+    
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.cancelButtonIndex != buttonIndex) {
+        NSString *newPlaylistName = [alertView textFieldAtIndex:0].text;
+        [[DataModel sharedInstance] insertNewPlaylistWithTitle:newPlaylistName];
+    }
+}
 
 - (void)viewDidUnload
 {

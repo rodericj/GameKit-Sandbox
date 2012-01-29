@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FetchedResultsBackedTableViewController.h"
 
-@interface RJFourthViewController : UIViewController
+@interface RJFourthViewController : FetchedResultsBackedTableViewController <UIAlertViewDelegate>
 
 @end

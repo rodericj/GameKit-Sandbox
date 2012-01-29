@@ -59,7 +59,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.entityName = kEntityMediaItem;
+    self.entityName = kEntityNameMediaItem;
     self.sortBy     = @"title";
     self.fetchController.delegate = self;
 }

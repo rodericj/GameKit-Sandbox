@@ -6,6 +6,7 @@
         <attribute name="state" optional="YES" attributeType="Integer 16" maxValueString="4" defaultValueString="1" syncable="YES"/>
         <attribute name="titleFirstLetter" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <relationship name="mediaItem" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MediaItem" inverseName="deviceHome" inverseEntity="MediaItem" syncable="YES"/>
+        <relationship name="playListItem" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlaylistItem" inverseName="device" inverseEntity="PlaylistItem" syncable="YES"/>
     </entity>
     <entity name="MediaItem" representedClassName="MediaItem" syncable="YES">
         <attribute name="mediaItem" optional="YES" attributeType="Binary" valueTransformerName="NSColor" syncable="YES"/>
@@ -13,9 +14,22 @@
         <attribute name="title" attributeType="String" syncable="YES"/>
         <attribute name="titleFirstLetter" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <relationship name="deviceHome" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Device" inverseName="mediaItem" inverseEntity="Device" syncable="YES"/>
+        <relationship name="playlistItem" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlaylistItem" inverseName="mediaItem" inverseEntity="PlaylistItem" syncable="YES"/>
+    </entity>
+    <entity name="Playlist" representedClassName="Playlist" syncable="YES">
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="playlistItem" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlaylistItem" inverseName="playlist" inverseEntity="PlaylistItem" syncable="YES"/>
+    </entity>
+    <entity name="PlaylistItem" representedClassName="PlaylistItem" syncable="YES">
+        <attribute name="addedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="device" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Device" inverseName="playListItem" inverseEntity="Device" syncable="YES"/>
+        <relationship name="mediaItem" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="MediaItem" inverseName="playlistItem" inverseEntity="MediaItem" syncable="YES"/>
+        <relationship name="playlist" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Playlist" inverseName="playlistItem" inverseEntity="Playlist" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Device" positionX="160" positionY="192" width="128" height="120"/>
-        <element name="MediaItem" positionX="160" positionY="192" width="128" height="120"/>
+        <element name="Device" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="MediaItem" positionX="403" positionY="189" width="128" height="135"/>
+        <element name="Playlist" positionX="-27" positionY="474" width="128" height="75"/>
+        <element name="PlaylistItem" positionX="412" positionY="450" width="128" height="105"/>
     </elements>
 </model>
