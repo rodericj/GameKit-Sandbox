@@ -45,6 +45,7 @@
 @property (nonatomic, retain)           NSString                   *serverPeerId;
 @property (nonatomic, assign)           id <GKSessionDelegate>      sessionDelegate;
 
+
 @end
 
 
@@ -290,10 +291,11 @@ static DataModel *_dataModel = nil;
 /*
  * Insert an individual PlaylistItem for a given server.
  */
-- (PlaylistItem *)insertNewPlaylistItem:(MPMediaItem *)mediaItem fromDevice:(Device *)device toPlaylist:(Playlist *)playlist {
+- (PlaylistItem *)insertNewPlaylistItem:(MediaItem *)mediaItem fromDevice:(Device *)device toPlaylist:(Playlist *)playlist {
     PlaylistItem *newPlaylistItem = (PlaylistItem *)[self insertNewObjectOfType:kEntityNamePlaylistItem];
     newPlaylistItem.device = device;
     newPlaylistItem.playlist = playlist;
+    newPlaylistItem.mediaItem = mediaItem;
     newPlaylistItem.addedDate = [NSDate date];
     return newPlaylistItem;
 }
@@ -355,6 +357,35 @@ static DataModel *_dataModel = nil;
     
     return [theFetchRequest autorelease];
 }
+
+- (Device *)fetchOrInsertLocalHostDevice {
+    NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
+                                                            where:[NSPredicate predicateWithFormat:@"(isLocalHost == YES) "]
+                                                          orderBy:nil];
+    
+	theFetchRequest.fetchLimit = 1;
+    
+    NSError *error = nil;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:theFetchRequest error:&error];
+	
+    if (error) {
+        NSLog(@"There was an error when fetching %@", [error localizedDescription]);
+        return nil;
+    }
+    
+    //If we have a result, return it
+    if ([results count]) {
+        return [results objectAtIndex:0];
+    }
+    
+    //If we don't have a result, create one and return it
+    Device *device = [NSEntityDescription insertNewObjectForEntityForName:kEntityNameDevice
+                                                   inManagedObjectContext:self.managedObjectContext];  
+    device.isLocalHost = YES;
+    [self save];
+    return device;
+}
+
 - (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId {
     
 	NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
@@ -380,11 +411,12 @@ static DataModel *_dataModel = nil;
     Device *device = [NSEntityDescription insertNewObjectForEntityForName:kEntityNameDevice
                                                    inManagedObjectContext:self.managedObjectContext];  
     device.peerId = peerId;
+    device.isLocalHost = NO;
+    [self save];
     return device;
 }
 
-
-- (Device *)fetchCurrentServer {
+- (Device *)currentServer {
     NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
                                                             where:[NSPredicate predicateWithFormat:@"(state == %d) AND (isServer == YES)", GKPeerStateConnected]
                                                           orderBy:nil];
@@ -403,6 +435,9 @@ static DataModel *_dataModel = nil;
     }
     
     return nil;
+}
+- (Device *)localDevice {
+    return [self fetchOrInsertLocalHostDevice];
 }
 
 - (NSArray *)fetchConnectedPeers {
@@ -442,7 +477,6 @@ static DataModel *_dataModel = nil;
 - (void)toggleServerAvailabilty {
     
     // Tell the data Model that the server availability button was pressed
-    
     //If we have no session at this point, then start server    
     if (!self.session) {
         self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
@@ -481,6 +515,33 @@ static DataModel *_dataModel = nil;
 
 - (void)handleUnavailable:(Device *) device {
     NSLog(@"the peer %@ is unavailable", device.peerId);
+}
+
+- (Playlist *)currentPlaylist {
+    NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameMediaItem
+                                                            where:[NSPredicate predicateWithFormat:@"(isCurrent == YES) "]
+                                                          orderBy:nil];	
+    
+    
+    NSError *error = nil;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:theFetchRequest error:&error];
+	
+    if (error) {
+        NSLog(@"There was an error when fetching %@", [error localizedDescription]);
+        return nil;
+    }
+    if ([results count] == 1) {
+        return [results objectAtIndex:0];
+    }
+    return nil;    
+
+}
+
+- (void)setCurrentPlaylist:(Playlist *)playlist {
+
+    Playlist *oldCurrent = [self currentPlaylist];
+    oldCurrent.isCurrent = NO;
+    playlist.isCurrent = YES;
 }
 
 #pragma mark - GKSessionDelegate
@@ -542,12 +603,20 @@ static DataModel *_dataModel = nil;
 }
 
 #pragma mark - protocol calls
-- (void) sendSingleSongMethod:(NSString *)string {
-    NSLog(@"good");
+- (void) sendSingleSongMethod:(NSArray *)payload {
+    NSDictionary *data = [payload objectAtIndex:1];
+    NSString *peerId = [payload objectAtIndex:0];
+    MediaItem *mediaItem = [data objectForKey:mediakey];
+    Playlist *playlist = [[DataModel sharedInstance] currentPlaylist];
+    
+    Device *device = [[DataModel sharedInstance] deviceWithPeerId:peerId];
+    [[DataModel sharedInstance] insertNewPlaylistItem:mediaItem 
+                                           fromDevice:device 
+                                           toPlaylist:playlist];
 }
 
 - (void)sendSingleSongRequest:(MediaItem *)media {
-    Device *server = [self fetchCurrentServer];
+    Device *server = [self currentServer];
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
     [dict setObject:media 
@@ -560,7 +629,9 @@ static DataModel *_dataModel = nil;
     [self sendPayload:data 
              toDevice:server];
 }
-
+- (Device *)deviceWithPeerId:(NSString *)peerId {
+    return [self fetchOrInsertDeviceWithPeerId:peerId];
+}
 - (void)addMediaFromListMethod:(NSArray *)packagedWithPeer {
     NSString *peerId = [packagedWithPeer objectAtIndex:0];
     Device *owner = [self fetchOrInsertDeviceWithPeerId:peerId];
@@ -580,7 +651,7 @@ static DataModel *_dataModel = nil;
  
 - (void)requestSongsFromServer {
     NSLog(@"request tracks from server");
-    Device *server = [self fetchCurrentServer];
+    Device *server = [self currentServer];
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
     [dict setObject:remoteFetchAllSongsByArtistCall 

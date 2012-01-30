@@ -28,7 +28,7 @@
 }
 
 -(NSPredicate *)predicate {
-    return [NSPredicate predicateWithFormat:@"deviceHome == %@", [[DataModel sharedInstance] fetchCurrentServer]];
+    return [NSPredicate predicateWithFormat:@"deviceHome == %@", [[DataModel sharedInstance] currentServer]];
 }
 
 #pragma mark - UITableViewDelegate Methods

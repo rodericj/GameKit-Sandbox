@@ -54,6 +54,15 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    MediaItem *mediaItem = (MediaItem *)[self.fetchController objectAtIndexPath:indexPath];
+    Device *currentDevice = [[DataModel sharedInstance] localDevice];
+    Playlist *currentPlaylist = [[DataModel sharedInstance] currentPlaylist];
+    [[DataModel sharedInstance] insertNewPlaylistItem:mediaItem 
+                                           fromDevice:currentDevice
+                                           toPlaylist:currentPlaylist];
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad

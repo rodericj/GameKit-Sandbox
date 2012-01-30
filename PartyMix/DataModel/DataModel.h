@@ -34,6 +34,9 @@
 
 + (DataModel*)sharedInstance;
 
+- (Playlist *)currentPlaylist;
+
+- (void)setCurrentPlaylist:(Playlist *)playlist;
 /* 
  * Given the array of MPMediaItems, insert these into CoreData 
  * Attach to the passed in device.
@@ -49,7 +52,7 @@
 /*
  * Insert an individual PlaylistItem for a given server.
  */
-- (PlaylistItem *)insertNewPlaylistItem:(MPMediaItem *)mediaItem fromDevice:(Device *)device toPlaylist:(Playlist *)playlist;
+- (PlaylistItem *)insertNewPlaylistItem:(MediaItem *)mediaItem fromDevice:(Device *)device toPlaylist:(Playlist *)playlist;
 
 /*
  * Insert an individual Playlist with a title
@@ -59,8 +62,12 @@
 /*
  * Fetch the current server that this device is connected to
  */
-- (Device *)fetchCurrentServer;
+- (Device *)currentServer;
 
+/*
+ * The device object representing the current device
+ */
+- (Device *)localDevice;
     
 - (void)findServer;
 - (NSError *)handleSessionRequestFrom:(Device *)device;
@@ -85,6 +92,8 @@
  * a more human readable device name.
  */
 - (NSString *)displayNameForPeer:(NSString *)peerId;
+
+- (Device *)deviceWithPeerId:(NSString *)peerId;
 
 /*
  * Given a device, attempt to make a connection to it's session

@@ -10,6 +10,7 @@
 #import "common.h"
 #import "MediaItem.h"
 #import "PlaylistItem.h"
+#import "Device.h"
 
 @interface RJPlaylistViewController ()
 @property (nonatomic, retain) Playlist *playlist;
@@ -93,14 +94,13 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
     
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseId];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:reuseId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     PlaylistItem *playlistItem = (PlaylistItem *)[self.fetchController objectAtIndexPath:indexPath];
     cell.textLabel.text = playlistItem.mediaItem.title;
-    
+    cell.detailTextLabel.text = playlistItem.device.peerId;
     return cell;
 }
 

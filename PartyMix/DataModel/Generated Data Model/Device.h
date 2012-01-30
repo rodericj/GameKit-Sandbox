@@ -2,7 +2,7 @@
 //  Device.h
 //  PartyMix
 //
-//  Created by Roderic Campbell on 1/28/12.
+//  Created by Roderic Campbell on 1/29/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSString * peerId;
 @property (nonatomic) int16_t state;
 @property (nonatomic, retain) NSString * titleFirstLetter;
+@property (nonatomic) BOOL isLocalHost;
 @property (nonatomic, retain) NSSet *mediaItem;
 @property (nonatomic, retain) NSSet *playListItem;
 @end

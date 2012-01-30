@@ -19,6 +19,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Playlist *playlist = [self.fetchController objectAtIndexPath:indexPath];
+    
+    //Set as current playlist
+    [[DataModel sharedInstance] setCurrentPlaylist:playlist];
+    
+    //Push playlist view controller
     RJPlaylistViewController *view = [RJPlaylistViewController RJPlaylistViewControllerWithPlaylist:playlist];
     [self.navigationController pushViewController:view 
                                          animated:YES];
