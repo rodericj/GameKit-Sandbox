@@ -35,16 +35,19 @@
     
     NSManagedObjectContext *context = [[DataModel sharedInstance] managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self.entityName];
-    // Configure the request's entity, and optionally its predicate.
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:self.sortBy ascending:YES];
-    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-    [fetchRequest setSortDescriptors:sortDescriptors];
+    // Configure the request's entity, and optionally its predicate.
+    if (self.sortBy) {
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:self.sortBy ascending:YES];
+        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        [sortDescriptors release];
+        [sortDescriptor release];
+    }
     
     fetchRequest.predicate = [self predicate];
     
-    [sortDescriptors release];
-    [sortDescriptor release];
+
     _fetchController = [[NSFetchedResultsController alloc]
                         initWithFetchRequest:fetchRequest
                         managedObjectContext:context

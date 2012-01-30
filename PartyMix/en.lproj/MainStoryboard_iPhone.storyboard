@@ -108,13 +108,18 @@
         <scene sceneID="neK-pO-nMx">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KuE-2h-F33" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="J01-th-eTg" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gKt-pB-uVa">
-                        <rect key="frame" x="0.0" y="20" width="320" height="411"/>
+                <viewController id="J01-th-eTg" customClass="RJFourthViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gKt-pB-uVa" customClass="UITableView">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="J01-th-eTg" id="l7c-n0-rzv"/>
+                            <outlet property="delegate" destination="J01-th-eTg" id="4Kf-Qt-uOb"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Music" image="first" id="bWE-lI-W7W"/>
+                    <navigationItem key="navigationItem" id="hN7-Ra-k9w"/>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="653" y="1646"/>
@@ -191,6 +196,7 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="14" sceneMemberID="firstResponder"/>
                 <tabBarController id="4" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="oCY-qj-2I8"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="5">
                         <rect key="frame" x="0.0" y="431" width="320" height="49"/>
@@ -201,11 +207,26 @@
                         <segue destination="2" kind="relationship" relationship="viewControllers" id="26"/>
                         <segue destination="3" kind="relationship" relationship="viewControllers" id="27"/>
                         <segue destination="YJN-EG-T3U" kind="relationship" relationship="viewControllers" id="JBf-Bb-NsL"/>
-                        <segue destination="J01-th-eTg" kind="relationship" relationship="viewControllers" id="G40-vb-12O"/>
+                        <segue destination="4c3-wA-3V4" kind="relationship" relationship="viewControllers" id="LkE-ZF-g5x"/>
                     </connections>
                 </tabBarController>
             </objects>
-            <point key="canvasLocation" x="132" y="180"/>
+            <point key="canvasLocation" x="293" y="212"/>
+        </scene>
+        <scene sceneID="u52-JN-IEr">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v3v-Tt-tCn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="4c3-wA-3V4" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="hVI-UN-n1s"/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="24u-1E-Q0u">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="J01-th-eTg" kind="relationship" relationship="rootViewController" id="L8c-Yh-AWp"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="97" y="1646"/>
         </scene>
     </scenes>
     <resources>
@@ -213,30 +234,6 @@
         <image name="second" width="16" height="16"/>
         <image name="second.png" width="30" height="30"/>
     </resources>
-    <classes>
-        <class className="FetchedResultsBackedTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FetchedResultsBackedTableViewController.h"/>
-        </class>
-        <class className="RJFirstViewController" superclassName="FetchedResultsBackedTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RJFirstViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="serverLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="RJSecondViewController" superclassName="FetchedResultsBackedTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RJSecondViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="getMPMediaItems:"/>
-            </relationships>
-        </class>
-        <class className="RJThirdViewController" superclassName="FetchedResultsBackedTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RJThirdViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="getRemoteMedia:"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

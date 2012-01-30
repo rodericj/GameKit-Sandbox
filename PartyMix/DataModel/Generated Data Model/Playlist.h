@@ -1,27 +1,24 @@
 //
-//  MediaItem.h
+//  Playlist.h
 //  PartyMix
 //
-//  Created by Roderic Campbell on 1/28/12.
+//  Created by Roderic Campbell on 1/29/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Device, PlaylistItem;
+@class PlaylistItem;
 
-@interface MediaItem : NSManagedObject
+@interface Playlist : NSManagedObject
 
-@property (nonatomic, retain) NSData * mediaItem;
-@property (nonatomic) int64_t persistentID;
 @property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSString * titleFirstLetter;
-@property (nonatomic, retain) Device *deviceHome;
+@property (nonatomic) BOOL isCurrent;
 @property (nonatomic, retain) NSSet *playlistItem;
 @end
 
-@interface MediaItem (CoreDataGeneratedAccessors)
+@interface Playlist (CoreDataGeneratedAccessors)
 
 - (void)addPlaylistItemObject:(PlaylistItem *)value;
 - (void)removePlaylistItemObject:(PlaylistItem *)value;

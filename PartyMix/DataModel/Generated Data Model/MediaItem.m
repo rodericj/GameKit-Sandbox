@@ -2,12 +2,13 @@
 //  MediaItem.m
 //  PartyMix
 //
-//  Created by Roderic Campbell on 1/21/12.
+//  Created by Roderic Campbell on 1/28/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "MediaItem.h"
 #import "Device.h"
+#import "PlaylistItem.h"
 
 
 @implementation MediaItem
@@ -17,5 +18,6 @@
 @dynamic title;
 @dynamic titleFirstLetter;
 @dynamic deviceHome;
+@dynamic playlistItem;
 
 @end

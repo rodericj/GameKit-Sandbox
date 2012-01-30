@@ -248,7 +248,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.entityName = kEntityPeer;
+    self.entityName = kEntityNameDevice;
     self.sortBy     = @"peerId";
     self.fetchController.delegate = self;
     
