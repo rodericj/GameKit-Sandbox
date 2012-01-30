@@ -94,7 +94,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
     
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:reuseId];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
