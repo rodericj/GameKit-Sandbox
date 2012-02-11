@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <GameKit/GameKit.h>
 #import "Device.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "Playlist.h"
@@ -19,17 +18,22 @@
 -(void)newMessage:(NSDictionary *)data;
 @end
 
-@interface DataModel : NSObject <GKSessionDelegate> {
+@interface DataModel : NSObject  {
 	NSPersistentStoreCoordinator        *_persistentStoreCoordinator;
 	NSManagedObjectModel                *_managedObjectModel;
 	NSManagedObjectContext              *_managedObjectContext;	
-    
-    //Server
-    GKSession                   *session;
-    
-    BOOL                    _isServer;
-    id<GKSessionDelegate> _sessionDelegate;
+
 }
+
+@property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
+
+- (Device *)deviceWithPeerId:(NSString *)peerId;
+
+- (NSArray *)fetchPeersWithState:(NSUInteger)state;
+
+- (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId;
+
+- (NSArray *)fetchAllLocalMedia;
 
 + (DataModel*)sharedInstance;
 
@@ -42,6 +46,8 @@
  * If the device is nil, we can assume the owner is self
  */
 - (NSArray *)insertArrayOfMPMediaItems:(NSArray *)mediaItems device:(Device *)device;
+
+- (MediaItem *)insertNewMediaItem:(MediaItem *)mediaItem toDevice:(Device *)device;
 
 /*
  * Insert an individual MPMediaItem for a given server. Used with insertArrayOfMPMediaItems:device:
@@ -61,52 +67,14 @@
 /*
  * Fetch the current server that this device is connected to
  */
-- (Device *)currentServer;
+- (Device *)currentServerWithState:(NSUInteger)state;
 
 /*
  * The device object representing the current device
  */
 - (Device *)localDevice;
     
-- (void)findServer;
-- (NSError *)handleSessionRequestFrom:(Device *)device;
-
-@property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
-
-/*
- * Change the state of the session object to listening or not
- */
-- (void)toggleServerAvailabilty;
-
-/* 
- * Returns true if this session is listening for connection requests from remote peers
- */
-- (BOOL)isListening;
-
-/*
- * Disconnect
- */
-- (void)disconnect;
-
-/*
- * Given the encryptic peerId of a device, convert this to 
- * a more human readable device name.
- */
-- (NSString *)displayNameForPeer:(NSString *)peerId;
-
-- (Device *)deviceWithPeerId:(NSString *)peerId;
-
-/*
- * Given a device, attempt to make a connection to it's session
- */
-- (void)connectToPeer:(Device *)device;
-
-#pragma mark -
-- (void)requestSongsFromServer;
-
-- (void)sendSingleSongRequest:(MediaItem *)media;
-
-- (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device;
+- (void)deleteDevice:(Device *)device;
 
 - (void)save;
 #if TARGET_IPHONE_SIMULATOR

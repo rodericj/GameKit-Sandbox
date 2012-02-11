@@ -12,6 +12,7 @@
 		1705DD7614D63674009439D4 /* RJFourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7014D63674009439D4 /* RJFourthViewController.m */; };
 		1705DD7714D63674009439D4 /* RJSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7214D63674009439D4 /* RJSecondViewController.m */; };
 		1705DD7814D63674009439D4 /* RJThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7414D63674009439D4 /* RJThirdViewController.m */; };
+		17396A1C14E62B9F00F19B8C /* RJSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17396A1B14E62B9F00F19B8C /* RJSessionManager.m */; };
 		1746BBEB14D90921003D817E /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 1746BBEA14D90921003D817E /* Device.m */; };
 		175CDCCB148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */; };
 		175CDCCC148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */; };
@@ -69,6 +70,8 @@
 		1705DD7214D63674009439D4 /* RJSecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJSecondViewController.m; path = PrototypeUI/RJSecondViewController.m; sourceTree = "<group>"; };
 		1705DD7314D63674009439D4 /* RJThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJThirdViewController.h; path = PrototypeUI/RJThirdViewController.h; sourceTree = "<group>"; };
 		1705DD7414D63674009439D4 /* RJThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJThirdViewController.m; path = PrototypeUI/RJThirdViewController.m; sourceTree = "<group>"; };
+		17396A1A14E62B9F00F19B8C /* RJSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJSessionManager.h; path = SessionManager/RJSessionManager.h; sourceTree = "<group>"; };
+		17396A1B14E62B9F00F19B8C /* RJSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJSessionManager.m; path = SessionManager/RJSessionManager.m; sourceTree = "<group>"; };
 		1746BBE914D90921003D817E /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = "DataModel/Generated Data Model/Device.h"; sourceTree = "<group>"; };
 		1746BBEA14D90921003D817E /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = "DataModel/Generated Data Model/Device.m"; sourceTree = "<group>"; };
 		175CDCC9148AFA7300B385E8 /* NSArray+PageableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+PageableArray.h"; path = "lib/NSArray+PageableArray.h"; sourceTree = "<group>"; };
@@ -154,6 +157,15 @@
 			name = lib;
 			sourceTree = "<group>";
 		};
+		17396A1814E62B6E00F19B8C /* Session Manager */ = {
+			isa = PBXGroup;
+			children = (
+				17396A1A14E62B9F00F19B8C /* RJSessionManager.h */,
+				17396A1B14E62B9F00F19B8C /* RJSessionManager.m */,
+			);
+			name = "Session Manager";
+			sourceTree = "<group>";
+		};
 		1789C15614D278110097CF81 /* Prototype UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +222,7 @@
 		17ACB3A414789242008832E5 /* PartyMix */ = {
 			isa = PBXGroup;
 			children = (
+				17396A1814E62B6E00F19B8C /* Session Manager */,
 				1789C15614D278110097CF81 /* Prototype UI */,
 				17D8824514BE8BBA004D3722 /* Data Model */,
 				17040AA5148AF98C00231BD9 /* lib */,
@@ -416,6 +429,7 @@
 				1705DD7714D63674009439D4 /* RJSecondViewController.m in Sources */,
 				1705DD7814D63674009439D4 /* RJThirdViewController.m in Sources */,
 				1746BBEB14D90921003D817E /* Device.m in Sources */,
+				17396A1C14E62B9F00F19B8C /* RJSessionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

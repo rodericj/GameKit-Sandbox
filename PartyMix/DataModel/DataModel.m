@@ -12,39 +12,21 @@
 #import "DataModel.h"
 #import "MediaItem.h"
 #import "NSArray+PageableArray.h"
-#import "PayloadTranslator.h"
 
 #define kEntityNameMediaItem                    @"MediaItem"
 #define kEntityNamePlaylistItem                 @"PlaylistItem"
 #define kEntityNamePlaylist                     @"Playlist"
 #define kEntityNameDevice                       @"Device"
 
-#define mediakey                       @"media key"
-#define action                          @"action"   
+
 #define kPartyMixCoreDataBackupTempFile         @"PartyMixBackupTemp"
 #define kPartyMixCoreDataBackupFile             @"PartyMixBackup"
 #define kPartyMixCoreDataFile					@"PartyMix"
 #define kPartyMixCoreDataFileExtension			@"sqlite"
 
-//commands
-#define remoteFetchAllSongsByArtistCall       @"remoteFetchAllSongsByArtistMethod:"
-#define addMediaFromListCall       @"addMediaFromListMethod:"
-#define sendSingleSongRequestCall       @"sendSingleSongMethod:"
-
-#define kSessionName                    @"com.rodericj.partymix.session"
-
-#define unavailable                     @"Unavailable"
-
 @interface DataModel ()
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator		*persistentStoreCoordinator;
 @property (nonatomic, retain, readonly) NSManagedObjectModel				*managedObjectModel;
-
-//Server
-@property (nonatomic, retain)           GKSession                   *session;
-@property (nonatomic, assign)           BOOL                      isServer;
-@property (nonatomic, assign)           id <GKSessionDelegate>      sessionDelegate;
-
-
 @end
 
 
@@ -52,10 +34,6 @@
 
 static DataModel *_dataModel = nil;
 
-//Server
-@synthesize session         = _Session;
-@synthesize isServer        = _isServer;
-@synthesize sessionDelegate = _sessionDelegate;
 
 //NSString *const MPMediaItemPropertyPersistentID;            // filterable
 //NSString *const MPMediaItemPropertyAlbumPersistentID;       // filterable
@@ -347,7 +325,7 @@ static DataModel *_dataModel = nil;
 - (NSFetchRequest *)fetchRequestForEntity:(NSString *)entity where:(NSPredicate *)predicate orderBy:(NSString *)sort {
     NSFetchRequest *theFetchRequest = [[NSFetchRequest alloc] init];	
     theFetchRequest.entity = [self entityDescriptionWithName:entity];
-    
+    theFetchRequest.predicate = predicate;
     
     if (sort) {
         theFetchRequest.sortDescriptors = [self sortBy:sort];
@@ -410,15 +388,16 @@ static DataModel *_dataModel = nil;
                                                    inManagedObjectContext:self.managedObjectContext];  
     device.peerId = peerId;
     device.isLocalHost = NO;
-    device.cachedName = [self.session displayNameForPeer:peerId]; 
+    //device.cachedName = [self.session displayNameForPeer:peerId]; 
 
     [self save];
     return device;
 }
 
-- (Device *)currentServer {
+- (Device *)currentServerWithState:(NSUInteger)state {
+    
     NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
-                                                            where:[NSPredicate predicateWithFormat:@"(state == %d) AND (isServer == YES)", GKPeerStateConnected]
+                                                            where:[NSPredicate predicateWithFormat:@"(state == %d) AND (isServer == YES)", state]
                                                           orderBy:nil];
     
     NSError *error = nil;
@@ -436,13 +415,14 @@ static DataModel *_dataModel = nil;
     
     return nil;
 }
+
 - (Device *)localDevice {
     return [self fetchOrInsertLocalHostDevice];
 }
 
-- (NSArray *)fetchConnectedPeers {
+- (NSArray *)fetchPeersWithState:(NSUInteger)state {
     NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
-                                                            where:[NSPredicate predicateWithFormat:@"(state == %d) ", GKPeerStateConnected]
+                                                            where:[NSPredicate predicateWithFormat:@"(state == %d) ", state]
                                                           orderBy:nil];
     
     NSError *error = nil;
@@ -473,42 +453,6 @@ static DataModel *_dataModel = nil;
     return results;    
 }
 
-#pragma mark -
-- (void)toggleServerAvailabilty {
-    [self disconnect];
-    
-    // Tell the data Model that the server availability button was pressed
-    //If we have no session at this point, then start server    
-    if (!self.session) {
-        self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
-                                                 displayName:nil 
-                                                 sessionMode:GKSessionModeServer] autorelease];
-        self.session.delegate = self;
-        [self.session setDataReceiveHandler:self withContext:nil];
-        self.isServer = YES;
-    }
-    
-    BOOL available = self.session.available;
-    self.session.available = !available;
-}
-
--(void)handleConnected:(Device *) device {
-    NSLog(@"handle connected not implemented");
-}
-
--(void)handleDisconnect:(Device *) device  {
-
-    if (![[self fetchConnectedPeers] count]) {
-        self.session = nil;
-    }
-    [self.managedObjectContext deleteObject:device];
-    [self save];
-}
-
-- (void)handleUnavailable:(Device *) device {
-    NSLog(@"the peer %@ is unavailable", device.peerId);
-}
-
 - (Playlist *)currentPlaylist {
     NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameMediaItem
                                                             where:[NSPredicate predicateWithFormat:@"(isCurrent == YES) "]
@@ -526,265 +470,25 @@ static DataModel *_dataModel = nil;
         return [results objectAtIndex:0];
     }
     return nil;    
-
+    
 }
 
 - (void)setCurrentPlaylist:(Playlist *)playlist {
-
+    
     Playlist *oldCurrent = [self currentPlaylist];
     oldCurrent.isCurrent = NO;
     playlist.isCurrent = YES;
 }
 
-#pragma mark - GKSessionDelegate
-/* Indicates a state change for the given peer.
- */
-- (void)session:(GKSession *)aSession peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state {
-    NSLog(@"The session state changed %@ %d", [self.session displayNameForPeer:peerID], state);
-    Device *device = [self fetchOrInsertDeviceWithPeerId:peerID];
-    device.state = state;
-    [self.managedObjectContext save:nil];
-    
-    switch (state) {
-        case GKPeerStateAvailable: {
-            
-            //Handle an odd situation where the session returns nil for the peer
-            NSString *displayName = [self.session displayNameForPeer:peerID];
-            device.isServer = YES;
-            if (!displayName) {
-                NSAssert(false, @"I think this should never happen. no display name and available");
-                return;
-            }
-            break;
-        }
-        case GKPeerStateConnected:
-            [self handleConnected:device];
-            NSLog(@"the session is now connected to: %@, %@ Do what you need to do.", aSession.displayName, peerID);
-            break;
-            
-        case GKPeerStateDisconnected:
-            [self handleDisconnect:device];
-            break;
-            
-        case GKPeerStateConnecting:
-
-            break;
-            
-        case GKPeerStateUnavailable:
-            [self handleUnavailable:device];
-            break;
-        default:
-            break;
-    }
-    // No need to send this data to the views, they have fetched results controllers for that
-    //[self.sessionDelegate session:aSession peer:peerID didChangeState:state];
-    
-}
-
-/* Indicates a connection request was received from another peer. 
- 
- Accept by calling -acceptConnectionFromPeer:
- Deny by calling -denyConnectionFromPeer:
- */
-- (void)session:(GKSession *)aSession didReceiveConnectionRequestFromPeer:(NSString *)peerID {
-    //TODO There may be a way to have this function notify the clients instead of the FetchedResultsController way
-    NSLog(@"The session %@ didReceiveConnectionRequestFromPeer %@", aSession.displayName, peerID);
-    NSString *displayName = [self.session displayNameForPeer:peerID];
-    NSLog(@"displayName for peer: %@", displayName);
-    NSAssert(displayName, @"Display name must not be nil if we got a connection request from them");
-}
-
-#pragma mark - protocol calls
-- (void) sendSingleSongMethod:(NSArray *)payload {
-    NSDictionary *data = [payload objectAtIndex:1];
-    NSString *peerId = [payload objectAtIndex:0];
-    MediaItem *mediaItem = [data objectForKey:mediakey];
-    Playlist *playlist = [[DataModel sharedInstance] currentPlaylist];
-    
-    Device *device = [[DataModel sharedInstance] deviceWithPeerId:peerId];
-    [[DataModel sharedInstance] insertNewPlaylistItem:mediaItem 
-                                           fromDevice:device 
-                                           toPlaylist:playlist];
-}
-
-- (void)sendSingleSongRequest:(MediaItem *)media {
-    Device *server = [self currentServer];
-    
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-    [dict setObject:media 
-             forKey:mediakey];
-    [dict setObject:sendSingleSongRequestCall 
-             forKey:action];
-    
-    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
-    
-    [self sendPayload:data 
-             toDevice:server];
-}
 
 - (Device *)deviceWithPeerId:(NSString *)peerId {
     return [self fetchOrInsertDeviceWithPeerId:peerId];
 }
 
-- (void)addMediaFromListMethod:(NSArray *)packagedWithPeer {
-    NSString *peerId = [packagedWithPeer objectAtIndex:0];
-    Device *owner = [self fetchOrInsertDeviceWithPeerId:peerId];
-    
-    NSDictionary *data = [packagedWithPeer objectAtIndex:1];
-    NSLog(@"items are from %@\n %@", peerId, data);
-    
-    NSArray *mediaItems = [data objectForKey:mediakey];
-    for (MediaItem *m in mediaItems) {
-        [self insertNewMediaItem:m toDevice:owner];
-    }
-    // TODO should I save here. It will take a long time, but is it better here than somewhere else? For now it's out
-    //[self save];
-
-}
-#pragma mark - remoteFetchAllSongsByArtistCall: Client call
- 
-- (void)requestSongsFromServer {
-    NSLog(@"request tracks from server");
-    Device *server = [self currentServer];
-    
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
-    [dict setObject:remoteFetchAllSongsByArtistCall 
-             forKey:action];
-    
-    
-    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
-    
-    [self sendPayload:data toDevice:server];
-}
-
-#pragma mark remoteFetchAllSongsByArtistCall: Server call
- 
-- (void)remoteFetchAllSongsByArtistMethod:(NSArray *)packagedWithPeer {
-
-    NSString *peerId = [packagedWithPeer objectAtIndex:0];
-    
-    Device *device = [self fetchOrInsertDeviceWithPeerId:peerId];
-    NSArray *media = [self fetchAllLocalMedia];
-        
-    NSUInteger pageSize = 10;
-    
-    NSMutableArray *currentPackage = [NSMutableArray arrayWithCapacity:10];
-    for (int i = 0; i < [media count]; i++) {
-        [currentPackage addObject:[media objectAtIndex:i]];
-        
-        if ([currentPackage count] == pageSize) {
-            NSMutableDictionary *payloadData = [NSMutableDictionary dictionary];
-            [payloadData setObject:currentPackage 
-                            forKey:mediakey];
-            [payloadData setObject:addMediaFromListCall
-                            forKey:action];
-
-            NSData *data = [PayloadTranslator buildPayLoadWithDictionary:payloadData];
-            [self sendPayload:data toDevice:device];
-            currentPackage = nil;
-            currentPackage = [NSMutableArray arrayWithCapacity:10];
-        }
-    }
-}
-
-#pragma mark Session Data
-- (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
-    NSDictionary *dict = [PayloadTranslator extractDictionaryFromPayload:data];
-
-    NSLog(@"we got some data %@", dict);
-    NSArray *packagedWithPeer = [NSArray arrayWithObjects:peer, dict, nil];
-    NSString *executeAction = [dict objectForKey:action];
-    if (executeAction) {
-        [self performSelector:NSSelectorFromString(executeAction) withObject:packagedWithPeer];
-    }
-}
-
-/* Indicates a connection error occurred with a peer, which includes connection request failures, or disconnects due to timeouts.
- */
-- (void)session:(GKSession *)thisSession connectionWithPeerFailed:(NSString *)peerID withError:(NSError *)error {
-    NSLog(@"connectionWithPeerFailed %@, %@ %@", thisSession.displayName, peerID, error);
-}
-
-/* Indicates an error occurred with the session such as failing to make available.
- */
-- (void)session:(GKSession *)session didFailWithError:(NSError *)error {
-    NSLog(@"GKSession didFailWithError %@", error);
-}
-- (BOOL)isListening {
-    return (self.session.available && (self.session.sessionMode == GKSessionModeServer));
-}
-
-- (void)findServer {
-    //Do nothing if we are the server or have a session
-    if (self.session) {
-        [self disconnect];
-    }
-    self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
-                                             displayName:nil 
-                                             sessionMode:GKSessionModeClient] autorelease];
-    self.session.delegate = self;
-    self.session.available = YES;
-    self.isServer = NO;
-    [self.session setDataReceiveHandler:self withContext:nil];
-}
-
-- (void)disconnect {
-    self.isServer = NO;
-    self.session.available = NO;
-    self.session.delegate = nil;
-    [self.session disconnectFromAllPeers];
-    self.session = nil;
-    
-    NSArray *connectedPeers = [self fetchConnectedPeers];
-    for (Device *peer in connectedPeers) {
-        peer.state = GKPeerStateDisconnected;
-    }
-    [self save];
-}
-
-- (NSError *)handleSessionRequestFrom:(Device *)device {
-    NSError *error = nil;
-    [self.session acceptConnectionFromPeer:device.peerId
-                                     error:&error];
-
-    return error;
-}
-
-- (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device{
-    NSError *error = nil;
-    if (self.isServer) {    
-        [self.session sendDataToAllPeers:payload 
-                            withDataMode:GKSendDataReliable 
-                                   error:&error];
-    }
-    else {
-        NSArray *peer = [NSArray arrayWithObject:device.peerId];
-        [self.session sendData:payload
-                       toPeers:peer 
-                  withDataMode:GKSendDataReliable error:&error];
-    }
-    
-    return error;
-}
-
-- (NSString *)displayNameForPeer:(NSString *)peerId {
-    NSLog(@"session is %@", self.session);
-    NSString *displayName = [self.session displayNameForPeer:peerId];
-    
-//    if (!displayName) {
-//        displayName = @"broken display name";
-//        NSAssert1(displayName, @"Display name must not be nil. Peer ID: %@", peerId);
-//    }
-    
-    return displayName;
-    
-}
-
-- (void)connectToPeer:(Device *)device {
-    [self.session connectToPeer:device.peerId withTimeout:10];
-}
-
 #pragma mark - probably should not be moved to Session code
+- (void)deleteDevice:(Device *) device{
+    [self.managedObjectContext deleteObject:device];
+}
 
 - (void)save {
     [self.managedObjectContext save:nil];

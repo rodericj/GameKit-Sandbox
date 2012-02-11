@@ -10,7 +10,7 @@
 #import "MediaItem+Additions.h"
 #import "RJThirdViewController.h"
 #import "DataModel.h"
-
+#import "RJSessionManager.h"
 #define kAddToRemotePlaylist    @"Would you like to add this song to the remote playlist"
 
 @interface RJThirdViewController () 
@@ -24,11 +24,11 @@
 
 -(IBAction)getRemoteMedia:(id)sender {
     NSLog(@"fetch remote");
-    [[DataModel sharedInstance] requestSongsFromServer];
+    [[RJSessionManager sharedInstance] requestSongsFromServer];
 }
 
 -(NSPredicate *)predicate {
-    return [NSPredicate predicateWithFormat:@"deviceHome == %@", [[DataModel sharedInstance] currentServer]];
+    return [NSPredicate predicateWithFormat:@"deviceHome == %@", [[DataModel sharedInstance] currentServerWithState:GKPeerStateConnected]];
 }
 
 #pragma mark - UITableViewDelegate Methods
@@ -65,7 +65,7 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {        
         NSLog(@"send song %@", self.mediaToSend);
-        [[DataModel sharedInstance] sendSingleSongRequest:self.mediaToSend];
+        [[RJSessionManager sharedInstance] sendSingleSongRequest:self.mediaToSend];
         self.mediaToSend = nil;
         //[DataModel sharedInstance] 
     }

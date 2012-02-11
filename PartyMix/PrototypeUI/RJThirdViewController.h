@@ -10,7 +10,7 @@
 #import "FetchedResultsBackedTableViewController.h"
 #import "DataModel.h"
 
-@interface RJThirdViewController : FetchedResultsBackedTableViewController <GKSessionDelegate, UIActionSheetDelegate> {
+@interface RJThirdViewController : FetchedResultsBackedTableViewController <UIActionSheetDelegate> {
     MediaItem *_mediaToSend;
 }
 

@@ -15,6 +15,7 @@
 #import "NSArray+PageableArray.h"
 #import "PayloadTranslator.h"
 #import "RJFirstViewController.h"
+#import "RJSessionManager.h"
 
 #define kSessionRequestAlert            100
 #define kSessionSendText                101
@@ -44,15 +45,15 @@
 
 -(IBAction)toggleServerAvailabiltyButtonPushed:(id)sender {
     
-    [[DataModel sharedInstance] toggleServerAvailabilty];
-    NSString *listeningState = [[DataModel sharedInstance] isListening] ? listening : not_listening;
+    [[RJSessionManager sharedInstance] toggleServerAvailabilty];
+    NSString *listeningState = [[RJSessionManager sharedInstance] isListening] ? listening : not_listening;
     self.serverLabel.text = listeningState;
     
 }
 
 -(IBAction)findServerButtonPushed:(id)sender {
     
-    [[DataModel sharedInstance] findServer];
+    [[RJSessionManager sharedInstance] findServer];
 
 }
 
@@ -69,43 +70,43 @@
 }
 
 -(IBAction)disconnectButtonPushed:(id)sender {
-    [[DataModel sharedInstance] disconnect];
+    [[RJSessionManager sharedInstance] disconnect];
 }
 
 
 #pragma mark - The Alert View
 #pragma mark SERVER/CLIENT
--(void)handleSendTextThroughAlert:(UIAlertView *)alert {
-    NSString *messageString = [alert textFieldAtIndex:0].text;
-    
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
-    [dict setObject:messageString forKey:@"message"];
-
-    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
-    NSError *error = nil;
-    
-    [[DataModel sharedInstance] sendPayload:data];
-    
-    if (error) {
-        NSLog(@"error sending data %@", error);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error_sending_data
-                                                        message:[NSString stringWithFormat:@"%@", error] 
-                                                       delegate:nil 
-                                              cancelButtonTitle:kOk 
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-        [alert release];
-        
-    }
-
-}
+//-(void)handleSendTextThroughAlert:(UIAlertView *)alert {
+//    NSString *messageString = [alert textFieldAtIndex:0].text;
+//    
+//    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
+//    [dict setObject:messageString forKey:@"message"];
+//
+//    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
+//    NSError *error = nil;
+//    
+//    [[RJSessionManager sharedInstance] sendPayload:data];
+//    
+//    if (error) {
+//        NSLog(@"error sending data %@", error);
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error_sending_data
+//                                                        message:[NSString stringWithFormat:@"%@", error] 
+//                                                       delegate:nil 
+//                                              cancelButtonTitle:kOk 
+//                                              otherButtonTitles:nil, nil];
+//        [alert show];
+//        [alert release];
+//        
+//    }
+//
+//}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     switch (alertView.tag) {
         case kSessionRequestAlert:
             if (buttonIndex) {
-                NSError *error = [[DataModel sharedInstance] handleSessionRequestFrom:self.deviceToConnectTo];
+                NSError *error = [[RJSessionManager sharedInstance] handleSessionRequestFrom:self.deviceToConnectTo];
                 if (error) {
                     NSLog(@"error handling session request %@", error);
                 }
@@ -113,7 +114,8 @@
             break;
             
         case kSessionSendText: {
-            [self handleSendTextThroughAlert:alertView];
+            NSAssert(FALSE, @"no longer sending text through session");
+           // [self handleSendTextThroughAlert:alertView];
             break;
         }
             
@@ -126,7 +128,7 @@
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {        
-        [[DataModel sharedInstance] connectToPeer:self.deviceToConnectTo];
+        [[RJSessionManager sharedInstance] connectToPeer:self.deviceToConnectTo];
     }
 }
 #pragma mark - MessageRecipient
@@ -137,7 +139,7 @@
     
 -(void)handleConnecting:(Device *) device {
     NSLog(@"peer is connecting %@", device);
-    NSString *displayName = [[DataModel sharedInstance] displayNameForPeer:device.peerId];
+    NSString *displayName = [[RJSessionManager sharedInstance] displayNameForPeer:device.peerId];
     
     self.deviceToConnectTo = device;
     NSString *title = [NSString stringWithFormat:allow_connections_from, displayName];
@@ -169,10 +171,10 @@
         case GKPeerStateAvailable: {
             self.deviceToConnectTo = tappedDevice;
             NSLog(@"device %@, peerId %@", self.deviceToConnectTo, self.deviceToConnectTo.peerId);
-            NSString *displayName = [[DataModel sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
+            NSString *displayName = [[RJSessionManager sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
         
             if (!displayName) {
-                [[DataModel sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
+                [[RJSessionManager sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
                 NSAssert(displayName, @"Display name must not be nil for available state");
             }
             
@@ -226,9 +228,10 @@
     }
     
     Device *device = (Device *)[self.fetchController objectAtIndexPath:indexPath];
-    NSString *deviceName = [[DataModel sharedInstance] displayNameForPeer:device.peerId];
+    NSString *deviceName = [[RJSessionManager sharedInstance] displayNameForPeer:device.peerId];
     if(!deviceName) {
-        deviceName = device.cachedName;
+        NSLog(@"should perhaps have a cache name");
+        //deviceName = device.cachedName;
     }
     int substringIndex = MIN(deviceName.length, 20);
     cell.textLabel.text = [deviceName substringToIndex:substringIndex];
@@ -264,7 +267,7 @@
         d.state = GKPeerStateUnavailable;
     }
     [[DataModel sharedInstance] save];
-    [[DataModel sharedInstance] findServer];
+    [[RJSessionManager sharedInstance] findServer];
 }
 
 - (void)viewDidUnload
@@ -282,7 +285,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.serverLabel.text = [DataModel sharedInstance].isListening ? listening : not_listening;
+    self.serverLabel.text = [RJSessionManager sharedInstance].isListening ? listening : not_listening;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
