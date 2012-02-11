@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="872" systemVersion="11C74" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Device" representedClassName="Device" syncable="YES">
+        <attribute name="cachedName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isLocalHost" attributeType="Boolean" syncable="YES"/>
         <attribute name="isServer" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="peerId" optional="YES" attributeType="String" syncable="YES"/>
@@ -29,7 +30,7 @@
         <relationship name="playlist" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Playlist" inverseName="playlistItem" inverseEntity="Playlist" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Device" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="Device" positionX="160" positionY="192" width="128" height="165"/>
         <element name="MediaItem" positionX="403" positionY="189" width="128" height="135"/>
         <element name="Playlist" positionX="-27" positionY="474" width="128" height="75"/>
         <element name="PlaylistItem" positionX="412" positionY="450" width="128" height="90"/>

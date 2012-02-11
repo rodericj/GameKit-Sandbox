@@ -42,7 +42,6 @@
 //Server
 @property (nonatomic, retain)           GKSession                   *session;
 @property (nonatomic, assign)           BOOL                      isServer;
-@property (nonatomic, retain)           NSString                   *serverPeerId;
 @property (nonatomic, assign)           id <GKSessionDelegate>      sessionDelegate;
 
 
@@ -56,7 +55,6 @@ static DataModel *_dataModel = nil;
 //Server
 @synthesize session         = _Session;
 @synthesize isServer        = _isServer;
-@synthesize serverPeerId    = _serverPeerId;
 @synthesize sessionDelegate = _sessionDelegate;
 
 //NSString *const MPMediaItemPropertyPersistentID;            // filterable
@@ -412,6 +410,8 @@ static DataModel *_dataModel = nil;
                                                    inManagedObjectContext:self.managedObjectContext];  
     device.peerId = peerId;
     device.isLocalHost = NO;
+    device.cachedName = [self.session displayNameForPeer:peerId]; 
+
     [self save];
     return device;
 }
@@ -475,6 +475,7 @@ static DataModel *_dataModel = nil;
 
 #pragma mark -
 - (void)toggleServerAvailabilty {
+    [self disconnect];
     
     // Tell the data Model that the server availability button was pressed
     //If we have no session at this point, then start server    
@@ -487,27 +488,18 @@ static DataModel *_dataModel = nil;
         self.isServer = YES;
     }
     
-    self.session.available = !self.session.available;
+    BOOL available = self.session.available;
+    self.session.available = !available;
 }
 
 -(void)handleConnected:(Device *) device {
-    //TODO if we are not the server and we connect, describe the device that is the server (probably core data)
-    //TODO turn off available if we are not the server
-    if (!self.isServer && !self.serverPeerId) {
-        //TODO I can't set the serverPeerId here. I get 2 connections here.
-        self.session.available = NO;
-    }
+    NSLog(@"handle connected not implemented");
 }
 
 -(void)handleDisconnect:(Device *) device  {
-    //If it was the server, nil the server variable
-    if ([device.peerId isEqualToString:self.serverPeerId]) {
-        self.serverPeerId = nil;
-    }
 
     if (![[self fetchConnectedPeers] count]) {
         self.session = nil;
-        self.serverPeerId = nil;
     }
     [self.managedObjectContext deleteObject:device];
     [self save];
@@ -599,7 +591,7 @@ static DataModel *_dataModel = nil;
     NSLog(@"The session %@ didReceiveConnectionRequestFromPeer %@", aSession.displayName, peerID);
     NSString *displayName = [self.session displayNameForPeer:peerID];
     NSLog(@"displayName for peer: %@", displayName);
-    NSAssert(displayName, @"Display name must not be nil");
+    NSAssert(displayName, @"Display name must not be nil if we got a connection request from them");
 }
 
 #pragma mark - protocol calls
@@ -629,9 +621,11 @@ static DataModel *_dataModel = nil;
     [self sendPayload:data 
              toDevice:server];
 }
+
 - (Device *)deviceWithPeerId:(NSString *)peerId {
     return [self fetchOrInsertDeviceWithPeerId:peerId];
 }
+
 - (void)addMediaFromListMethod:(NSArray *)packagedWithPeer {
     NSString *peerId = [packagedWithPeer objectAtIndex:0];
     Device *owner = [self fetchOrInsertDeviceWithPeerId:peerId];
@@ -703,8 +697,6 @@ static DataModel *_dataModel = nil;
     if (executeAction) {
         [self performSelector:NSSelectorFromString(executeAction) withObject:packagedWithPeer];
     }
-    
-    //[self.sessionDelegate 
 }
 
 /* Indicates a connection error occurred with a peer, which includes connection request failures, or disconnects due to timeouts.
@@ -718,15 +710,14 @@ static DataModel *_dataModel = nil;
 - (void)session:(GKSession *)session didFailWithError:(NSError *)error {
     NSLog(@"GKSession didFailWithError %@", error);
 }
-
-- (BOOL)isSessionAvailable {
-    return self.session.available;
+- (BOOL)isListening {
+    return (self.session.available && (self.session.sessionMode == GKSessionModeServer));
 }
 
 - (void)findServer {
     //Do nothing if we are the server or have a session
     if (self.session) {
-        return;
+        [self disconnect];
     }
     self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
                                              displayName:nil 
@@ -738,8 +729,9 @@ static DataModel *_dataModel = nil;
 }
 
 - (void)disconnect {
-    self.serverPeerId = nil;
     self.isServer = NO;
+    self.session.available = NO;
+    self.session.delegate = nil;
     [self.session disconnectFromAllPeers];
     self.session = nil;
     
@@ -750,7 +742,6 @@ static DataModel *_dataModel = nil;
     [self save];
 }
 
-#pragma mark SERVER
 - (NSError *)handleSessionRequestFrom:(Device *)device {
     NSError *error = nil;
     [self.session acceptConnectionFromPeer:device.peerId
@@ -777,8 +768,14 @@ static DataModel *_dataModel = nil;
 }
 
 - (NSString *)displayNameForPeer:(NSString *)peerId {
-    
+    NSLog(@"session is %@", self.session);
     NSString *displayName = [self.session displayNameForPeer:peerId];
+    
+//    if (!displayName) {
+//        displayName = @"broken display name";
+//        NSAssert1(displayName, @"Display name must not be nil. Peer ID: %@", peerId);
+//    }
+    
     return displayName;
     
 }
@@ -787,9 +784,10 @@ static DataModel *_dataModel = nil;
     [self.session connectToPeer:device.peerId withTimeout:10];
 }
 
+#pragma mark - probably should not be moved to Session code
+
 - (void)save {
     [self.managedObjectContext save:nil];
 }
-//self.serverPeerId   = nil;
 
 @end

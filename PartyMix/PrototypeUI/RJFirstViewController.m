@@ -45,7 +45,7 @@
 -(IBAction)toggleServerAvailabiltyButtonPushed:(id)sender {
     
     [[DataModel sharedInstance] toggleServerAvailabilty];
-    NSString *listeningState = [[DataModel sharedInstance] isSessionAvailable] ? listening : not_listening;
+    NSString *listeningState = [[DataModel sharedInstance] isListening] ? listening : not_listening;
     self.serverLabel.text = listeningState;
     
 }
@@ -168,7 +168,13 @@
             
         case GKPeerStateAvailable: {
             self.deviceToConnectTo = tappedDevice;
+            NSLog(@"device %@, peerId %@", self.deviceToConnectTo, self.deviceToConnectTo.peerId);
             NSString *displayName = [[DataModel sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
+        
+            if (!displayName) {
+                [[DataModel sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
+                NSAssert(displayName, @"Display name must not be nil for available state");
+            }
             
             NSString *title = [NSString stringWithFormat:would_you_like_to_connect_to, displayName];
             
@@ -221,7 +227,9 @@
     
     Device *device = (Device *)[self.fetchController objectAtIndexPath:indexPath];
     NSString *deviceName = [[DataModel sharedInstance] displayNameForPeer:device.peerId];
-    
+    if(!deviceName) {
+        deviceName = device.cachedName;
+    }
     int substringIndex = MIN(deviceName.length, 20);
     cell.textLabel.text = [deviceName substringToIndex:substringIndex];
     
@@ -256,6 +264,7 @@
         d.state = GKPeerStateUnavailable;
     }
     [[DataModel sharedInstance] save];
+    [[DataModel sharedInstance] findServer];
 }
 
 - (void)viewDidUnload
@@ -273,7 +282,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.serverLabel.text = [DataModel sharedInstance].isSessionAvailable ? listening : not_listening;
+    self.serverLabel.text = [DataModel sharedInstance].isListening ? listening : not_listening;
 }
 
 - (void)viewWillDisappear:(BOOL)animated

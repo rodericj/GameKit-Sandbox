@@ -28,7 +28,6 @@
     GKSession                   *session;
     
     BOOL                    _isServer;
-    NSString                *_serverPeerId;
     id<GKSessionDelegate> _sessionDelegate;
 }
 
@@ -79,8 +78,10 @@
  */
 - (void)toggleServerAvailabilty;
 
-
-- (BOOL)isSessionAvailable;
+/* 
+ * Returns true if this session is listening for connection requests from remote peers
+ */
+- (BOOL)isListening;
 
 /*
  * Disconnect

@@ -12,6 +12,7 @@
 		1705DD7614D63674009439D4 /* RJFourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7014D63674009439D4 /* RJFourthViewController.m */; };
 		1705DD7714D63674009439D4 /* RJSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7214D63674009439D4 /* RJSecondViewController.m */; };
 		1705DD7814D63674009439D4 /* RJThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7414D63674009439D4 /* RJThirdViewController.m */; };
+		1746BBEB14D90921003D817E /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 1746BBEA14D90921003D817E /* Device.m */; };
 		175CDCCB148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */; };
 		175CDCCC148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */; };
 		178685BE14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */; };
@@ -21,7 +22,6 @@
 		1792A78314D5141E00D2EDC4 /* RJPlaylistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1792A78114D5141E00D2EDC4 /* RJPlaylistViewController.xib */; };
 		1792A78914D519B100D2EDC4 /* PlaylistItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A78814D519B000D2EDC4 /* PlaylistItem.m */; };
 		1792A78C14D61DF700D2EDC4 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A78B14D61DF700D2EDC4 /* Playlist.m */; };
-		1792A78F14D6240300D2EDC4 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A78E14D6240300D2EDC4 /* Device.m */; };
 		17ACB39F14789242008832E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB39E14789242008832E5 /* UIKit.framework */; };
 		17ACB3A114789242008832E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A014789242008832E5 /* Foundation.framework */; };
 		17ACB3A314789242008832E5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A214789242008832E5 /* CoreGraphics.framework */; };
@@ -69,6 +69,8 @@
 		1705DD7214D63674009439D4 /* RJSecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJSecondViewController.m; path = PrototypeUI/RJSecondViewController.m; sourceTree = "<group>"; };
 		1705DD7314D63674009439D4 /* RJThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJThirdViewController.h; path = PrototypeUI/RJThirdViewController.h; sourceTree = "<group>"; };
 		1705DD7414D63674009439D4 /* RJThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJThirdViewController.m; path = PrototypeUI/RJThirdViewController.m; sourceTree = "<group>"; };
+		1746BBE914D90921003D817E /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = "DataModel/Generated Data Model/Device.h"; sourceTree = "<group>"; };
+		1746BBEA14D90921003D817E /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = "DataModel/Generated Data Model/Device.m"; sourceTree = "<group>"; };
 		175CDCC9148AFA7300B385E8 /* NSArray+PageableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+PageableArray.h"; path = "lib/NSArray+PageableArray.h"; sourceTree = "<group>"; };
 		175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+PageableArray.m"; path = "lib/NSArray+PageableArray.m"; sourceTree = "<group>"; };
 		178685BC14C7D4C4000EDF48 /* PayloadTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayloadTranslator.h; path = PartyMix/PayloadTranslator.h; sourceTree = "<group>"; };
@@ -83,8 +85,6 @@
 		1792A78814D519B000D2EDC4 /* PlaylistItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaylistItem.m; path = "DataModel/Generated Data Model/PlaylistItem.m"; sourceTree = "<group>"; };
 		1792A78A14D61DF700D2EDC4 /* Playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Playlist.h; path = "DataModel/Generated Data Model/Playlist.h"; sourceTree = "<group>"; };
 		1792A78B14D61DF700D2EDC4 /* Playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Playlist.m; path = "DataModel/Generated Data Model/Playlist.m"; sourceTree = "<group>"; };
-		1792A78D14D6240300D2EDC4 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = "DataModel/Generated Data Model/Device.h"; sourceTree = "<group>"; };
-		1792A78E14D6240300D2EDC4 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = "DataModel/Generated Data Model/Device.m"; sourceTree = "<group>"; };
 		17ACB39A14789242008832E5 /* partymix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = partymix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17ACB39E14789242008832E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		17ACB3A014789242008832E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -275,8 +275,8 @@
 		17D8824A14BE914F004D3722 /* Generated Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				1792A78D14D6240300D2EDC4 /* Device.h */,
-				1792A78E14D6240300D2EDC4 /* Device.m */,
+				1746BBE914D90921003D817E /* Device.h */,
+				1746BBEA14D90921003D817E /* Device.m */,
 				1792A78A14D61DF700D2EDC4 /* Playlist.h */,
 				1792A78B14D61DF700D2EDC4 /* Playlist.m */,
 				1792A78714D519B000D2EDC4 /* PlaylistItem.h */,
@@ -411,11 +411,11 @@
 				1792A78214D5141E00D2EDC4 /* RJPlaylistViewController.m in Sources */,
 				1792A78914D519B100D2EDC4 /* PlaylistItem.m in Sources */,
 				1792A78C14D61DF700D2EDC4 /* Playlist.m in Sources */,
-				1792A78F14D6240300D2EDC4 /* Device.m in Sources */,
 				1705DD7514D63674009439D4 /* RJFirstViewController.m in Sources */,
 				1705DD7614D63674009439D4 /* RJFourthViewController.m in Sources */,
 				1705DD7714D63674009439D4 /* RJSecondViewController.m in Sources */,
 				1705DD7814D63674009439D4 /* RJThirdViewController.m in Sources */,
+				1746BBEB14D90921003D817E /* Device.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

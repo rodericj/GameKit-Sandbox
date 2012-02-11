@@ -2,7 +2,7 @@
 //  Device.m
 //  PartyMix
 //
-//  Created by Roderic Campbell on 1/29/12.
+//  Created by Roderic Campbell on 1/31/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -13,11 +13,12 @@
 
 @implementation Device
 
+@dynamic isLocalHost;
 @dynamic isServer;
 @dynamic peerId;
 @dynamic state;
 @dynamic titleFirstLetter;
-@dynamic isLocalHost;
+@dynamic cachedName;
 @dynamic mediaItem;
 @dynamic playListItem;
 

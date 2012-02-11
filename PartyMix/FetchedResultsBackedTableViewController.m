@@ -52,12 +52,11 @@
                         initWithFetchRequest:fetchRequest
                         managedObjectContext:context
                         sectionNameKeyPath:nil//@"titleFirstLetter"
-                        cacheName:self.entityName];
+                        cacheName:nil/*self.entityName*/];
     [fetchRequest release];
     
     NSError *error;
-    BOOL success = [_fetchController performFetch:&error];
-    NSLog(@"success %d", success);
+    [_fetchController performFetch:&error];
     return _fetchController;
 }
 
