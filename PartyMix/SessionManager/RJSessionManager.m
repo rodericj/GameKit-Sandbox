@@ -286,6 +286,7 @@ static RJSessionManager *_sessionManager = nil;
     NSArray *connectedPeers = [[DataModel sharedInstance] fetchPeersWithState:GKPeerStateConnected];
     for (Device *peer in connectedPeers) {
         peer.state = GKPeerStateDisconnected;
+        peer.isServer = NO;
     }
     [[DataModel sharedInstance] save];
 }

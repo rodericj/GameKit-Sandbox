@@ -240,6 +240,8 @@
 
     if (device.isServer) {
         cell.imageView.image = [UIImage imageNamed:@"first.png"];
+    } else {
+        cell.imageView.image = nil;
     }
     
     if (device.state == GKPeerStateConnecting) {
