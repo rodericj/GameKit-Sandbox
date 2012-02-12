@@ -41,6 +41,9 @@
 		17ACB3D514789242008832E5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 17ACB3D314789242008832E5 /* InfoPlist.strings */; };
 		17ACB3D814789242008832E5 /* PartyMixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 17ACB3D714789242008832E5 /* PartyMixTests.m */; };
 		17ACB3E2147893B3008832E5 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3E1147893B3008832E5 /* GameKit.framework */; };
+		17D7581A14E833CB008183B1 /* RJMusicPlayerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7581814E833CB008183B1 /* RJMusicPlayerInterface.m */; };
+		17D7581B14E833CB008183B1 /* RJMusicPlayerInterface.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17D7581914E833CB008183B1 /* RJMusicPlayerInterface.xib */; };
+		17D7581F14E83971008183B1 /* UIFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7581E14E83971008183B1 /* UIFactory.m */; };
 		17D8824914BE8D8F004D3722 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 17D8824714BE8D8F004D3722 /* DataModel.xcdatamodeld */; };
 		17D8825314BFF07D004D3722 /* DataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D8825214BFF07D004D3722 /* DataModel.m */; };
 		17D8825914BFF631004D3722 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17D8825814BFF631004D3722 /* CoreData.framework */; };
@@ -111,6 +114,11 @@
 		17ACB3D614789242008832E5 /* PartyMixTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartyMixTests.h; sourceTree = "<group>"; };
 		17ACB3D714789242008832E5 /* PartyMixTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PartyMixTests.m; sourceTree = "<group>"; };
 		17ACB3E1147893B3008832E5 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		17D7581714E833CB008183B1 /* RJMusicPlayerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJMusicPlayerInterface.h; path = PrototypeUI/RJMusicPlayerInterface.h; sourceTree = "<group>"; };
+		17D7581814E833CB008183B1 /* RJMusicPlayerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJMusicPlayerInterface.m; path = PrototypeUI/RJMusicPlayerInterface.m; sourceTree = "<group>"; };
+		17D7581914E833CB008183B1 /* RJMusicPlayerInterface.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RJMusicPlayerInterface.xib; path = PrototypeUI/RJMusicPlayerInterface.xib; sourceTree = "<group>"; };
+		17D7581D14E83971008183B1 /* UIFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIFactory.h; path = lib/UIFactory.h; sourceTree = "<group>"; };
+		17D7581E14E83971008183B1 /* UIFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIFactory.m; path = lib/UIFactory.m; sourceTree = "<group>"; };
 		17D8824814BE8D8F004D3722 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		17D8825114BFF07D004D3722 /* DataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataModel.h; path = DataModel/DataModel.h; sourceTree = "<group>"; };
 		17D8825214BFF07D004D3722 /* DataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataModel.m; path = DataModel/DataModel.m; sourceTree = "<group>"; };
@@ -153,6 +161,8 @@
 			children = (
 				175CDCC9148AFA7300B385E8 /* NSArray+PageableArray.h */,
 				175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */,
+				17D7581D14E83971008183B1 /* UIFactory.h */,
+				17D7581E14E83971008183B1 /* UIFactory.m */,
 			);
 			name = lib;
 			sourceTree = "<group>";
@@ -180,6 +190,9 @@
 				1705DD7214D63674009439D4 /* RJSecondViewController.m */,
 				1705DD7314D63674009439D4 /* RJThirdViewController.h */,
 				1705DD7414D63674009439D4 /* RJThirdViewController.m */,
+				17D7581714E833CB008183B1 /* RJMusicPlayerInterface.h */,
+				17D7581814E833CB008183B1 /* RJMusicPlayerInterface.m */,
+				17D7581914E833CB008183B1 /* RJMusicPlayerInterface.xib */,
 			);
 			name = "Prototype UI";
 			sourceTree = "<group>";
@@ -378,6 +391,7 @@
 				17ACB3C114789242008832E5 /* second.png in Resources */,
 				17ACB3C314789242008832E5 /* second@2x.png in Resources */,
 				1792A78314D5141E00D2EDC4 /* RJPlaylistViewController.xib in Resources */,
+				17D7581B14E833CB008183B1 /* RJMusicPlayerInterface.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +444,8 @@
 				1705DD7814D63674009439D4 /* RJThirdViewController.m in Sources */,
 				1746BBEB14D90921003D817E /* Device.m in Sources */,
 				17396A1C14E62B9F00F19B8C /* RJSessionManager.m in Sources */,
+				17D7581A14E833CB008183B1 /* RJMusicPlayerInterface.m in Sources */,
+				17D7581F14E83971008183B1 /* UIFactory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

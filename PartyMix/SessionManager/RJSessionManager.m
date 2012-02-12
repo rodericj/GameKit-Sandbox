@@ -25,7 +25,6 @@
 @interface RJSessionManager ()
 //Server
 @property (nonatomic, retain)           GKSession                   *session;
-@property (nonatomic, assign)           BOOL                      isServer;
 @property (nonatomic, assign)           id <GKSessionDelegate>      sessionDelegate;
 
 @end
@@ -36,7 +35,6 @@ static RJSessionManager *_sessionManager = nil;
 
 //Server
 @synthesize session         = _Session;
-@synthesize isServer        = _isServer;
 @synthesize sessionDelegate = _sessionDelegate;
 
 +(RJSessionManager *)sharedInstance {
@@ -58,9 +56,9 @@ static RJSessionManager *_sessionManager = nil;
                                                  sessionMode:GKSessionModeServer] autorelease];
         self.session.delegate = self;
         [self.session setDataReceiveHandler:self withContext:nil];
-        self.isServer = YES;
+        [DataModel sharedInstance].localDevice.isServer = YES;
+
     }
-    
     BOOL available = self.session.available;
     self.session.available = !available;
 }
@@ -271,13 +269,13 @@ static RJSessionManager *_sessionManager = nil;
                                              sessionMode:GKSessionModeClient] autorelease];
     self.session.delegate = self;
     self.session.available = YES;
-    self.isServer = NO;
+    [DataModel sharedInstance].localDevice.isServer = NO;
     [self.session setDataReceiveHandler:self 
                             withContext:nil];
 }
 
 - (void)disconnect {
-    self.isServer = NO;
+    [DataModel sharedInstance].localDevice.isServer = NO;
     self.session.available = NO;
     self.session.delegate = nil;
     [self.session disconnectFromAllPeers];
@@ -301,7 +299,7 @@ static RJSessionManager *_sessionManager = nil;
 
 - (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device{
     NSError *error = nil;
-    if (self.isServer) {    
+    if ([DataModel sharedInstance].localDevice.isServer) {    
         [self.session sendDataToAllPeers:payload 
                             withDataMode:GKSendDataReliable 
                                    error:&error];

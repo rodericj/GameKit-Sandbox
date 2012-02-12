@@ -25,7 +25,8 @@
 
 - (id) initWithCoder: (NSCoder *)coder
 {
-    if (self = [[DataModel sharedInstance]  insertNewMPMediaItem:[coder decodeObjectForKey:@"mediaItem"] device:nil])
+    self = [[DataModel sharedInstance]  insertNewMPMediaItem:[coder decodeObjectForKey:@"mediaItem"] device:nil];
+    if (self)
     {
         NSString *title = [coder decodeObjectForKey:@"title"];
         [self setTitle:title];

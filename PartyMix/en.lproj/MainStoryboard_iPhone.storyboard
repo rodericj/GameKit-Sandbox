@@ -108,7 +108,7 @@
         <scene sceneID="neK-pO-nMx">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KuE-2h-F33" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="J01-th-eTg" customClass="RJFourthViewController" sceneMemberID="viewController">
+                <viewController title="Music" id="J01-th-eTg" customClass="RJFourthViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gKt-pB-uVa" customClass="UITableView">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -160,7 +160,7 @@
         <scene sceneID="13">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="12" sceneMemberID="firstResponder"/>
-                <viewController title="Settings" id="3" customClass="RJSecondViewController" sceneMemberID="viewController">
+                <viewController title="Local Fetch" id="3" customClass="RJSecondViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="17" customClass="UITableView">
                         <rect key="frame" x="0.0" y="20" width="320" height="411"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -234,33 +234,6 @@
         <image name="second" width="16" height="16"/>
         <image name="second.png" width="30" height="30"/>
     </resources>
-    <classes>
-        <class className="FetchedResultsBackedTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FetchedResultsBackedTableViewController.h"/>
-        </class>
-        <class className="RJFirstViewController" superclassName="FetchedResultsBackedTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RJFirstViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="serverLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="RJFourthViewController" superclassName="FetchedResultsBackedTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RJFourthViewController.h"/>
-        </class>
-        <class className="RJSecondViewController" superclassName="FetchedResultsBackedTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RJSecondViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="getMPMediaItems:"/>
-            </relationships>
-        </class>
-        <class className="RJThirdViewController" superclassName="FetchedResultsBackedTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RJThirdViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="getRemoteMedia:"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

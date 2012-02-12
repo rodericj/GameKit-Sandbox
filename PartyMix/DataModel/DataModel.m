@@ -351,7 +351,9 @@ static DataModel *_dataModel = nil;
     
     //If we have a result, return it
     if ([results count]) {
-        return [results objectAtIndex:0];
+        NSAssert([results count] == 1, @"We should only have 1 device that matches this query in Core Data");
+        Device *device = [results objectAtIndex:0];
+        return device;
     }
     
     //If we don't have a result, create one and return it
@@ -454,7 +456,7 @@ static DataModel *_dataModel = nil;
 }
 
 - (Playlist *)currentPlaylist {
-    NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameMediaItem
+    NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNamePlaylist
                                                             where:[NSPredicate predicateWithFormat:@"(isCurrent == YES) "]
                                                           orderBy:nil];	
     

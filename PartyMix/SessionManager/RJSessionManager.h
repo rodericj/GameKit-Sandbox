@@ -14,7 +14,6 @@
     //Server
     GKSession                   *session;
     
-    BOOL                    _isServer;
     id<GKSessionDelegate> _sessionDelegate;
 }
 
