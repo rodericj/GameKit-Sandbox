@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "FetchedResultsBackedTableViewController.h"
-#import "RJMusicPlayerInterface.h"
 
 @interface RJFourthViewController : FetchedResultsBackedTableViewController <UIAlertViewDelegate> {
-    RJMusicPlayerInterface *_musicInterface;
 }
 
 @end

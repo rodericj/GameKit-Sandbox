@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "Playlist.h"
 #import "FetchedResultsBackedTableViewController.h"
+#import "RJMusicPlayerInterface.h"
 
 @interface RJPlaylistViewController : FetchedResultsBackedTableViewController {
     Playlist *_playlist;
+    RJMusicPlayerInterface *_musicInterface;
 }
 
 + (RJPlaylistViewController *)RJPlaylistViewControllerWithPlaylist:(Playlist *)playlist;

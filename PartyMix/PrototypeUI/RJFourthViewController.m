@@ -11,15 +11,9 @@
 #import "DataModel.h"
 #import "Playlist.h"
 #import "RJPlaylistViewController.h"
-#import "UIFactory.h"
 
-@interface RJFourthViewController ()
-@property (nonatomic, retain) RJMusicPlayerInterface *musicInterface;
-@end
 
 @implementation RJFourthViewController
-
-@synthesize musicInterface = _musicInterface;
 
 #pragma mark -
 #pragma mark - UITableViewDelegate Methods
@@ -70,14 +64,6 @@
 }
 
 #pragma mark - View lifecycle
-- (void)viewWillAppear:(BOOL)animated {
-    if ([[DataModel sharedInstance] localDevice].isServer) {
-        self.tableView.tableHeaderView = self.musicInterface; 
-    }
-    else {
-        self.tableView.tableHeaderView = nil;
-    }
-}
 
 - (void)viewDidLoad
 {
@@ -91,7 +77,6 @@
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObject:rightButton];
     [rightButton release];
     
-    self.musicInterface = [UIFactory sharedUIFactory].generateMusicPlayerInterface;
     
 }
 
@@ -116,7 +101,6 @@
 }
 
 - (void)releaseWhenViewUnloads {
-    self.musicInterface = nil;
 }
 
 - (void)viewDidUnload

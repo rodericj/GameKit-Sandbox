@@ -8,17 +8,23 @@
 
 #import "RJPlaylistViewController.h"
 #import "common.h"
+#import "DataModel.h"
+#import "Device.h"
 #import "MediaItem.h"
 #import "PlaylistItem.h"
-#import "Device.h"
+#import "UIFactory.h"
 
 @interface RJPlaylistViewController ()
+
 @property (nonatomic, retain) Playlist *playlist;
+@property (nonatomic, retain) RJMusicPlayerInterface *musicInterface;
+
 @end
 
 @implementation RJPlaylistViewController
 
 @synthesize playlist = _playlist;
+@synthesize musicInterface = _musicInterface;
 
 + (RJPlaylistViewController *)RJPlaylistViewControllerWithPlaylist:(Playlist *)playlist {
     RJPlaylistViewController *playlistViewController = [[[RJPlaylistViewController alloc] initWithNibName:@"RJPlaylistViewController" 
@@ -50,19 +56,32 @@
 {
     [super viewDidLoad];
 
+    self.musicInterface = [UIFactory sharedUIFactory].generateMusicPlayerInterface;
+
     self.entityName = kEntityNamePlaylistItem;
     self.sortBy     = @"addedDate";
     self.fetchController.delegate = self;
+
+}
+- (void)releaseWhenViewUnloads {
+    self.playlist = nil;
+    self.musicInterface = nil;   
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    self.playlist = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    if ([[DataModel sharedInstance] localDevice].isServer) {
+        self.tableView.tableHeaderView = self.musicInterface; 
+    }
+    else {
+        self.tableView.tableHeaderView = nil;
+    }
+    
     [super viewWillAppear:animated];
 }
 
