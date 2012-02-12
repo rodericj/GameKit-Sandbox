@@ -27,32 +27,32 @@
 
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 
++ (DataModel*)sharedInstance;
+
+#pragma mark - Device
+
 - (Device *)deviceWithPeerId:(NSString *)peerId;
 
 - (NSArray *)fetchPeersWithState:(NSUInteger)state;
 
 - (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId;
 
-- (NSArray *)fetchAllLocalMedia;
+/*
+ * Fetch the current server that this device is connected to
+ */
+- (Device *)currentServerWithState:(NSUInteger)state;
 
-+ (DataModel*)sharedInstance;
+/*
+ * The device object representing the current device
+ */
+- (Device *)localDevice;
 
+- (void)deleteDevice:(Device *)device;
+
+#pragma mark - Playlist
 - (Playlist *)currentPlaylist;
 
 - (void)setCurrentPlaylist:(Playlist *)playlist;
-/* 
- * Given the array of MPMediaItems, insert these into CoreData 
- * Attach to the passed in device.
- * If the device is nil, we can assume the owner is self
- */
-- (NSArray *)insertArrayOfMPMediaItems:(NSArray *)mediaItems device:(Device *)device;
-
-- (MediaItem *)insertNewMediaItem:(MediaItem *)mediaItem toDevice:(Device *)device;
-
-/*
- * Insert an individual MPMediaItem for a given server. Used with insertArrayOfMPMediaItems:device:
- */
-- (MediaItem *)insertNewMPMediaItem:(MPMediaItem *)mpMediaItem device:(Device *)device;
 
 /*
  * Insert an individual PlaylistItem for a given server.
@@ -64,17 +64,23 @@
  */
 - (Playlist *)insertNewPlaylistWithTitle:(NSString *)playlistItem;
 
-/*
- * Fetch the current server that this device is connected to
+#pragma mark - Media
+/* 
+ * Given the array of MPMediaItems, insert these into CoreData 
+ * Attach to the passed in device.
+ * If the device is nil, we can assume the owner is self
  */
-- (Device *)currentServerWithState:(NSUInteger)state;
+- (NSArray *)insertArrayOfMPMediaItems:(NSArray *)mediaItems device:(Device *)device;
+
+- (MediaItem *)insertNewMediaItem:(MediaItem *)mediaItem toDevice:(Device *)device;
+
+- (NSArray *)fetchAllLocalMedia;
 
 /*
- * The device object representing the current device
+ * Insert an individual MPMediaItem for a given server. Used with insertArrayOfMPMediaItems:device:
  */
-- (Device *)localDevice;
-    
-- (void)deleteDevice:(Device *)device;
+- (MediaItem *)insertNewMPMediaItem:(MPMediaItem *)mpMediaItem device:(Device *)device;
+
 
 - (void)save;
 #if TARGET_IPHONE_SIMULATOR
