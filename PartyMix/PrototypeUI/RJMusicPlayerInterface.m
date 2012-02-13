@@ -28,6 +28,7 @@
 @synthesize backButton = _backButton;
 @synthesize progressView = _progressView;
 @synthesize playlist = _playlist;
+
 - (IBAction)playButtonPressed:(id)sender {
     NSLog(@"play pressed");
     MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];

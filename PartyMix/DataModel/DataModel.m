@@ -248,6 +248,9 @@ static DataModel *_dataModel = nil;
     newEntity.title = [mpMediaItem valueForProperty:MPMediaItemPropertyTitle];
     newEntity.persistentID = [[mpMediaItem valueForProperty:MPMediaItemPropertyPersistentID] intValue];
     newEntity.deviceHome = device;
+
+    //TODO I'm not actually storing the media item here
+    
     return newEntity;
 }
 
@@ -264,6 +267,33 @@ static DataModel *_dataModel = nil;
     return managedMediaItems;
 }
 
+- (void)updateMediaItemCollectionWithPlaylist:(Playlist *)playlist {
+//    MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
+//    NSUInteger currentlyPlayingIndex = [musicPlayer indexOfNowPlayingItem];
+//    NSLog(@"the currently playing song is %d", currentlyPlayingIndex);
+//    
+//    NSMutableArray *mediaItems = [NSMutableArray arrayWithCapacity:[playlist.playlistItem count]];
+//    
+//    //TODO we need to set up the playlist so that it updates to the currently playing position when we add
+//    // (see here: http://iphonedevelopment.blogspot.com/2009/11/update-to-mpmediaitemcollection.html )
+//    
+//    NSUInteger i = 0;
+//    MPMediaItem *currentlyPlayingMediaItem = nil;
+//    for (PlaylistItem *item in playlist.playlistItem) {
+//        MediaItem *item = (MediaItem *)item.mediaItem;
+//         MPMediaItem *mediaItem = (MPMediaItem *)item;
+//         [mediaItems addObject:mediaItem];
+//        if (currentlyPlayingIndex == i) {
+//            currentlyPlayingMediaItem = mediaItem;
+//        }
+//    }
+//    
+//    MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:mediaItems];
+//    [musicPlayer setQueueWithItemCollection:collection];
+//    [musicPlayer setNowPlayingItem:currentlyPlayingMediaItem];  
+//    [collection release];
+}
+
 /*
  * Insert an individual PlaylistItem for a given server.
  */
@@ -273,6 +303,11 @@ static DataModel *_dataModel = nil;
     newPlaylistItem.playlist = playlist;
     newPlaylistItem.mediaItem = mediaItem;
     newPlaylistItem.addedDate = [NSDate date];
+    
+    if (playlist.isCurrent) {
+        [self updateMediaItemCollectionWithPlaylist:playlist];
+    }
+    
     return newPlaylistItem;
 }
 
@@ -458,7 +493,7 @@ static DataModel *_dataModel = nil;
 - (Playlist *)currentPlaylist {
     NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNamePlaylist
                                                             where:[NSPredicate predicateWithFormat:@"(isCurrent == YES) "]
-                                                          orderBy:nil];	
+                                                          orderBy:@"addedDate"];	
     
     
     NSError *error = nil;
@@ -480,6 +515,7 @@ static DataModel *_dataModel = nil;
     Playlist *oldCurrent = [self currentPlaylist];
     oldCurrent.isCurrent = NO;
     playlist.isCurrent = YES;
+    [self updateMediaItemCollectionWithPlaylist:playlist];
 }
 
 

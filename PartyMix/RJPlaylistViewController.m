@@ -80,18 +80,18 @@
             self.tableView.tableHeaderView = self.musicInterface; 
         } else {
             
-            UIButton *makeCurrentPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            makeCurrentPlaylistButton.backgroundColor = [UIColor whiteColor];
-            [makeCurrentPlaylistButton setTitle:@"Make current Playlist" 
+            UIButton *setCurrentPlaylist = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            setCurrentPlaylist.backgroundColor = [UIColor whiteColor];
+            [setCurrentPlaylist setTitle:@"Make current Playlist" 
                                        forState:UIControlStateNormal];
-            CGSize size = [makeCurrentPlaylistButton.titleLabel.text sizeWithFont:makeCurrentPlaylistButton.titleLabel.font];
-            makeCurrentPlaylistButton.frame = CGRectMake(0, 0, size.width, size.height);
-            makeCurrentPlaylistButton.titleLabel.textColor = [UIColor brownColor];
-            [makeCurrentPlaylistButton addTarget:self 
+            CGSize size = [setCurrentPlaylist.titleLabel.text sizeWithFont:setCurrentPlaylist.titleLabel.font];
+            setCurrentPlaylist.frame = CGRectMake(0, 0, size.width, size.height);
+            setCurrentPlaylist.titleLabel.textColor = [UIColor brownColor];
+            [setCurrentPlaylist addTarget:self 
                                           action:@selector(makeCurrentPlaylist:) 
                                 forControlEvents:UIControlEventTouchUpInside];
             UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
-            [header addSubview:makeCurrentPlaylistButton];
+            [header addSubview:setCurrentPlaylist];
             self.tableView.tableHeaderView = header;
             [header release];
 
@@ -104,8 +104,6 @@
 - (void)makeCurrentPlaylist:(UIButton *)button {
     [[DataModel sharedInstance] setCurrentPlaylist:self.playlist];
     self.tableView.tableHeaderView = self.musicInterface; 
-    
-    //TODO Set the media player's playlist to this playlist
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

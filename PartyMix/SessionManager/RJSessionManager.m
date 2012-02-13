@@ -318,13 +318,7 @@ static RJSessionManager *_sessionManager = nil;
     NSLog(@"DisplayNameForPeer: peerId is %@ display name for peer is %@", peerId, [self.session displayNameForPeer:peerId]);
     NSString *displayName = [self.session displayNameForPeer:peerId];
     
-    //    if (!displayName) {
-    //        displayName = @"broken display name";
-    //        NSAssert1(displayName, @"Display name must not be nil. Peer ID: %@", peerId);
-    //    }
-    
     return displayName;
-    
 }
 
 - (void)connectToPeer:(Device *)device {
