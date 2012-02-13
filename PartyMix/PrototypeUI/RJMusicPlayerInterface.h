@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MediaPlayer/MPVolumeView.h"
+#import "Playlist.h"
 
 @interface RJMusicPlayerInterface : UIView {
     UIButton *_playButton;
@@ -15,6 +16,7 @@
     UIButton *_nextButton;
     MPVolumeView *_volumeView;
     UIProgressView *_progressView;
+    Playlist *_playlist;
 }
 
 - (IBAction)playButtonPressed:(id)sender;

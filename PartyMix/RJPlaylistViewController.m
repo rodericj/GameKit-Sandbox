@@ -76,28 +76,36 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     if ([[DataModel sharedInstance] localDevice].isServer) {
-        self.tableView.tableHeaderView = self.musicInterface; 
-    }
-    else {
-        self.tableView.tableHeaderView = nil;
+        if ([DataModel sharedInstance].currentPlaylist == self.playlist) {
+            self.tableView.tableHeaderView = self.musicInterface; 
+        } else {
+            
+            UIButton *makeCurrentPlaylistButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            makeCurrentPlaylistButton.backgroundColor = [UIColor whiteColor];
+            [makeCurrentPlaylistButton setTitle:@"Make current Playlist" 
+                                       forState:UIControlStateNormal];
+            CGSize size = [makeCurrentPlaylistButton.titleLabel.text sizeWithFont:makeCurrentPlaylistButton.titleLabel.font];
+            makeCurrentPlaylistButton.frame = CGRectMake(0, 0, size.width, size.height);
+            makeCurrentPlaylistButton.titleLabel.textColor = [UIColor brownColor];
+            [makeCurrentPlaylistButton addTarget:self 
+                                          action:@selector(makeCurrentPlaylist:) 
+                                forControlEvents:UIControlEventTouchUpInside];
+            UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+            [header addSubview:makeCurrentPlaylistButton];
+            self.tableView.tableHeaderView = header;
+            [header release];
+
+        }
     }
     
     [super viewWillAppear:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
+- (void)makeCurrentPlaylist:(UIButton *)button {
+    [[DataModel sharedInstance] setCurrentPlaylist:self.playlist];
+    self.tableView.tableHeaderView = self.musicInterface; 
+    
+    //TODO Set the media player's playlist to this playlist
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

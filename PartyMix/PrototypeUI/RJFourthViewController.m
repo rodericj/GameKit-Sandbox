@@ -21,9 +21,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Playlist *playlist = [self.fetchController objectAtIndexPath:indexPath];
     
-    //Set as current playlist
-    [[DataModel sharedInstance] setCurrentPlaylist:playlist];
-    
     //Push playlist view controller
     RJPlaylistViewController *view = [RJPlaylistViewController RJPlaylistViewControllerWithPlaylist:playlist];
     [self.navigationController pushViewController:view 
@@ -42,6 +39,12 @@
     
     Playlist *playlist = (Playlist *)[self.fetchController objectAtIndexPath:indexPath];
     cell.textLabel.text = playlist.title;
+    
+    if (playlist.isCurrent) {
+        cell.imageView.image = [UIImage imageNamed:@"first.png"];
+    } else {
+        cell.imageView.image = nil;
+    }
     
     return cell;
 }

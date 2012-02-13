@@ -11,11 +11,13 @@
 
 @interface RJMusicPlayerInterface ()
 
+//TODO how to we release these
 @property (nonatomic, retain) IBOutlet UIButton *playButton;
 @property (nonatomic, retain) IBOutlet UIButton *nextButton;
 @property (nonatomic, retain) IBOutlet UIButton *backButton;
 @property (nonatomic, retain) IBOutlet MPVolumeView *volumeView;
 @property (nonatomic, retain) IBOutlet UIProgressView *progressView;
+@property (nonatomic, retain) Playlist *playlist;
 @end
 
 @implementation RJMusicPlayerInterface
@@ -25,7 +27,7 @@
 @synthesize volumeView = _volumeView;
 @synthesize backButton = _backButton;
 @synthesize progressView = _progressView;
-
+@synthesize playlist = _playlist;
 - (IBAction)playButtonPressed:(id)sender {
     NSLog(@"play pressed");
     MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
@@ -44,5 +46,6 @@
 - (IBAction)backButtonPressed:(id)sender {
     NSLog(@"Back button pressed");
 }
+
 
 @end
