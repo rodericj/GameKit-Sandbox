@@ -9,6 +9,10 @@
 #import "MediaItem+Additions.h"
 #import "DataModel.h"
 
+#define kAttributeNameTitle @"kAttributeNameTitle"
+#define kAttributeNamePersistentID @"kAttributeNamePersistentID"
+#define kAttributeNameMediaItem @"kAttributeNameMediaItem"
+
 @implementation MediaItem (Additions)
 - (NSString *) titleFirstLetter {
     [self willAccessValueForKey:@"titleFirstLetter"];
@@ -19,19 +23,24 @@
 
 - (void) encodeWithCoder: (NSCoder *)coder
 {
-    [coder encodeObject:[self title] forKey:@"title"];
-    [coder encodeObject:[self mediaItem] forKey:@"mediaItem"];
+    [coder encodeObject:[self title] forKey:kAttributeNameTitle];
+    //[coder encodeObject:[self mediaItem] forKey:kAttributeNameMediaItem];
+
+    [coder encodeObject:[self persistentID] forKey:kAttributeNamePersistentID];
 }
 
 - (id) initWithCoder: (NSCoder *)coder
 {
-    self = [[DataModel sharedInstance]  insertNewMPMediaItem:[coder decodeObjectForKey:@"mediaItem"] device:nil];
-    if (self)
-    {
-        NSString *title = [coder decodeObjectForKey:@"title"];
-        [self setTitle:title];
-        //[self setMediaItem:     [coder decodeObjectForKey:@"mediaItem"]];
-    }
+    self = [[DataModel sharedInstance] insertNewMediaItemWithTitle:[coder decodeObjectForKey:kAttributeNameTitle] persistentID:[coder decodeObjectForKey:kAttributeNamePersistentID] fromDevice:nil];
+    //self = [[DataModel sharedInstance]  insertNewMPMediaItem:[coder decodeObjectForKey:kAttributeNameMediaItem] device:nil];
+//    if (self)
+//    {
+//        NSString *title = [coder decodeObjectForKey:kAttributeNameTitle];
+//        [self setTitle:title];
+//        
+//        NSNumber *persistentID = [coder decodeObjectForKey:kAttributeNamePersistentID];
+//        [self setPersistentID:persistentID];
+//    }
     return self;
 }
 @end

@@ -240,11 +240,16 @@ static DataModel *_dataModel = nil;
     newEntity.deviceHome = device;
     return newEntity;
 }
+- (MediaItem *)insertNewMediaItemWithTitle:(NSString *)title persistentID:(NSNumber *)persistentID fromDevice:(Device *)device {
+    MediaItem *newEntity = (MediaItem *)[self insertNewObjectOfType:kEntityNameMediaItem];
+    newEntity.title = title;
+    newEntity.persistentID = persistentID;
+    newEntity.deviceHome = device;
+    return newEntity;
+}
 
 - (MediaItem *)insertNewMPMediaItem:(MPMediaItem *)mpMediaItem device:(Device *)device{
     MediaItem *newEntity = (MediaItem *)[self insertNewObjectOfType:kEntityNameMediaItem];
-    
-
     newEntity.title = [mpMediaItem valueForProperty:MPMediaItemPropertyTitle];
     newEntity.persistentID = [mpMediaItem valueForProperty:MPMediaItemPropertyPersistentID];
     newEntity.deviceHome = device;
@@ -301,7 +306,6 @@ static DataModel *_dataModel = nil;
         NSLog(@"queried items %@", queriedItems);
         MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:queriedItems];
         [musicPlayer setQueueWithItemCollection:collection];
-        //[musicPlayer play];
         [collection release];
         //[query release];
     }

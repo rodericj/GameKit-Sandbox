@@ -74,6 +74,8 @@
 
 - (MediaItem *)insertNewMediaItem:(MediaItem *)mediaItem toDevice:(Device *)device;
 
+- (MediaItem *)insertNewMediaItemWithTitle:(NSString *)title persistentID:(NSNumber *)persistentID fromDevice:(Device *)device;
+
 - (NSArray *)fetchAllLocalMedia;
 
 /*
