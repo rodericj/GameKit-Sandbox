@@ -12,13 +12,14 @@
 		1705DD7614D63674009439D4 /* RJFourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7014D63674009439D4 /* RJFourthViewController.m */; };
 		1705DD7714D63674009439D4 /* RJSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7214D63674009439D4 /* RJSecondViewController.m */; };
 		1705DD7814D63674009439D4 /* RJThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7414D63674009439D4 /* RJThirdViewController.m */; };
+		1738DDD514EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1738DDD414EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m */; };
 		17396A1C14E62B9F00F19B8C /* RJSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17396A1B14E62B9F00F19B8C /* RJSessionManager.m */; };
 		1746BBEB14D90921003D817E /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 1746BBEA14D90921003D817E /* Device.m */; };
 		175CDCCB148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */; };
 		175CDCCC148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */; };
 		178685BE14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */; };
 		178685BF14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */; };
-		1792A76014D4D68C00D2EDC4 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A75F14D4D68C00D2EDC4 /* MediaItem.m */; };
+		178DA06F14EE2EAB001E052D /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 178DA06E14EE2EAB001E052D /* MediaItem.m */; };
 		1792A78214D5141E00D2EDC4 /* RJPlaylistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A78014D5141E00D2EDC4 /* RJPlaylistViewController.m */; };
 		1792A78314D5141E00D2EDC4 /* RJPlaylistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1792A78114D5141E00D2EDC4 /* RJPlaylistViewController.xib */; };
 		1792A78914D519B100D2EDC4 /* PlaylistItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A78814D519B000D2EDC4 /* PlaylistItem.m */; };
@@ -73,6 +74,8 @@
 		1705DD7214D63674009439D4 /* RJSecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJSecondViewController.m; path = PrototypeUI/RJSecondViewController.m; sourceTree = "<group>"; };
 		1705DD7314D63674009439D4 /* RJThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJThirdViewController.h; path = PrototypeUI/RJThirdViewController.h; sourceTree = "<group>"; };
 		1705DD7414D63674009439D4 /* RJThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJThirdViewController.m; path = PrototypeUI/RJThirdViewController.m; sourceTree = "<group>"; };
+		1738DDD314EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MPMediaItemCollection+Utils.h"; path = "lib/MPMediaItemCollection+Utils.h"; sourceTree = "<group>"; };
+		1738DDD414EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MPMediaItemCollection+Utils.m"; path = "lib/MPMediaItemCollection+Utils.m"; sourceTree = "<group>"; };
 		17396A1A14E62B9F00F19B8C /* RJSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJSessionManager.h; path = SessionManager/RJSessionManager.h; sourceTree = "<group>"; };
 		17396A1B14E62B9F00F19B8C /* RJSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJSessionManager.m; path = SessionManager/RJSessionManager.m; sourceTree = "<group>"; };
 		1746BBE914D90921003D817E /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = "DataModel/Generated Data Model/Device.h"; sourceTree = "<group>"; };
@@ -82,8 +85,8 @@
 		178685BC14C7D4C4000EDF48 /* PayloadTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayloadTranslator.h; path = PartyMix/PayloadTranslator.h; sourceTree = "<group>"; };
 		178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayloadTranslator.m; path = PartyMix/PayloadTranslator.m; sourceTree = "<group>"; };
 		178685C014C7E29A000EDF48 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
-		1792A75E14D4D68C00D2EDC4 /* MediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaItem.h; path = "DataModel/Generated Data Model/MediaItem.h"; sourceTree = "<group>"; };
-		1792A75F14D4D68C00D2EDC4 /* MediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaItem.m; path = "DataModel/Generated Data Model/MediaItem.m"; sourceTree = "<group>"; };
+		178DA06D14EE2EAB001E052D /* MediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaItem.h; path = "DataModel/Generated Data Model/MediaItem.h"; sourceTree = "<group>"; };
+		178DA06E14EE2EAB001E052D /* MediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaItem.m; path = "DataModel/Generated Data Model/MediaItem.m"; sourceTree = "<group>"; };
 		1792A77F14D5141E00D2EDC4 /* RJPlaylistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJPlaylistViewController.h; sourceTree = "<group>"; };
 		1792A78014D5141E00D2EDC4 /* RJPlaylistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJPlaylistViewController.m; sourceTree = "<group>"; };
 		1792A78114D5141E00D2EDC4 /* RJPlaylistViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RJPlaylistViewController.xib; sourceTree = "<group>"; };
@@ -163,6 +166,8 @@
 				175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */,
 				17D7581D14E83971008183B1 /* UIFactory.h */,
 				17D7581E14E83971008183B1 /* UIFactory.m */,
+				1738DDD314EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.h */,
+				1738DDD414EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m */,
 			);
 			name = lib;
 			sourceTree = "<group>";
@@ -301,14 +306,14 @@
 		17D8824A14BE914F004D3722 /* Generated Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				178DA06D14EE2EAB001E052D /* MediaItem.h */,
+				178DA06E14EE2EAB001E052D /* MediaItem.m */,
 				1746BBE914D90921003D817E /* Device.h */,
 				1746BBEA14D90921003D817E /* Device.m */,
 				1792A78A14D61DF700D2EDC4 /* Playlist.h */,
 				1792A78B14D61DF700D2EDC4 /* Playlist.m */,
 				1792A78714D519B000D2EDC4 /* PlaylistItem.h */,
 				1792A78814D519B000D2EDC4 /* PlaylistItem.m */,
-				1792A75E14D4D68C00D2EDC4 /* MediaItem.h */,
-				1792A75F14D4D68C00D2EDC4 /* MediaItem.m */,
 			);
 			name = "Generated Data Model";
 			sourceTree = "<group>";
@@ -434,7 +439,6 @@
 				17FCA61714C00BD8004DDAA8 /* MediaItem+Additions.m in Sources */,
 				17FCA61B14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */,
 				178685BE14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */,
-				1792A76014D4D68C00D2EDC4 /* MediaItem.m in Sources */,
 				1792A78214D5141E00D2EDC4 /* RJPlaylistViewController.m in Sources */,
 				1792A78914D519B100D2EDC4 /* PlaylistItem.m in Sources */,
 				1792A78C14D61DF700D2EDC4 /* Playlist.m in Sources */,
@@ -446,6 +450,8 @@
 				17396A1C14E62B9F00F19B8C /* RJSessionManager.m in Sources */,
 				17D7581A14E833CB008183B1 /* RJMusicPlayerInterface.m in Sources */,
 				17D7581F14E83971008183B1 /* UIFactory.m in Sources */,
+				1738DDD514EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m in Sources */,
+				178DA06F14EE2EAB001E052D /* MediaItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

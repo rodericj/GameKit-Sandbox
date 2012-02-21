@@ -246,11 +246,11 @@ static DataModel *_dataModel = nil;
     
 
     newEntity.title = [mpMediaItem valueForProperty:MPMediaItemPropertyTitle];
-    newEntity.persistentID = [[mpMediaItem valueForProperty:MPMediaItemPropertyPersistentID] intValue];
+    newEntity.persistentID = [mpMediaItem valueForProperty:MPMediaItemPropertyPersistentID];
     newEntity.deviceHome = device;
 
     //TODO I'm not actually storing the media item here
-    
+    //newEntity.transientMediaItem = mpMediaItem;
     return newEntity;
 }
 
@@ -268,30 +268,43 @@ static DataModel *_dataModel = nil;
 }
 
 - (void)updateMediaItemCollectionWithPlaylist:(Playlist *)playlist {
-//    MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
-//    NSUInteger currentlyPlayingIndex = [musicPlayer indexOfNowPlayingItem];
-//    NSLog(@"the currently playing song is %d", currentlyPlayingIndex);
-//    
-//    NSMutableArray *mediaItems = [NSMutableArray arrayWithCapacity:[playlist.playlistItem count]];
-//    
-//    //TODO we need to set up the playlist so that it updates to the currently playing position when we add
-//    // (see here: http://iphonedevelopment.blogspot.com/2009/11/update-to-mpmediaitemcollection.html )
-//    
-//    NSUInteger i = 0;
-//    MPMediaItem *currentlyPlayingMediaItem = nil;
-//    for (PlaylistItem *item in playlist.playlistItem) {
-//        MediaItem *item = (MediaItem *)item.mediaItem;
-//         MPMediaItem *mediaItem = (MPMediaItem *)item;
-//         [mediaItems addObject:mediaItem];
-//        if (currentlyPlayingIndex == i) {
-//            currentlyPlayingMediaItem = mediaItem;
-//        }
-//    }
-//    
-//    MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:mediaItems];
-//    [musicPlayer setQueueWithItemCollection:collection];
-//    [musicPlayer setNowPlayingItem:currentlyPlayingMediaItem];  
-//    [collection release];
+    MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
+    NSLog(@"update media item collection. pressed %@", musicPlayer);
+
+    NSUInteger currentlyPlayingIndex = [musicPlayer indexOfNowPlayingItem];
+    NSLog(@"the currently playing song is %d", currentlyPlayingIndex);
+    
+   // NSMutableArray *mediaItems = [NSMutableArray arrayWithCapacity:[playlist.playlistItem count]];
+    
+    //TODO At this point we need to extract the media items that are in the playlist by the MPMediaItemPropertyPersistentID
+    if ([playlist.playlistItem count]) {
+        MPMediaQuery *query = [MPMediaQuery songsQuery];
+
+        //TODO we need to only take the playlistItem at the current position and add this to the media player
+        for (PlaylistItem *playlistItem in playlist.playlistItem) {
+            NSLog(@"mediaItem %@", playlistItem.mediaItem.persistentID);
+            NSNumber *persistentID = playlistItem.mediaItem.persistentID;
+            MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:persistentID 
+                                                                                   forProperty:MPMediaItemPropertyPersistentID];
+            
+            [query addFilterPredicate:predicate];
+            NSArray *songs = [query items];
+            NSLog(@"the items are %@", songs);
+
+        }
+        
+        //query.filterPredicates = filters;
+        //TODO we need to set up the playlist so that it updates to the currently playing position when we add
+        // (see here: http://iphonedevelopment.blogspot.com/2009/11/update-to-mpmediaitemcollection.html )
+        
+        NSArray *queriedItems = [query items];
+        NSLog(@"queried items %@", queriedItems);
+        MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:queriedItems];
+        [musicPlayer setQueueWithItemCollection:collection];
+        //[musicPlayer play];
+        [collection release];
+        //[query release];
+    }
 }
 
 /*
@@ -492,8 +505,8 @@ static DataModel *_dataModel = nil;
 
 - (Playlist *)currentPlaylist {
     NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNamePlaylist
-                                                            where:[NSPredicate predicateWithFormat:@"(isCurrent == YES) "]
-                                                          orderBy:@"addedDate"];	
+                                                            where:[NSPredicate predicateWithFormat:@"(isCurrent == YES)"]
+                                                          orderBy:nil];	
     
     
     NSError *error = nil;

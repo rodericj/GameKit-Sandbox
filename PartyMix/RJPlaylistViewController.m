@@ -49,6 +49,9 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
+-(NSPredicate *)predicate {
+    return [NSPredicate predicateWithFormat:@"playlist = %@", self.playlist];
+}
 
 #pragma mark - View lifecycle
 
@@ -130,17 +133,5 @@
 }
 
 #pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
-}
 
 @end

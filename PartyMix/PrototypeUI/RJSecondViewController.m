@@ -58,9 +58,15 @@
     MediaItem *mediaItem = (MediaItem *)[self.fetchController objectAtIndexPath:indexPath];
     Device *currentDevice = [[DataModel sharedInstance] localDevice];
     Playlist *currentPlaylist = [[DataModel sharedInstance] currentPlaylist];
-    [[DataModel sharedInstance] insertNewPlaylistItem:mediaItem 
-                                           fromDevice:currentDevice
-                                           toPlaylist:currentPlaylist];
+    if (currentPlaylist) {
+        
+        [[DataModel sharedInstance] insertNewPlaylistItem:mediaItem 
+                                               fromDevice:currentDevice
+                                               toPlaylist:currentPlaylist];
+    }
+    else {
+        NSLog(@"there is no current playlist");
+    }
 }
 
 #pragma mark - View lifecycle

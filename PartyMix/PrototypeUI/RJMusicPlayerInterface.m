@@ -30,8 +30,8 @@
 @synthesize playlist = _playlist;
 
 - (IBAction)playButtonPressed:(id)sender {
-    NSLog(@"play pressed");
     MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
+    NSLog(@"play pressed %@", musicPlayer);
 	MPMusicPlaybackState playbackState = [musicPlayer playbackState];
     
 	if (playbackState == MPMusicPlaybackStateStopped || playbackState == MPMusicPlaybackStatePaused) {
