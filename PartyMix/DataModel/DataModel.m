@@ -34,34 +34,6 @@
 
 static DataModel *_dataModel = nil;
 
-
-//NSString *const MPMediaItemPropertyPersistentID;            // filterable
-//NSString *const MPMediaItemPropertyAlbumPersistentID;       // filterable
-//NSString *const MPMediaItemPropertyArtistPersistentID;      // filterable
-//NSString *const MPMediaItemPropertyAlbumArtistPersistentID; // filterable
-//NSString *const MPMediaItemPropertyGenrePersistentID;       // filterable
-//NSString *const MPMediaItemPropertyComposerPersistentID;    // filterable
-//NSString *const MPMediaItemPropertyPodcastPersistentID;     // filterable
-//NSString *const MPMediaItemPropertyMediaType;               // filterable
-//NSString *const MPMediaItemPropertyTitle;                   // filterable
-//NSString *const MPMediaItemPropertyAlbumTitle;              // filterable
-//NSString *const MPMediaItemPropertyArtist;                  // filterable
-//NSString *const MPMediaItemPropertyAlbumArtist;             // filterable
-//NSString *const MPMediaItemPropertyGenre;                   // filterable
-//NSString *const MPMediaItemPropertyComposer;                // filterable
-//NSString *const MPMediaItemPropertyPlaybackDuration;
-//NSString *const MPMediaItemPropertyAlbumTrackNumber;
-//NSString *const MPMediaItemPropertyAlbumTrackCount;
-//NSString *const MPMediaItemPropertyDiscNumber;
-//NSString *const MPMediaItemPropertyDiscCount;
-//NSString *const MPMediaItemPropertyArtwork;
-//NSString *const MPMediaItemPropertyLyrics;
-//NSString *const MPMediaItemPropertyIsCompilation;           // filterable
-//NSString *const MPMediaItemPropertyReleaseDate;
-//NSString *const MPMediaItemPropertyBeatsPerMinute;
-//NSString *const MPMediaItemPropertyComments;
-//NSString *const MPMediaItemPropertyAssetURL;
-
 #pragma mark - core data setup
 + (NSString *)getDocumentsDirectory {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -248,24 +220,17 @@ static DataModel *_dataModel = nil;
     return newEntity;
 }
 
-- (MediaItem *)insertNewMPMediaItem:(MPMediaItem *)mpMediaItem device:(Device *)device{
-    MediaItem *newEntity = (MediaItem *)[self insertNewObjectOfType:kEntityNameMediaItem];
-    newEntity.title = [mpMediaItem valueForProperty:MPMediaItemPropertyTitle];
-    newEntity.persistentID = [mpMediaItem valueForProperty:MPMediaItemPropertyPersistentID];
-    newEntity.deviceHome = device;
-
-    //TODO I'm not actually storing the media item here
-    //newEntity.transientMediaItem = mpMediaItem;
-    return newEntity;
-}
-
 - (NSArray *)insertArrayOfMPMediaItems:(NSArray *)mediaItems device:(Device *)device{
         
     NSMutableArray *managedMediaItems = [NSMutableArray arrayWithCapacity:[mediaItems count]];
  
     for (MPMediaItem *song in mediaItems) {
-        MediaItem *item = [self insertNewMPMediaItem:song device:device];
-        [managedMediaItems addObject:item];
+        NSString *title = [song valueForProperty:MPMediaItemPropertyTitle];
+        NSNumber *persistentID = [song valueForProperty:MPMediaItemPropertyPersistentID];
+        MediaItem *newEntity = [self insertNewMediaItemWithTitle:title
+                                                    persistentID:persistentID 
+                                                      fromDevice:device];
+        [managedMediaItems addObject:newEntity];
     }
     [self save];
     //save the managed object context
@@ -345,7 +310,7 @@ static DataModel *_dataModel = nil;
                                                                       inManagedObjectContext:self.managedObjectContext];
     
     newEntity.title = @"song title 1";
-    newEntity.persistentID = 1;
+    newEntity.persistentID = [NSNumber numberWithInt:1];
     [tmp addObject:newEntity];
     
     
@@ -353,7 +318,7 @@ static DataModel *_dataModel = nil;
                                                                       inManagedObjectContext:self.managedObjectContext];
     
     newEntity.title = @"song title 2";
-    newEntity.persistentID = 2;
+    newEntity.persistentID = [NSNumber numberWithInt:2];
     [tmp addObject:newEntity];
 
     [self save];

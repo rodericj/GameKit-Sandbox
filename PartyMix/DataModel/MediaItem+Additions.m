@@ -31,16 +31,9 @@
 
 - (id) initWithCoder: (NSCoder *)coder
 {
-    self = [[DataModel sharedInstance] insertNewMediaItemWithTitle:[coder decodeObjectForKey:kAttributeNameTitle] persistentID:[coder decodeObjectForKey:kAttributeNamePersistentID] fromDevice:nil];
-    //self = [[DataModel sharedInstance]  insertNewMPMediaItem:[coder decodeObjectForKey:kAttributeNameMediaItem] device:nil];
-//    if (self)
-//    {
-//        NSString *title = [coder decodeObjectForKey:kAttributeNameTitle];
-//        [self setTitle:title];
-//        
-//        NSNumber *persistentID = [coder decodeObjectForKey:kAttributeNamePersistentID];
-//        [self setPersistentID:persistentID];
-//    }
+    self = [[DataModel sharedInstance] insertNewMediaItemWithTitle:[coder decodeObjectForKey:kAttributeNameTitle] 
+                                                      persistentID:[coder decodeObjectForKey:kAttributeNamePersistentID] 
+                                                        fromDevice:nil];
     return self;
 }
 @end

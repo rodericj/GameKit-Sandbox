@@ -236,7 +236,7 @@ static RJSessionManager *_sessionManager = nil;
 - (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
     NSDictionary *dict = [PayloadTranslator extractDictionaryFromPayload:data];
     
-    NSLog(@"we got some data %@", dict);
+    //NSLog(@"we got some data %@", dict);
     NSArray *packagedWithPeer = [NSArray arrayWithObjects:peer, dict, nil];
     NSString *executeAction = [dict objectForKey:action];
     if (executeAction) {

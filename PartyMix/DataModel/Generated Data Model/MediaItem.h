@@ -2,7 +2,7 @@
 //  MediaItem.h
 //  PartyMix
 //
-//  Created by Roderic Campbell on 2/16/12.
+//  Created by Roderic Campbell on 2/20/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -13,7 +13,6 @@
 
 @interface MediaItem : NSManagedObject
 
-@property (nonatomic, retain) NSData * mediaItem;
 @property (nonatomic, retain) NSNumber * persistentID;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * titleFirstLetter;

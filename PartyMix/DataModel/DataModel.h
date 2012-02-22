@@ -78,12 +78,6 @@
 
 - (NSArray *)fetchAllLocalMedia;
 
-/*
- * Insert an individual MPMediaItem for a given server. Used with insertArrayOfMPMediaItems:device:
- */
-- (MediaItem *)insertNewMPMediaItem:(MPMediaItem *)mpMediaItem device:(Device *)device;
-
-
 - (void)save;
 #if TARGET_IPHONE_SIMULATOR
 - (NSArray *)insertDummyMediaItems;
