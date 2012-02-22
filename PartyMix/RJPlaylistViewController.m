@@ -60,7 +60,7 @@
     [super viewDidLoad];
 
     self.musicInterface = [UIFactory sharedUIFactory].generateMusicPlayerInterface;
-
+    self.musicInterface.playlist = self.playlist;
     self.entityName = kEntityNamePlaylistItem;
     self.sortBy     = @"addedDate";
     self.fetchController.delegate = self;

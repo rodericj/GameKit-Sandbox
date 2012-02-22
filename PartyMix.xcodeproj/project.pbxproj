@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		17020C2E14F36B10008A2DB3 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 17020C2D14F36B10008A2DB3 /* MediaItem.m */; };
+		17020C3514F4A99B008A2DB3 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 17020C3414F4A99B008A2DB3 /* Playlist.m */; };
 		17040AA3148A120500231BD9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17040AA2148A120500231BD9 /* MediaPlayer.framework */; };
 		1705DD7514D63674009439D4 /* RJFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD6E14D63674009439D4 /* RJFirstViewController.m */; };
 		1705DD7614D63674009439D4 /* RJFourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7014D63674009439D4 /* RJFourthViewController.m */; };
@@ -23,7 +24,6 @@
 		1792A78214D5141E00D2EDC4 /* RJPlaylistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A78014D5141E00D2EDC4 /* RJPlaylistViewController.m */; };
 		1792A78314D5141E00D2EDC4 /* RJPlaylistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1792A78114D5141E00D2EDC4 /* RJPlaylistViewController.xib */; };
 		1792A78914D519B100D2EDC4 /* PlaylistItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A78814D519B000D2EDC4 /* PlaylistItem.m */; };
-		1792A78C14D61DF700D2EDC4 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A78B14D61DF700D2EDC4 /* Playlist.m */; };
 		17ACB39F14789242008832E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB39E14789242008832E5 /* UIKit.framework */; };
 		17ACB3A114789242008832E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A014789242008832E5 /* Foundation.framework */; };
 		17ACB3A314789242008832E5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A214789242008832E5 /* CoreGraphics.framework */; };
@@ -67,6 +67,8 @@
 /* Begin PBXFileReference section */
 		17020C2C14F36B10008A2DB3 /* MediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaItem.h; path = "DataModel/Generated Data Model/MediaItem.h"; sourceTree = "<group>"; };
 		17020C2D14F36B10008A2DB3 /* MediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaItem.m; path = "DataModel/Generated Data Model/MediaItem.m"; sourceTree = "<group>"; };
+		17020C3314F4A99B008A2DB3 /* Playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Playlist.h; path = "DataModel/Generated Data Model/Playlist.h"; sourceTree = "<group>"; };
+		17020C3414F4A99B008A2DB3 /* Playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Playlist.m; path = "DataModel/Generated Data Model/Playlist.m"; sourceTree = "<group>"; };
 		17040AA2148A120500231BD9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		1705DD6D14D63674009439D4 /* RJFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJFirstViewController.h; path = PrototypeUI/RJFirstViewController.h; sourceTree = "<group>"; };
 		1705DD6E14D63674009439D4 /* RJFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJFirstViewController.m; path = PrototypeUI/RJFirstViewController.m; sourceTree = "<group>"; };
@@ -92,8 +94,6 @@
 		1792A78114D5141E00D2EDC4 /* RJPlaylistViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RJPlaylistViewController.xib; sourceTree = "<group>"; };
 		1792A78714D519B000D2EDC4 /* PlaylistItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaylistItem.h; path = "DataModel/Generated Data Model/PlaylistItem.h"; sourceTree = "<group>"; };
 		1792A78814D519B000D2EDC4 /* PlaylistItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaylistItem.m; path = "DataModel/Generated Data Model/PlaylistItem.m"; sourceTree = "<group>"; };
-		1792A78A14D61DF700D2EDC4 /* Playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Playlist.h; path = "DataModel/Generated Data Model/Playlist.h"; sourceTree = "<group>"; };
-		1792A78B14D61DF700D2EDC4 /* Playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Playlist.m; path = "DataModel/Generated Data Model/Playlist.m"; sourceTree = "<group>"; };
 		17ACB39A14789242008832E5 /* partymix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = partymix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17ACB39E14789242008832E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		17ACB3A014789242008832E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -306,12 +306,12 @@
 		17D8824A14BE914F004D3722 /* Generated Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				17020C3314F4A99B008A2DB3 /* Playlist.h */,
+				17020C3414F4A99B008A2DB3 /* Playlist.m */,
 				17020C2C14F36B10008A2DB3 /* MediaItem.h */,
 				17020C2D14F36B10008A2DB3 /* MediaItem.m */,
 				1746BBE914D90921003D817E /* Device.h */,
 				1746BBEA14D90921003D817E /* Device.m */,
-				1792A78A14D61DF700D2EDC4 /* Playlist.h */,
-				1792A78B14D61DF700D2EDC4 /* Playlist.m */,
 				1792A78714D519B000D2EDC4 /* PlaylistItem.h */,
 				1792A78814D519B000D2EDC4 /* PlaylistItem.m */,
 			);
@@ -441,7 +441,6 @@
 				178685BE14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */,
 				1792A78214D5141E00D2EDC4 /* RJPlaylistViewController.m in Sources */,
 				1792A78914D519B100D2EDC4 /* PlaylistItem.m in Sources */,
-				1792A78C14D61DF700D2EDC4 /* Playlist.m in Sources */,
 				1705DD7514D63674009439D4 /* RJFirstViewController.m in Sources */,
 				1705DD7614D63674009439D4 /* RJFourthViewController.m in Sources */,
 				1705DD7714D63674009439D4 /* RJSecondViewController.m in Sources */,
@@ -452,6 +451,7 @@
 				17D7581F14E83971008183B1 /* UIFactory.m in Sources */,
 				1738DDD514EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m in Sources */,
 				17020C2E14F36B10008A2DB3 /* MediaItem.m in Sources */,
+				17020C3514F4A99B008A2DB3 /* Playlist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

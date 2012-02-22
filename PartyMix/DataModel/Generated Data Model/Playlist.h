@@ -2,7 +2,7 @@
 //  Playlist.h
 //  PartyMix
 //
-//  Created by Roderic Campbell on 1/29/12.
+//  Created by Roderic Campbell on 2/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -13,8 +13,9 @@
 
 @interface Playlist : NSManagedObject
 
-@property (nonatomic, retain) NSString * title;
 @property (nonatomic) BOOL isCurrent;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic) int16_t currentTrack;
 @property (nonatomic, retain) NSSet *playlistItem;
 @end
 

@@ -23,4 +23,6 @@
 - (IBAction)nextButtonPressed:(id)sender;
 - (IBAction)backButtonPressed:(id)sender;
 
+@property (nonatomic, retain) Playlist *playlist;
+
 @end

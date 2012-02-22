@@ -8,7 +8,8 @@
 
 #import "RJMusicPlayerInterface.h"
 #import "MediaPlayer/MPMusicPlayerController.h"
-
+#import "MediaItem.h"
+#import "PlaylistItem.h"
 @interface RJMusicPlayerInterface ()
 
 //TODO how to we release these
@@ -17,7 +18,6 @@
 @property (nonatomic, retain) IBOutlet UIButton *backButton;
 @property (nonatomic, retain) IBOutlet MPVolumeView *volumeView;
 @property (nonatomic, retain) IBOutlet UIProgressView *progressView;
-@property (nonatomic, retain) Playlist *playlist;
 @end
 
 @implementation RJMusicPlayerInterface
@@ -29,11 +29,38 @@
 @synthesize progressView = _progressView;
 @synthesize playlist = _playlist;
 
+- (void)putCurrentTrackIntoMusicPlayer {
+    //TODO add this to a category on the playlist called currentPlaylistItem
+    MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
+    PlaylistItem *item = [[self.playlist.playlistItem allObjects] objectAtIndex:self.playlist.currentTrack];
+    
+    MPMediaQuery *query = [MPMediaQuery songsQuery];
+    NSLog(@"mediaItem %@", item.mediaItem.persistentID);
+    NSNumber *persistentID = item.mediaItem.persistentID;
+    MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:persistentID 
+                                                                           forProperty:MPMediaItemPropertyPersistentID];
+    
+    [query addFilterPredicate:predicate];
+    
+    NSArray *queriedItems = [query items];
+    NSLog(@"queried items %@", queriedItems);
+    MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:queriedItems];
+    [musicPlayer setQueueWithItemCollection:collection];
+    [collection release];
+}
+
 - (IBAction)playButtonPressed:(id)sender {
     MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
     NSLog(@"play pressed %@", musicPlayer);
 	MPMusicPlaybackState playbackState = [musicPlayer playbackState];
     
+    
+    if(self.playlist.currentTrack == -1){
+        NSLog(@"nothing is playing");
+        self.playlist.currentTrack = 0;
+        [self putCurrentTrackIntoMusicPlayer];
+    }
+
 	if (playbackState == MPMusicPlaybackStateStopped || playbackState == MPMusicPlaybackStatePaused) {
 		[musicPlayer play];
 	} else if (playbackState == MPMusicPlaybackStatePlaying) {
@@ -43,9 +70,16 @@
 
 - (IBAction)nextButtonPressed:(id)sender {
     NSLog(@"Next button pressed");
+    self.playlist.currentTrack++;
+    [self putCurrentTrackIntoMusicPlayer];
+    [self playButtonPressed:nil];
+
 }
 - (IBAction)backButtonPressed:(id)sender {
     NSLog(@"Back button pressed");
+    self.playlist.currentTrack--;
+    [self putCurrentTrackIntoMusicPlayer];
+    [self playButtonPressed:nil];
 }
 
 

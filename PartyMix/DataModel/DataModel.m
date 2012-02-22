@@ -286,9 +286,9 @@ static DataModel *_dataModel = nil;
     newPlaylistItem.mediaItem = mediaItem;
     newPlaylistItem.addedDate = [NSDate date];
     
-    if (playlist.isCurrent) {
-        [self updateMediaItemCollectionWithPlaylist:playlist];
-    }
+//    if (playlist.isCurrent) {
+//        [self updateMediaItemCollectionWithPlaylist:playlist];
+//    }
     
     return newPlaylistItem;
 }
@@ -497,7 +497,7 @@ static DataModel *_dataModel = nil;
     Playlist *oldCurrent = [self currentPlaylist];
     oldCurrent.isCurrent = NO;
     playlist.isCurrent = YES;
-    [self updateMediaItemCollectionWithPlaylist:playlist];
+    //[self updateMediaItemCollectionWithPlaylist:playlist];
 }
 
 
