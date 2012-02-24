@@ -11,12 +11,27 @@
 #import "MPMediaItemCollection+Utils.h"
 #import "MediaItem.h"
 #import "PlaylistItem.h"
+#import "DataModel.h"
 
 @implementation RJMusicManager
 
+static RJMusicManager *_musicManager = nil;
+
 @synthesize playlist = _playlist;
 
-static RJMusicManager *_musicManager = nil;
+- (void)setPlaylist:(Playlist *)playlist {
+    if (playlist == _playlist) {
+        return;
+    }
+    if (self.playlist) {
+        [self.playlist removeObserver:self forKeyPath:@"isCurrent"];
+    }
+    [playlist addObserver:self 
+               forKeyPath:@"isCurrent"
+                  options:NSKeyValueObservingOptionNew 
+                  context:nil];
+    _playlist = playlist;
+}
 
 + (RJMusicManager *)sharedInstance {
     if (_musicManager == nil) {
@@ -27,8 +42,20 @@ static RJMusicManager *_musicManager = nil;
                                                  selector:@selector(musicChanged:) 
                                                      name:MPMusicPlayerControllerPlaybackStateDidChangeNotification 
                                                    object:nil];
+        
+        //Need to observe the current playlist
+        if ([[DataModel sharedInstance] currentPlaylist]) {
+            _musicManager.playlist = [[DataModel sharedInstance] currentPlaylist];
+        }
     }
     return _musicManager;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    
+    if ([keyPath isEqual:@"isCurrent"]) {
+        self.playlist = [DataModel sharedInstance].currentPlaylist;
+    }
 }
 
 - (void)musicChanged:(NSNotification *)notification {
@@ -119,11 +146,9 @@ static RJMusicManager *_musicManager = nil;
     [self playNextTrack];
 }
 
-- (void)dealloc {
-    self.playlist = nil;
-    
+- (void)dealloc {    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+    self.playlist = nil;
     [super dealloc];
 }
 

@@ -12,6 +12,7 @@
 #import "DataModel.h"
 #import "MediaItem.h"
 #import "NSArray+PageableArray.h"
+#import "RJMusicManager.h"
 
 #define kEntityNameMediaItem                    @"MediaItem"
 #define kEntityNamePlaylistItem                 @"PlaylistItem"
@@ -493,11 +494,13 @@ static DataModel *_dataModel = nil;
 }
 
 - (void)setCurrentPlaylist:(Playlist *)playlist {
-    
     Playlist *oldCurrent = [self currentPlaylist];
-    oldCurrent.isCurrent = NO;
     playlist.isCurrent = YES;
-    //[self updateMediaItemCollectionWithPlaylist:playlist];
+    oldCurrent.isCurrent = NO;
+    
+    if (!oldCurrent) {
+        [[RJMusicManager sharedInstance] setPlaylist:playlist];
+    }
 }
 
 

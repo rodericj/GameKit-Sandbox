@@ -12,7 +12,6 @@
 @interface RJMusicManager : NSObject
 
 @property (nonatomic, retain) Playlist *playlist;
-
 - (void)playNextTrack;
 - (void)playPreviousTrack;
 - (void)playCurrentTrack;
