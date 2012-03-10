@@ -41,7 +41,11 @@
 }
 
 -(NSPredicate *)predicate {
-    return [NSPredicate predicateWithFormat:@"deviceHome == %@", [[DataModel sharedInstance] currentServerWithState:GKPeerStateConnected]];
+    Device *device = [[DataModel sharedInstance] currentServerWithState:GKPeerStateConnected];
+    if (!device) {
+        return [NSPredicate predicateWithFormat:@"title == %@", @"no title at all. just don't show anything"];
+    }
+    return [NSPredicate predicateWithFormat:@"deviceHome == %@", device];
 }
 
 #pragma mark - UITableViewDelegate Methods
