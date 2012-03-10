@@ -51,8 +51,12 @@ static RJSessionManager *_sessionManager = nil;
     // Tell the data Model that the server availability button was pressed
     //If we have no session at this point, then start server    
     if (!self.session) {
+        NSString *displayName = nil;
+#if TARGET_IPHONE_SIMULATOR
+        displayName = @"John Doe's iPhone Simulator";
+#endif
         self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
-                                                 displayName:nil 
+                                                 displayName:displayName 
                                                  sessionMode:GKSessionModeServer] autorelease];
         self.session.delegate = self;
         [self.session setDataReceiveHandler:self withContext:nil];
@@ -264,8 +268,13 @@ static RJSessionManager *_sessionManager = nil;
     if (self.session) {
         [self disconnect];
     }
+    NSString *displayName = nil;
+#if TARGET_IPHONE_SIMULATOR
+    displayName = @"John Doe's iPhone Simulator";
+#endif
+
     self.session = [[[GKSession alloc] initWithSessionID:kSessionName 
-                                             displayName:nil 
+                                             displayName:displayName 
                                              sessionMode:GKSessionModeClient] autorelease];
     self.session.delegate = self;
     self.session.available = YES;
