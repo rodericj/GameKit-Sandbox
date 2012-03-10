@@ -39,7 +39,7 @@
     
     Playlist *playlist = (Playlist *)[self.fetchController objectAtIndexPath:indexPath];
     cell.textLabel.text = playlist.title;
-    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [playlist.playlistItem count]];
     if (playlist.isCurrent) {
         cell.imageView.image = [UIImage imageNamed:@"first.png"];
     } else {
