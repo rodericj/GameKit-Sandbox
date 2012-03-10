@@ -245,35 +245,45 @@ static DataModel *_dataModel = nil;
     NSUInteger currentlyPlayingIndex = [musicPlayer indexOfNowPlayingItem];
     NSLog(@"the currently playing song is %d", currentlyPlayingIndex);
     
+    NSMutableArray *songs = [NSMutableArray array];
    // NSMutableArray *mediaItems = [NSMutableArray arrayWithCapacity:[playlist.playlistItem count]];
     
     //TODO At this point we need to extract the media items that are in the playlist by the MPMediaItemPropertyPersistentID
     if ([playlist.playlistItem count]) {
-        MPMediaQuery *query = [MPMediaQuery songsQuery];
 
-        //TODO we need to only take the playlistItem at the current position and add this to the media player
-        for (PlaylistItem *playlistItem in playlist.playlistItem) {
+        // At this point I need to sort the playlist items by addedDate, and add them to a songs array
+        NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"addedDate" ascending:YES];
+        NSArray *sorters = [NSArray arrayWithObject:sortByDate];
+        NSArray *sortedList = [playlist.playlistItem sortedArrayUsingDescriptors:sorters];
+        
+        for (PlaylistItem *playlistItem in sortedList) {
             NSLog(@"mediaItem %@", playlistItem.mediaItem.persistentID);
             NSNumber *persistentID = playlistItem.mediaItem.persistentID;
             MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:persistentID 
                                                                                    forProperty:MPMediaItemPropertyPersistentID];
-            
+            MPMediaQuery *query = [MPMediaQuery songsQuery];
             [query addFilterPredicate:predicate];
-            NSArray *songs = [query items];
-            NSLog(@"the items are %@", songs);
-
+            NSArray *songsFromThisQuery = [query items];
+            [songs addObjectsFromArray:songsFromThisQuery];
         }
         
-        //query.filterPredicates = filters;
         //TODO we need to set up the playlist so that it updates to the currently playing position when we add
         // (see here: http://iphonedevelopment.blogspot.com/2009/11/update-to-mpmediaitemcollection.html )
         
-        NSArray *queriedItems = [query items];
-        NSLog(@"queried items %@", queriedItems);
-        MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:queriedItems];
+        NSInteger playbackState = musicPlayer.playbackState;
+        MPMediaItem *nowPlayingItem = musicPlayer.nowPlayingItem;
+        NSTimeInterval currentPlaybackTime = musicPlayer.currentPlaybackTime;
+        
+        NSLog(@"sum of all queries %@", songs);
+        MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:songs];
         [musicPlayer setQueueWithItemCollection:collection];
         [collection release];
-        //[query release];
+        
+        if (playbackState == MPMusicPlaybackStatePlaying) {
+            musicPlayer.nowPlayingItem = nowPlayingItem;
+            [musicPlayer play];
+            musicPlayer.currentPlaybackTime = currentPlaybackTime;
+        }  
     }
 }
 
@@ -287,9 +297,9 @@ static DataModel *_dataModel = nil;
     newPlaylistItem.mediaItem = mediaItem;
     newPlaylistItem.addedDate = [NSDate date];
     
-//    if (playlist.isCurrent) {
-//        [self updateMediaItemCollectionWithPlaylist:playlist];
-//    }
+    if (playlist.isCurrent) {
+        [self updateMediaItemCollectionWithPlaylist:playlist];
+    }
     
     return newPlaylistItem;
 }

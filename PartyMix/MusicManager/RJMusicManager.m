@@ -19,29 +19,25 @@ static RJMusicManager *_musicManager = nil;
 
 @synthesize playlist = _playlist;
 
-- (void)setPlaylist:(Playlist *)playlist {
-    if (playlist == _playlist) {
-        return;
-    }
-    if (self.playlist) {
-        [self.playlist removeObserver:self forKeyPath:@"isCurrent"];
-    }
-    [playlist addObserver:self 
-               forKeyPath:@"isCurrent"
-                  options:NSKeyValueObservingOptionNew 
-                  context:nil];
-    _playlist = playlist;
-}
-
 + (RJMusicManager *)sharedInstance {
     if (_musicManager == nil) {
         _musicManager = [[super allocWithZone:NULL] init];
         MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
+        [musicPlayer setShuffleMode:MPMusicShuffleModeOff];
+        [musicPlayer setRepeatMode:MPMusicRepeatModeAll];
         [musicPlayer beginGeneratingPlaybackNotifications];
+        
         [[NSNotificationCenter defaultCenter] addObserver:_musicManager 
                                                  selector:@selector(musicChanged:) 
                                                      name:MPMusicPlayerControllerPlaybackStateDidChangeNotification 
                                                    object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:_musicManager 
+                                                 selector:@selector(handleNowPlayingChanged:) 
+                                                     name:MPMusicPlayerControllerNowPlayingItemDidChangeNotification 
+                                                   object:nil];
+        
+        
         
         //Need to observe the current playlist
         if ([[DataModel sharedInstance] currentPlaylist]) {
@@ -50,12 +46,10 @@ static RJMusicManager *_musicManager = nil;
     }
     return _musicManager;
 }
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    
-    if ([keyPath isEqual:@"isCurrent"]) {
-        self.playlist = [DataModel sharedInstance].currentPlaylist;
-    }
+- (void)handleNowPlayingChanged:(NSNotification *)notification {
+    //NSLog(@"now playing has changed");
+    MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
+    NSLog(@"after a change the now playing is %d", musicPlayer.indexOfNowPlayingItem);
 }
 
 - (void)musicChanged:(NSNotification *)notification {
@@ -85,6 +79,8 @@ static RJMusicManager *_musicManager = nil;
 }
 
 - (void)putCurrentTrackIntoMusicPlayer {
+    
+    //This is not what i want to do
     MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
     
     //TODO add this to a category on the playlist called currentPlaylistItem
@@ -107,17 +103,21 @@ static RJMusicManager *_musicManager = nil;
 
 - (void)playNextTrack {
     // TODO obviously this needs to be revisited
-    self.playlist.currentTrack = (self.playlist.currentTrack+1) % [self.playlist.playlistItem count];
-    [self putCurrentTrackIntoMusicPlayer];
-    [self playCurrentTrack];
+    //self.playlist.currentTrack = (self.playlist.currentTrack+1) % [self.playlist.playlistItem count];
+    //[self putCurrentTrackIntoMusicPlayer];
+    MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
+    [musicPlayer skipToNextItem];
+    //[self playCurrentTrack];
 }
 
 - (void)playPreviousTrack {
+    MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
+    [musicPlayer skipToPreviousItem];
     self.playlist.currentTrack--;
     if (self.playlist.currentTrack < 0) {
         self.playlist.currentTrack = 0;
     }
-    [self putCurrentTrackIntoMusicPlayer];
+//    [self putCurrentTrackIntoMusicPlayer];
     [self playCurrentTrack];
 }
 
@@ -131,7 +131,8 @@ static RJMusicManager *_musicManager = nil;
     if(self.playlist.currentTrack == -1){
         NSLog(@"nothing is playing");
         self.playlist.currentTrack = 0;
-        [self putCurrentTrackIntoMusicPlayer];
+        [musicPlayer skipToBeginning];        
+       // [self putCurrentTrackIntoMusicPlayer];
     }
     
 	if (playbackState == MPMusicPlaybackStateStopped || playbackState == MPMusicPlaybackStatePaused) {
