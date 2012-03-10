@@ -19,6 +19,15 @@
 
 -(IBAction)getMPMediaItems:(id)sender {
 #if TARGET_IPHONE_SIMULATOR
+    NSString *alertTitle = @"Get Local Songs";
+    NSString *message = @"Fetching all of the songs can only be done on an actual device with an iPod (iPhone, iPad, iPod Touch). Here are some dummy songs for you though";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertTitle
+                                                    message:message
+                                                   delegate:nil 
+                                          cancelButtonTitle:@"Ok" 
+                                          otherButtonTitles:nil, nil];
+    [alert show];
+    [alert release];
     [[DataModel sharedInstance] insertDummyMediaItems];
     return;
 #endif
@@ -67,6 +76,14 @@
     else {
         NSLog(@"there is no current playlist");
     }
+}
+
+-(NSPredicate *)predicate {
+#if TARGET_IPHONE_SIMULATOR
+    return nil;
+#endif
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(title = %@) OR (title = %@)", @"The Letter", @"clasic"];
+    return predicate;
 }
 
 #pragma mark - View lifecycle
