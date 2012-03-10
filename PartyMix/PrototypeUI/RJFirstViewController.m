@@ -111,6 +111,9 @@
                     NSLog(@"error handling session request %@", error);
                 }
             }
+            else {
+                [[RJSessionManager sharedInstance] denySessionRequestFrom:self.deviceToConnectTo];
+            }
             break;
             
         case kSessionSendText: {

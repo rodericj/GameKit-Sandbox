@@ -22,6 +22,7 @@
 - (void)findServer;
 
 - (NSError *)handleSessionRequestFrom:(Device *)device;
+- (void)denySessionRequestFrom:(Device *)device;
 
 
 /*

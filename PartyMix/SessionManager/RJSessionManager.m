@@ -298,6 +298,12 @@ static RJSessionManager *_sessionManager = nil;
     [[DataModel sharedInstance] save];
 }
 
+- (void)denySessionRequestFrom:(Device *)device {
+    NSString *peerId = device.peerId;
+    [self.session denyConnectionFromPeer:peerId];
+    device.state = GKPeerStateDisconnected;
+}
+
 - (NSError *)handleSessionRequestFrom:(Device *)device {
     NSError *error = nil;
     [self.session acceptConnectionFromPeer:device.peerId
