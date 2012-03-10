@@ -273,6 +273,11 @@
     }
     [[DataModel sharedInstance] save];
     [[RJSessionManager sharedInstance] findServer];
+    
+}
+
+- (void)updateServerListeningString {
+    self.serverLabel.text = [RJSessionManager sharedInstance].isListening ? listening : not_listening;
 }
 
 - (void)viewDidUnload
@@ -290,7 +295,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.serverLabel.text = [RJSessionManager sharedInstance].isListening ? listening : not_listening;
+    [self updateServerListeningString];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

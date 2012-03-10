@@ -44,7 +44,9 @@ static RJSessionManager *_sessionManager = nil;
     return _sessionManager;
 }
 
+
 #pragma mark -
+
 - (void)toggleServerAvailabilty {
     [self disconnect];
     
@@ -73,11 +75,11 @@ static RJSessionManager *_sessionManager = nil;
 
 -(void)handleDisconnect:(Device *) device  {
     
-    if (![[[DataModel sharedInstance] fetchPeersWithState:GKPeerStateConnected] count]) {
-        self.session = nil;
-    }
-    [[DataModel sharedInstance] deleteDevice:device];
-    [[DataModel sharedInstance] save];
+//    if (![[[DataModel sharedInstance] fetchPeersWithState:GKPeerStateConnected] count]) {
+//        self.session = nil;
+//    }
+//    [[DataModel sharedInstance] deleteDevice:device];
+//    [[DataModel sharedInstance] save];
 }
 
 - (void)handleUnavailable:(Device *) device {
@@ -252,6 +254,13 @@ static RJSessionManager *_sessionManager = nil;
  */
 - (void)session:(GKSession *)thisSession connectionWithPeerFailed:(NSString *)peerID withError:(NSError *)error {
     NSLog(@"connectionWithPeerFailed %@, %@ %@", thisSession.displayName, peerID, error);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Connecting"
+                                                    message:[error localizedDescription]
+                                                   delegate:nil
+                                          cancelButtonTitle:@"Ok" 
+                                          otherButtonTitles:nil, nil];
+    [alert show];
+    [alert release];
 }
 
 /* Indicates an error occurred with the session such as failing to make available.
@@ -259,6 +268,8 @@ static RJSessionManager *_sessionManager = nil;
 - (void)session:(GKSession *)session didFailWithError:(NSError *)error {
     NSLog(@"GKSession didFailWithError %@", error);
 }
+
+#pragma  mark - private methods
 - (BOOL)isListening {
     return (self.session.available && (self.session.sessionMode == GKSessionModeServer));
 }
