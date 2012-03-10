@@ -23,8 +23,21 @@
 @synthesize mediaToSend = _mediaToSend;
 
 -(IBAction)getRemoteMedia:(id)sender {
-    NSLog(@"fetch remote");
-    [[RJSessionManager sharedInstance] requestSongsFromServer];
+    if([[DataModel sharedInstance] currentServerWithState:GKPeerStateConnected]) {
+        NSLog(@"fetch remote");
+        [[RJSessionManager sharedInstance] requestSongsFromServer];
+    }
+    else {
+        NSString *alertTitle = @"Requesting remote tracks";
+        NSString *notConnectedMessage = @"It looks like you are not connected to a server. Go back to the first view and establish a connection, or start your own party by becoming a server";
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertTitle
+                                                        message:notConnectedMessage 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"Ok" 
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+    }
 }
 
 -(NSPredicate *)predicate {
