@@ -175,11 +175,12 @@
             
         case GKPeerStateAvailable: {
             self.deviceToConnectTo = tappedDevice;
-            NSLog(@"device %@, peerId %@", self.deviceToConnectTo, self.deviceToConnectTo.peerId);
+            NSLog(@"device %@, peerId %@, device.deviceName %@", self.deviceToConnectTo, self.deviceToConnectTo.peerId, self.deviceToConnectTo.deviceName);
             NSString *displayName = [[RJSessionManager sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
         
             if (!displayName) {
-                [[RJSessionManager sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
+                NSString *name = [[RJSessionManager sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
+                NSLog(@"name = %@", name);
                 NSAssert(displayName, @"Display name must not be nil for available state");
             }
             
@@ -244,7 +245,7 @@
     cell.detailTextLabel.text = [self sessionTitleForState:device.state];
 
     if ([device.isServer boolValue]) {
-        cell.imageView.image = [UIImage imageNamed:@"first.png"];
+        cell.imageView.image = [UIImage imageNamed:@"server.png"];
     } else {
         cell.imageView.image = nil;
     }

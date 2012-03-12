@@ -394,14 +394,37 @@ static DataModel *_dataModel = nil;
 
 - (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId deviceName:(NSString *)deviceName {
     
-	NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
-                                                            where:[NSPredicate predicateWithFormat:@"(deviceName == %@) ", deviceName]
-                                                          orderBy:nil];
+    // This is a 3 step process.
+    // 1) Fetch a device with the Peer Id.
+    // 2) If that returned nothing, then fetch a device with the device name
+    // 3) If that returned nothing, create a new one.
     
-	theFetchRequest.fetchLimit = 1;
-
+    // First see if we have a device with that peerId
+    NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
+                                                            where:[NSPredicate predicateWithFormat:@"(peerId == %@) ", peerId]
+                                                          orderBy:nil];
+    theFetchRequest.fetchLimit = 1;
     NSError *error = nil;
     NSArray *results = [self.managedObjectContext executeFetchRequest:theFetchRequest error:&error];
+	
+    if (error) {
+        NSLog(@"There was an error when fetching by the peerId %@", [error localizedDescription]);
+        return nil;
+    }
+    
+    if ([results count]) {
+        Device *device = [results objectAtIndex:0];
+        device.deviceName = deviceName;
+        return device;
+    }
+    
+    // If no device matched that peerId, lets see if we have a device with this name
+    theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
+                                            where:[NSPredicate predicateWithFormat:@"(deviceName == %@) ", deviceName]
+                                          orderBy:nil];
+    
+
+    results = [self.managedObjectContext executeFetchRequest:theFetchRequest error:&error];
 	
     if (error) {
         NSLog(@"There was an error when fetching %@", [error localizedDescription]);
@@ -417,7 +440,7 @@ static DataModel *_dataModel = nil;
         return device;
     }
     
-    //If we don't have a result, create one and return it
+    //Finally If we don't have a result, create one and return it
     Device *device = [NSEntityDescription insertNewObjectForEntityForName:kEntityNameDevice
                                                    inManagedObjectContext:self.managedObjectContext];  
     device.peerId = peerId;

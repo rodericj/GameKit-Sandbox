@@ -15,15 +15,18 @@
 
 @interface RJThirdViewController () 
 
+@property (retain, nonatomic) IBOutlet UIButton *fetchButton;
 @property (nonatomic, retain) MediaItem *mediaToSend;
 
 @end
+
 @implementation RJThirdViewController
+@synthesize fetchButton = _fetchButton;
 
 @synthesize mediaToSend = _mediaToSend;
 
 -(IBAction)getRemoteMedia:(id)sender {
-    if([[DataModel sharedInstance] currentServerWithState:GKPeerStateConnected]) {
+    if( [[RJSessionManager sharedInstance] currentServer]) {
         NSLog(@"fetch remote");
         [[RJSessionManager sharedInstance] requestSongsFromServer];
     }
@@ -41,7 +44,7 @@
 }
 
 -(NSPredicate *)predicate {
-    Device *device = [[DataModel sharedInstance] currentServerWithState:GKPeerStateConnected];
+    Device *device =  [[RJSessionManager sharedInstance] currentServer];
     if (!device) {
         return [NSPredicate predicateWithFormat:@"title == %@", @"no title at all. just don't show anything"];
     }
@@ -116,6 +119,26 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if(![[RJSessionManager sharedInstance] currentServer]) {
+        NSString *text = @"When connected to a party, you'll need to get the list of songs available to you. Use this view to fetch and view those songs.";
+        UITextView *textView = [[[UITextView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
+        textView.text = text;
+        self.tableView.tableHeaderView = textView;
+    }
+    else {
+        UIButton *button = [[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 200, 40)] autorelease];
+        button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        button.frame = CGRectMake(0, 0, 200, 40);
+        [button setTitle:@"Fetch Songs From Host" 
+                forState:UIControlStateNormal];
+        [button setBackgroundColor:[UIColor whiteColor]];
+        [button setTitleColor:[UIColor blackColor] 
+                     forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(getRemoteMedia:) forControlEvents:UIControlEventTouchDown];
+        UIView *textView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
+        [textView addSubview:button];
+        self.tableView.tableHeaderView = textView;
+    }
 }
 
 - (void)viewDidLoad
@@ -128,6 +151,7 @@
 
 - (void)viewDidUnload
 {
+    [self setFetchButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -139,4 +163,8 @@
 	return YES;
 }
 
+- (void)dealloc {
+    [_fetchButton release];
+    [super dealloc];
+}
 @end

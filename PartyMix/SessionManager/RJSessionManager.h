@@ -59,5 +59,6 @@
 
 - (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device;
 
+- (Device *)currentServer;
 
 @end

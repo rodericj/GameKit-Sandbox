@@ -83,7 +83,8 @@ static RJSessionManager *_sessionManager = nil;
 }
 
 - (void)handleUnavailable:(Device *) device {
-    NSLog(@"the peer %@ is unavailable", device.peerId);
+    NSLog(@"the peer %@ is unavailable", device.deviceName);
+    device.state = [NSNumber numberWithInt:GKPeerStateUnavailable];
 }
 
 #pragma mark -
@@ -169,7 +170,7 @@ static RJSessionManager *_sessionManager = nil;
 }
 
 - (void)sendSingleSongRequest:(MediaItem *)media {
-    Device *server = [[DataModel sharedInstance] currentServerWithState:GKPeerStateConnected];
+    Device *server =  [[RJSessionManager sharedInstance] currentServer];
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
     [dict setObject:media 
@@ -205,7 +206,7 @@ static RJSessionManager *_sessionManager = nil;
 
 - (void)requestSongsFromServer {
     NSLog(@"request tracks from server");
-    Device *server = [[DataModel sharedInstance] currentServerWithState:GKPeerStateConnected];
+    Device *server =  [[RJSessionManager sharedInstance] currentServer];
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
     [dict setObject:remoteFetchAllSongsByArtistCall 
@@ -303,6 +304,10 @@ static RJSessionManager *_sessionManager = nil;
     [DataModel sharedInstance].localDevice.isServer = [NSNumber numberWithBool:NO];
     [self.session setDataReceiveHandler:self 
                             withContext:nil];
+}
+#pragma  mark -
+- (Device *)currentServer {
+    return [[DataModel sharedInstance] currentServerWithState:GKPeerStateConnected];
 }
 
 - (void)disconnect {
