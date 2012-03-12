@@ -74,12 +74,7 @@ static RJSessionManager *_sessionManager = nil;
 }
 
 -(void)handleDisconnect:(Device *) device  {
-    
-//    if (![[[DataModel sharedInstance] fetchPeersWithState:GKPeerStateConnected] count]) {
-//        self.session = nil;
-//    }
-//    [[DataModel sharedInstance] deleteDevice:device];
-//    [[DataModel sharedInstance] save];
+    device.isServer = [NSNumber numberWithBool:NO];
 }
 
 - (void)handleUnavailable:(Device *) device {
