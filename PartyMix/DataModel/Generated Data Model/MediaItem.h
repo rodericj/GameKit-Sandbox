@@ -2,7 +2,7 @@
 //  MediaItem.h
 //  PartyMix
 //
-//  Created by Roderic Campbell on 2/20/12.
+//  Created by Roderic Campbell on 3/11/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -17,14 +17,14 @@
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * titleFirstLetter;
 @property (nonatomic, retain) Device *deviceHome;
-@property (nonatomic, retain) NSSet *playlistItem;
+@property (nonatomic, retain) NSSet *playlistItems;
 @end
 
 @interface MediaItem (CoreDataGeneratedAccessors)
 
-- (void)addPlaylistItemObject:(PlaylistItem *)value;
-- (void)removePlaylistItemObject:(PlaylistItem *)value;
-- (void)addPlaylistItem:(NSSet *)values;
-- (void)removePlaylistItem:(NSSet *)values;
+- (void)addPlaylistItemsObject:(PlaylistItem *)value;
+- (void)removePlaylistItemsObject:(PlaylistItem *)value;
+- (void)addPlaylistItems:(NSSet *)values;
+- (void)removePlaylistItems:(NSSet *)values;
 
 @end

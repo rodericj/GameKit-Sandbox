@@ -2,7 +2,7 @@
 //  MediaItem.m
 //  PartyMix
 //
-//  Created by Roderic Campbell on 2/20/12.
+//  Created by Roderic Campbell on 3/11/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -17,6 +17,6 @@
 @dynamic title;
 @dynamic titleFirstLetter;
 @dynamic deviceHome;
-@dynamic playlistItem;
+@dynamic playlistItems;
 
 @end

@@ -10,6 +10,7 @@
 #define kEntityNamePlaylistItem                 @"PlaylistItem"
 #define kEntityNamePlaylist                     @"Playlist"
 #define kEntityNameDevice                       @"Device"
+#define kEntityNameMessage                      @"ChatMessage"
 
 //Strings
 #define send_a_message                  @"Send a message"

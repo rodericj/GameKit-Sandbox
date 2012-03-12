@@ -2,7 +2,7 @@
 //  Playlist.m
 //  PartyMix
 //
-//  Created by Roderic Campbell on 2/21/12.
+//  Created by Roderic Campbell on 3/11/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -12,9 +12,9 @@
 
 @implementation Playlist
 
+@dynamic currentTrack;
 @dynamic isCurrent;
 @dynamic title;
-@dynamic currentTrack;
-@dynamic playlistItem;
+@dynamic playlistItems;
 
 @end

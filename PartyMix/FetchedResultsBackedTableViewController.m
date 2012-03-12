@@ -21,6 +21,10 @@
     return nil;
 }
 
+- (BOOL)ascendingOrder {
+    return YES;
+}
+
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"configure Cell %@", indexPath);
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
@@ -38,7 +42,7 @@
     
     // Configure the request's entity, and optionally its predicate.
     if (self.sortBy) {
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:self.sortBy ascending:YES];
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:self.sortBy ascending:[self ascendingOrder]];
         NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
         [fetchRequest setSortDescriptors:sortDescriptors];
         [sortDescriptors release];

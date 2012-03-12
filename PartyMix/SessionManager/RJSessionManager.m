@@ -150,7 +150,14 @@ static RJSessionManager *_sessionManager = nil;
 
 #pragma mark - protocol calls
 - (void)sendMessageMethod:(NSArray *)payload {
-    NSLog(@"a message was sent: %@", [[payload objectAtIndex:1] objectForKey:messagekey]);
+    NSString *message = [[payload objectAtIndex:1] objectForKey:messagekey];
+    NSLog(@"a message was sent: %@", message);
+    NSString *deviceDisplayName = [self.session displayNameForPeer:[payload objectAtIndex:0]];
+    
+    Device *device = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:[payload objectAtIndex:0]
+                                                                    deviceName:deviceDisplayName];
+    
+    [[DataModel sharedInstance] insertNewMessage:message fromDevice:device];
 }
 
 - (void)sendSingleSongMethod:(NSArray *)payload {
@@ -174,6 +181,9 @@ static RJSessionManager *_sessionManager = nil;
     [dict setObject:sendMessageCall 
              forKey:actionkey];
     
+    Device *me = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:self.session.peerID deviceName:nil];
+     
+    [[DataModel sharedInstance] insertNewMessage:message fromDevice:me];
     NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
     
     NSArray *devices = [[DataModel sharedInstance] allConnectedDevices];
@@ -184,7 +194,7 @@ static RJSessionManager *_sessionManager = nil;
 }
 
 - (void)sendSingleSongRequest:(MediaItem *)media {
-    Device *server =  [[RJSessionManager sharedInstance] currentServer];
+    Device *server =  self.currentServer;
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
     [dict setObject:media 
@@ -355,17 +365,17 @@ static RJSessionManager *_sessionManager = nil;
 
 - (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device{
     NSError *error = nil;
-    if ([DataModel sharedInstance].localDevice.isServer) {    
-        [self.session sendDataToAllPeers:payload 
-                            withDataMode:GKSendDataReliable 
-                                   error:&error];
-    }
-    else {
-        NSArray *peer = [NSArray arrayWithObject:device.peerId];
-        [self.session sendData:payload
-                       toPeers:peer 
-                  withDataMode:GKSendDataReliable error:&error];
-    }
+//    if ([DataModel sharedInstance].localDevice.isServer) {    
+//        [self.session sendDataToAllPeers:payload 
+//                            withDataMode:GKSendDataReliable 
+//                                   error:&error];
+//    }
+//    else {
+    NSArray *peer = [NSArray arrayWithObject:device.peerId];
+    [self.session sendData:payload
+                   toPeers:peer 
+              withDataMode:GKSendDataReliable error:&error];
+    //}
     
     return error;
 }

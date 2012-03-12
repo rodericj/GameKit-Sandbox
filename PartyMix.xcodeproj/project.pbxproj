@@ -7,15 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17020C2E14F36B10008A2DB3 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 17020C2D14F36B10008A2DB3 /* MediaItem.m */; };
-		17020C3514F4A99B008A2DB3 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 17020C3414F4A99B008A2DB3 /* Playlist.m */; };
 		17020C3914F7404E008A2DB3 /* RJMusicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17020C3814F7404E008A2DB3 /* RJMusicManager.m */; };
 		17040AA3148A120500231BD9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17040AA2148A120500231BD9 /* MediaPlayer.framework */; };
 		1705DD7514D63674009439D4 /* RJFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD6E14D63674009439D4 /* RJFirstViewController.m */; };
 		1705DD7614D63674009439D4 /* RJFourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7014D63674009439D4 /* RJFourthViewController.m */; };
 		1705DD7714D63674009439D4 /* RJSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7214D63674009439D4 /* RJSecondViewController.m */; };
 		1705DD7814D63674009439D4 /* RJThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7414D63674009439D4 /* RJThirdViewController.m */; };
-		171D65AC150B219F00537231 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 171D65AB150B219F00537231 /* Device.m */; };
 		1738DDD514EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1738DDD414EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m */; };
 		17396A1C14E62B9F00F19B8C /* RJSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17396A1B14E62B9F00F19B8C /* RJSessionManager.m */; };
 		175CDCCB148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */; };
@@ -24,7 +21,6 @@
 		178685BF14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */; };
 		1792A78214D5141E00D2EDC4 /* RJPlaylistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A78014D5141E00D2EDC4 /* RJPlaylistViewController.m */; };
 		1792A78314D5141E00D2EDC4 /* RJPlaylistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1792A78114D5141E00D2EDC4 /* RJPlaylistViewController.xib */; };
-		1792A78914D519B100D2EDC4 /* PlaylistItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A78814D519B000D2EDC4 /* PlaylistItem.m */; };
 		17ACB39F14789242008832E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB39E14789242008832E5 /* UIKit.framework */; };
 		17ACB3A114789242008832E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A014789242008832E5 /* Foundation.framework */; };
 		17ACB3A314789242008832E5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A214789242008832E5 /* CoreGraphics.framework */; };
@@ -44,6 +40,12 @@
 		17ACB3D814789242008832E5 /* PartyMixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 17ACB3D714789242008832E5 /* PartyMixTests.m */; };
 		17ACB3E2147893B3008832E5 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3E1147893B3008832E5 /* GameKit.framework */; };
 		17BE9794150D9957009B5FD0 /* server.png in Resources */ = {isa = PBXBuildFile; fileRef = 17BE9793150D9957009B5FD0 /* server.png */; };
+		17BE9798150DB587009B5FD0 /* PlaylistItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BE9797150DB587009B5FD0 /* PlaylistItem.m */; };
+		17BE979B150DB587009B5FD0 /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BE979A150DB587009B5FD0 /* Playlist.m */; };
+		17BE97A1150DB588009B5FD0 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BE97A0150DB588009B5FD0 /* MediaItem.m */; };
+		17BE97AA150DBE7B009B5FD0 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BE97A9150DBE7B009B5FD0 /* Device.m */; };
+		17BE97AD150DC0C5009B5FD0 /* ChatMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BE97AC150DC0C5009B5FD0 /* ChatMessagesViewController.m */; };
+		17BE97B3150DC795009B5FD0 /* ChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BE97B2150DC795009B5FD0 /* ChatMessage.m */; };
 		17D7581A14E833CB008183B1 /* RJMusicPlayerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7581814E833CB008183B1 /* RJMusicPlayerInterface.m */; };
 		17D7581B14E833CB008183B1 /* RJMusicPlayerInterface.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17D7581914E833CB008183B1 /* RJMusicPlayerInterface.xib */; };
 		17D7581F14E83971008183B1 /* UIFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7581E14E83971008183B1 /* UIFactory.m */; };
@@ -67,10 +69,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		17020C2C14F36B10008A2DB3 /* MediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaItem.h; path = "DataModel/Generated Data Model/MediaItem.h"; sourceTree = "<group>"; };
-		17020C2D14F36B10008A2DB3 /* MediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaItem.m; path = "DataModel/Generated Data Model/MediaItem.m"; sourceTree = "<group>"; };
-		17020C3314F4A99B008A2DB3 /* Playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Playlist.h; path = "DataModel/Generated Data Model/Playlist.h"; sourceTree = "<group>"; };
-		17020C3414F4A99B008A2DB3 /* Playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Playlist.m; path = "DataModel/Generated Data Model/Playlist.m"; sourceTree = "<group>"; };
 		17020C3714F7404E008A2DB3 /* RJMusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJMusicManager.h; path = MusicManager/RJMusicManager.h; sourceTree = "<group>"; };
 		17020C3814F7404E008A2DB3 /* RJMusicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJMusicManager.m; path = MusicManager/RJMusicManager.m; sourceTree = "<group>"; };
 		17040AA2148A120500231BD9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -82,8 +80,6 @@
 		1705DD7214D63674009439D4 /* RJSecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJSecondViewController.m; path = PrototypeUI/RJSecondViewController.m; sourceTree = "<group>"; };
 		1705DD7314D63674009439D4 /* RJThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJThirdViewController.h; path = PrototypeUI/RJThirdViewController.h; sourceTree = "<group>"; };
 		1705DD7414D63674009439D4 /* RJThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJThirdViewController.m; path = PrototypeUI/RJThirdViewController.m; sourceTree = "<group>"; };
-		171D65AA150B219F00537231 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = "DataModel/Generated Data Model/Device.h"; sourceTree = "<group>"; };
-		171D65AB150B219F00537231 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = "DataModel/Generated Data Model/Device.m"; sourceTree = "<group>"; };
 		1738DDD314EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MPMediaItemCollection+Utils.h"; path = "lib/MPMediaItemCollection+Utils.h"; sourceTree = "<group>"; };
 		1738DDD414EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MPMediaItemCollection+Utils.m"; path = "lib/MPMediaItemCollection+Utils.m"; sourceTree = "<group>"; };
 		17396A1A14E62B9F00F19B8C /* RJSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJSessionManager.h; path = SessionManager/RJSessionManager.h; sourceTree = "<group>"; };
@@ -96,8 +92,6 @@
 		1792A77F14D5141E00D2EDC4 /* RJPlaylistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJPlaylistViewController.h; sourceTree = "<group>"; };
 		1792A78014D5141E00D2EDC4 /* RJPlaylistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJPlaylistViewController.m; sourceTree = "<group>"; };
 		1792A78114D5141E00D2EDC4 /* RJPlaylistViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RJPlaylistViewController.xib; sourceTree = "<group>"; };
-		1792A78714D519B000D2EDC4 /* PlaylistItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaylistItem.h; path = "DataModel/Generated Data Model/PlaylistItem.h"; sourceTree = "<group>"; };
-		1792A78814D519B000D2EDC4 /* PlaylistItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaylistItem.m; path = "DataModel/Generated Data Model/PlaylistItem.m"; sourceTree = "<group>"; };
 		17ACB39A14789242008832E5 /* partymix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = partymix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17ACB39E14789242008832E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		17ACB3A014789242008832E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -122,6 +116,18 @@
 		17ACB3D714789242008832E5 /* PartyMixTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PartyMixTests.m; sourceTree = "<group>"; };
 		17ACB3E1147893B3008832E5 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		17BE9793150D9957009B5FD0 /* server.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = server.png; sourceTree = "<group>"; };
+		17BE9796150DB587009B5FD0 /* PlaylistItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaylistItem.h; path = "DataModel/Generated Data Model/PlaylistItem.h"; sourceTree = "<group>"; };
+		17BE9797150DB587009B5FD0 /* PlaylistItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaylistItem.m; path = "DataModel/Generated Data Model/PlaylistItem.m"; sourceTree = "<group>"; };
+		17BE9799150DB587009B5FD0 /* Playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Playlist.h; path = "DataModel/Generated Data Model/Playlist.h"; sourceTree = "<group>"; };
+		17BE979A150DB587009B5FD0 /* Playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Playlist.m; path = "DataModel/Generated Data Model/Playlist.m"; sourceTree = "<group>"; };
+		17BE979F150DB588009B5FD0 /* MediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaItem.h; path = "DataModel/Generated Data Model/MediaItem.h"; sourceTree = "<group>"; };
+		17BE97A0150DB588009B5FD0 /* MediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaItem.m; path = "DataModel/Generated Data Model/MediaItem.m"; sourceTree = "<group>"; };
+		17BE97A8150DBE7B009B5FD0 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = "DataModel/Generated Data Model/Device.h"; sourceTree = "<group>"; };
+		17BE97A9150DBE7B009B5FD0 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = "DataModel/Generated Data Model/Device.m"; sourceTree = "<group>"; };
+		17BE97AB150DC0C5009B5FD0 /* ChatMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatMessagesViewController.h; path = PrototypeUI/ChatMessagesViewController.h; sourceTree = "<group>"; };
+		17BE97AC150DC0C5009B5FD0 /* ChatMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatMessagesViewController.m; path = PrototypeUI/ChatMessagesViewController.m; sourceTree = "<group>"; };
+		17BE97B1150DC795009B5FD0 /* ChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatMessage.h; path = "DataModel/Generated Data Model/ChatMessage.h"; sourceTree = "<group>"; };
+		17BE97B2150DC795009B5FD0 /* ChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatMessage.m; path = "DataModel/Generated Data Model/ChatMessage.m"; sourceTree = "<group>"; };
 		17D7581714E833CB008183B1 /* RJMusicPlayerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJMusicPlayerInterface.h; path = PrototypeUI/RJMusicPlayerInterface.h; sourceTree = "<group>"; };
 		17D7581814E833CB008183B1 /* RJMusicPlayerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJMusicPlayerInterface.m; path = PrototypeUI/RJMusicPlayerInterface.m; sourceTree = "<group>"; };
 		17D7581914E833CB008183B1 /* RJMusicPlayerInterface.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RJMusicPlayerInterface.xib; path = PrototypeUI/RJMusicPlayerInterface.xib; sourceTree = "<group>"; };
@@ -212,6 +218,8 @@
 				17D7581714E833CB008183B1 /* RJMusicPlayerInterface.h */,
 				17D7581814E833CB008183B1 /* RJMusicPlayerInterface.m */,
 				17D7581914E833CB008183B1 /* RJMusicPlayerInterface.xib */,
+				17BE97AB150DC0C5009B5FD0 /* ChatMessagesViewController.h */,
+				17BE97AC150DC0C5009B5FD0 /* ChatMessagesViewController.m */,
 			);
 			name = "Prototype UI";
 			sourceTree = "<group>";
@@ -322,14 +330,16 @@
 		17D8824A14BE914F004D3722 /* Generated Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				171D65AA150B219F00537231 /* Device.h */,
-				171D65AB150B219F00537231 /* Device.m */,
-				17020C3314F4A99B008A2DB3 /* Playlist.h */,
-				17020C3414F4A99B008A2DB3 /* Playlist.m */,
-				17020C2C14F36B10008A2DB3 /* MediaItem.h */,
-				17020C2D14F36B10008A2DB3 /* MediaItem.m */,
-				1792A78714D519B000D2EDC4 /* PlaylistItem.h */,
-				1792A78814D519B000D2EDC4 /* PlaylistItem.m */,
+				17BE97B1150DC795009B5FD0 /* ChatMessage.h */,
+				17BE97B2150DC795009B5FD0 /* ChatMessage.m */,
+				17BE97A8150DBE7B009B5FD0 /* Device.h */,
+				17BE97A9150DBE7B009B5FD0 /* Device.m */,
+				17BE979F150DB588009B5FD0 /* MediaItem.h */,
+				17BE97A0150DB588009B5FD0 /* MediaItem.m */,
+				17BE9799150DB587009B5FD0 /* Playlist.h */,
+				17BE979A150DB587009B5FD0 /* Playlist.m */,
+				17BE9796150DB587009B5FD0 /* PlaylistItem.h */,
+				17BE9797150DB587009B5FD0 /* PlaylistItem.m */,
 			);
 			name = "Generated Data Model";
 			sourceTree = "<group>";
@@ -457,7 +467,6 @@
 				17FCA61B14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */,
 				178685BE14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */,
 				1792A78214D5141E00D2EDC4 /* RJPlaylistViewController.m in Sources */,
-				1792A78914D519B100D2EDC4 /* PlaylistItem.m in Sources */,
 				1705DD7514D63674009439D4 /* RJFirstViewController.m in Sources */,
 				1705DD7614D63674009439D4 /* RJFourthViewController.m in Sources */,
 				1705DD7714D63674009439D4 /* RJSecondViewController.m in Sources */,
@@ -466,10 +475,13 @@
 				17D7581A14E833CB008183B1 /* RJMusicPlayerInterface.m in Sources */,
 				17D7581F14E83971008183B1 /* UIFactory.m in Sources */,
 				1738DDD514EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m in Sources */,
-				17020C2E14F36B10008A2DB3 /* MediaItem.m in Sources */,
-				17020C3514F4A99B008A2DB3 /* Playlist.m in Sources */,
 				17020C3914F7404E008A2DB3 /* RJMusicManager.m in Sources */,
-				171D65AC150B219F00537231 /* Device.m in Sources */,
+				17BE9798150DB587009B5FD0 /* PlaylistItem.m in Sources */,
+				17BE979B150DB587009B5FD0 /* Playlist.m in Sources */,
+				17BE97A1150DB588009B5FD0 /* MediaItem.m in Sources */,
+				17BE97AA150DBE7B009B5FD0 /* Device.m in Sources */,
+				17BE97AD150DC0C5009B5FD0 /* ChatMessagesViewController.m in Sources */,
+				17BE97B3150DC795009B5FD0 /* ChatMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

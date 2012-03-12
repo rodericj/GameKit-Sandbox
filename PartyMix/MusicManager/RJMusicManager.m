@@ -84,7 +84,7 @@ static RJMusicManager *_musicManager = nil;
     MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
     
     //TODO add this to a category on the playlist called currentPlaylistItem
-    PlaylistItem *item = [[self.playlist.playlistItem allObjects] objectAtIndex:self.playlist.currentTrack];
+    PlaylistItem *item = [[self.playlist.playlistItems allObjects] objectAtIndex:[self.playlist.currentTrack intValue]];
     
     MPMediaQuery *query = [MPMediaQuery songsQuery];
     NSLog(@"mediaItem %@", item.mediaItem.persistentID);
@@ -113,7 +113,7 @@ static RJMusicManager *_musicManager = nil;
 - (void)playPreviousTrack {
     MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
     [musicPlayer skipToPreviousItem];
-    self.playlist.currentTrack--;
+    self.playlist.currentTrack = [NSNumber numberWithInt:[self.playlist.currentTrack intValue] - 1];
     if (self.playlist.currentTrack < 0) {
         self.playlist.currentTrack = 0;
     }
@@ -128,7 +128,7 @@ static RJMusicManager *_musicManager = nil;
 	MPMusicPlaybackState playbackState = [musicPlayer playbackState];
     
     
-    if(self.playlist.currentTrack == -1){
+    if([self.playlist.currentTrack intValue] == -1){
         NSLog(@"nothing is playing");
         self.playlist.currentTrack = 0;
         [musicPlayer skipToBeginning];        

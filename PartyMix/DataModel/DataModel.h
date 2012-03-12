@@ -37,6 +37,8 @@
 
 - (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId deviceName:(NSString *)deviceName;
 
+- (void)insertNewMessage:(NSString *)message fromDevice:(Device *)device;
+
 /*
  * Fetch the current server that this device is connected to
  */

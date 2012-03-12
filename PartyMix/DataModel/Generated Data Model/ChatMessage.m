@@ -1,22 +1,19 @@
 //
-//  PlaylistItem.m
+//  ChatMessage.m
 //  PartyMix
 //
 //  Created by Roderic Campbell on 3/11/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "PlaylistItem.h"
+#import "ChatMessage.h"
 #import "Device.h"
-#import "MediaItem.h"
-#import "Playlist.h"
 
 
-@implementation PlaylistItem
+@implementation ChatMessage
 
-@dynamic addedDate;
+@dynamic messageContent;
+@dynamic time;
 @dynamic device;
-@dynamic mediaItem;
-@dynamic playlist;
 
 @end

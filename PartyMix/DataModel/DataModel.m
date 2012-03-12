@@ -11,10 +11,12 @@
 
 #import "DataModel.h"
 #import "MediaItem.h"
+#import "ChatMessage.h"
 #import "NSArray+PageableArray.h"
 #import "RJMusicManager.h"
 
 #define kEntityNameMediaItem                    @"MediaItem"
+#define kEntityNameMessage                      @"ChatMessage"
 #define kEntityNamePlaylistItem                 @"PlaylistItem"
 #define kEntityNamePlaylist                     @"Playlist"
 #define kEntityNameDevice                       @"Device"
@@ -200,9 +202,18 @@ static DataModel *_dataModel = nil;
 }
 
 #pragma mark - insertion of NSManagedObjects
+
+
 - (NSManagedObject *)insertNewObjectOfType:(NSString *)entityName {
     return (NSManagedObject *)[NSEntityDescription insertNewObjectForEntityForName:entityName
                                                             inManagedObjectContext:self.managedObjectContext];
+}
+
+- (void)insertNewMessage:(NSString *)message fromDevice:(Device *)device {
+    ChatMessage *newMessage = (ChatMessage *)[self insertNewObjectOfType:kEntityNameMessage];
+    newMessage.messageContent = message;
+    newMessage.time = [NSDate date];
+    [device addMessagesObject:newMessage];
 }
 
 - (MediaItem *)insertNewMediaItem:(MediaItem *)mediaItem toDevice:(Device *)device {
@@ -249,12 +260,12 @@ static DataModel *_dataModel = nil;
    // NSMutableArray *mediaItems = [NSMutableArray arrayWithCapacity:[playlist.playlistItem count]];
     
     //TODO At this point we need to extract the media items that are in the playlist by the MPMediaItemPropertyPersistentID
-    if ([playlist.playlistItem count]) {
+    if ([playlist.playlistItems count]) {
 
         // At this point I need to sort the playlist items by addedDate, and add them to a songs array
         NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"addedDate" ascending:YES];
         NSArray *sorters = [NSArray arrayWithObject:sortByDate];
-        NSArray *sortedList = [playlist.playlistItem sortedArrayUsingDescriptors:sorters];
+        NSArray *sortedList = [playlist.playlistItems sortedArrayUsingDescriptors:sorters];
         
         for (PlaylistItem *playlistItem in sortedList) {
             NSLog(@"mediaItem %@", playlistItem.mediaItem.persistentID);
@@ -297,7 +308,7 @@ static DataModel *_dataModel = nil;
     newPlaylistItem.mediaItem = mediaItem;
     newPlaylistItem.addedDate = [NSDate date];
     
-    if (playlist.isCurrent) {
+    if ([playlist.isCurrent boolValue]) {
         [self updateMediaItemCollectionWithPlaylist:playlist];
     }
     
@@ -448,6 +459,8 @@ static DataModel *_dataModel = nil;
     device.isLocalHost = NO;
 
     [self save];
+    NSAssert(device.peerId, @"PeerId should be set");
+    NSAssert(device.deviceName, @"DeviceName should be set");
     return device;
 }
 
@@ -533,8 +546,8 @@ static DataModel *_dataModel = nil;
 
 - (void)setCurrentPlaylist:(Playlist *)playlist {
     Playlist *oldCurrent = [self currentPlaylist];
-    playlist.isCurrent = YES;
-    oldCurrent.isCurrent = NO;
+    playlist.isCurrent = [NSNumber numberWithBool:YES];
+    oldCurrent.isCurrent = [NSNumber numberWithBool:NO];
     
     if (!oldCurrent) {
         [[RJMusicManager sharedInstance] setPlaylist:playlist];
@@ -543,7 +556,7 @@ static DataModel *_dataModel = nil;
 
 - (NSArray *)allConnectedDevices {
     NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
-                                                            where:nil
+                                                            where:[NSPredicate predicateWithFormat:@"(deviceName != %@)", nil]
                                                           orderBy:nil];
     
     NSError *error = nil;

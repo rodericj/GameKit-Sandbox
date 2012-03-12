@@ -1,5 +1,5 @@
 //
-//  PlaylistItem.h
+//  ChatMessage.h
 //  PartyMix
 //
 //  Created by Roderic Campbell on 3/11/12.
@@ -9,13 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Device, MediaItem, Playlist;
+@class Device;
 
-@interface PlaylistItem : NSManagedObject
+@interface ChatMessage : NSManagedObject
 
-@property (nonatomic, retain) NSDate * addedDate;
+@property (nonatomic, retain) NSString * messageContent;
+@property (nonatomic, retain) NSDate * time;
 @property (nonatomic, retain) Device *device;
-@property (nonatomic, retain) MediaItem *mediaItem;
-@property (nonatomic, retain) Playlist *playlist;
 
 @end
