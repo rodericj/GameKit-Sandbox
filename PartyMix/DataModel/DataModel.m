@@ -387,15 +387,15 @@ static DataModel *_dataModel = nil;
     //If we don't have a result, create one and return it
     Device *device = [NSEntityDescription insertNewObjectForEntityForName:kEntityNameDevice
                                                    inManagedObjectContext:self.managedObjectContext];  
-    device.isLocalHost = YES;
+    device.isLocalHost = [NSNumber numberWithBool:YES];
     [self save];
     return device;
 }
 
-- (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId {
+- (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId deviceName:(NSString *)deviceName {
     
 	NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
-                                                            where:[NSPredicate predicateWithFormat:@"(peerId == %@) ", peerId]
+                                                            where:[NSPredicate predicateWithFormat:@"(deviceName == %@) ", deviceName]
                                                           orderBy:nil];
     
 	theFetchRequest.fetchLimit = 1;
@@ -408,17 +408,21 @@ static DataModel *_dataModel = nil;
         return nil;
     }
     
+    NSAssert([results count] < 2, @"We've run into an issue where 2 devices have the same name");
+    
     //If we have a result, return it
     if ([results count]) {
-        return [results objectAtIndex:0];
+        Device *device = [results objectAtIndex:0];
+        device.peerId = peerId;
+        return device;
     }
     
     //If we don't have a result, create one and return it
     Device *device = [NSEntityDescription insertNewObjectForEntityForName:kEntityNameDevice
                                                    inManagedObjectContext:self.managedObjectContext];  
     device.peerId = peerId;
+    device.deviceName = deviceName;
     device.isLocalHost = NO;
-    //device.cachedName = [self.session displayNameForPeer:peerId]; 
 
     [self save];
     return device;
@@ -427,7 +431,7 @@ static DataModel *_dataModel = nil;
 - (Device *)currentServerWithState:(NSUInteger)state {
     
     NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
-                                                            where:[NSPredicate predicateWithFormat:@"(state == %d) AND (isServer == YES)", state]
+                                                            where:[NSPredicate predicateWithFormat:@"(state == %@) AND (isServer == %@)", [NSNumber numberWithInt:state], [NSNumber numberWithBool:YES]]
                                                           orderBy:nil];
     
     NSError *error = nil;
@@ -490,7 +494,8 @@ static DataModel *_dataModel = nil;
     
     
     NSError *error = nil;
-    NSArray *results = [self.managedObjectContext executeFetchRequest:theFetchRequest error:&error];
+    NSArray *results = [self.managedObjectContext executeFetchRequest:theFetchRequest
+                                                                error:&error];
 	
     if (error) {
         NSLog(@"There was an error when fetching %@", [error localizedDescription]);
@@ -513,9 +518,23 @@ static DataModel *_dataModel = nil;
     }
 }
 
+- (NSArray *)allConnectedDevices {
+    NSFetchRequest *theFetchRequest = [self fetchRequestForEntity:kEntityNameDevice
+                                                            where:nil
+                                                          orderBy:nil];
+    
+    NSError *error = nil;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:theFetchRequest
+                                                                error:&error]; 
+    if (error) {
+        NSLog(@"There was an error when fetching %@", [error localizedDescription]);
+        return nil;
+    }
+    return results;
+}
 
-- (Device *)deviceWithPeerId:(NSString *)peerId {
-    return [self fetchOrInsertDeviceWithPeerId:peerId];
+- (Device *)deviceWithName:(NSString *)deviceName {
+    return [self fetchOrInsertDeviceWithPeerId:nil deviceName:deviceName];
 }
 
 #pragma mark - probably should not be moved to Session code

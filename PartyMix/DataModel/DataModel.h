@@ -30,12 +30,12 @@
 + (DataModel*)sharedInstance;
 
 #pragma mark - Device
-
-- (Device *)deviceWithPeerId:(NSString *)peerId;
+- (NSArray *)allConnectedDevices;
+- (Device *)deviceWithName:(NSString *)deviceName;
 
 - (NSArray *)fetchPeersWithState:(NSUInteger)state;
 
-- (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId;
+- (Device *)fetchOrInsertDeviceWithPeerId:(NSString *)peerId deviceName:(NSString *)deviceName;
 
 /*
  * Fetch the current server that this device is connected to

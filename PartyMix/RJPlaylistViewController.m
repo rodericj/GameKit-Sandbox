@@ -78,7 +78,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if ([[DataModel sharedInstance] localDevice].isServer) {
+    if ([[[DataModel sharedInstance] localDevice].isServer boolValue]) {
         if ([DataModel sharedInstance].currentPlaylist == self.playlist) {
             self.tableView.tableHeaderView = self.musicInterface; 
         } else {
@@ -128,7 +128,7 @@
     
     PlaylistItem *playlistItem = (PlaylistItem *)[self.fetchController objectAtIndexPath:indexPath];
     cell.textLabel.text = playlistItem.mediaItem.title;
-    cell.detailTextLabel.text = playlistItem.device.peerId;
+    cell.detailTextLabel.text = playlistItem.device.deviceName;
     return cell;
 }
 

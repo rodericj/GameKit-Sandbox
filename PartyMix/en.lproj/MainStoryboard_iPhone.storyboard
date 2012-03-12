@@ -97,7 +97,7 @@
                             <outlet property="delegate" destination="2" id="ugX-bM-5y5"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="First" image="first" id="7"/>
+                    <tabBarItem key="tabBarItem" title="Community" image="first" id="7"/>
                     <connections>
                         <outlet property="serverLabel" destination="TXe-7A-q2R" id="Vb5-mc-Hf3"/>
                         <outlet property="tableView" destination="dUY-T4-115" id="4dM-f1-wyr"/>
@@ -114,19 +114,19 @@
                     <view key="view" contentMode="scaleToFill" id="gKt-pB-uVa" customClass="UITableView">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <connections>
                             <outlet property="dataSource" destination="J01-th-eTg" id="l7c-n0-rzv"/>
                             <outlet property="delegate" destination="J01-th-eTg" id="4Kf-Qt-uOb"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Music" image="first" id="bWE-lI-W7W"/>
+                    <tabBarItem key="tabBarItem" title="Playlists" image="first" id="bWE-lI-W7W"/>
                     <navigationItem key="navigationItem" id="hN7-Ra-k9w"/>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="653" y="1646"/>
         </scene>
-        <!--Third View Controller - Remote Fetch-->
+        <!--Third View Controller - Host's Music-->
         <scene sceneID="hoO-6e-jDw">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gM2-8v-DAL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -155,7 +155,7 @@
                             <outlet property="delegate" destination="YJN-EG-T3U" id="ZYy-hf-eBr"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Remote Fetch" image="second.png" id="Ir5-ml-P27"/>
+                    <tabBarItem key="tabBarItem" title="Host's Music" image="second.png" id="Ir5-ml-P27"/>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="653" y="1072"/>
@@ -191,7 +191,7 @@
                             <outlet property="delegate" destination="3" id="NAB-YO-0Me"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Local Fetch" image="second" id="6"/>
+                    <tabBarItem key="tabBarItem" title="Your Music" image="second" id="6"/>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="653" y="498"/>

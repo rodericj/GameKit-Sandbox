@@ -79,6 +79,7 @@
 }
 
 -(NSPredicate *)predicate {
+    return nil;
 #if TARGET_IPHONE_SIMULATOR
     return nil;
 #endif

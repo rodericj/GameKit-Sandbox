@@ -76,30 +76,33 @@
 
 #pragma mark - The Alert View
 #pragma mark SERVER/CLIENT
-//-(void)handleSendTextThroughAlert:(UIAlertView *)alert {
-//    NSString *messageString = [alert textFieldAtIndex:0].text;
-//    
-//    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
-//    [dict setObject:messageString forKey:@"message"];
-//
-//    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
-//    NSError *error = nil;
-//    
-//    [[RJSessionManager sharedInstance] sendPayload:data];
-//    
-//    if (error) {
-//        NSLog(@"error sending data %@", error);
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error_sending_data
-//                                                        message:[NSString stringWithFormat:@"%@", error] 
-//                                                       delegate:nil 
-//                                              cancelButtonTitle:kOk 
-//                                              otherButtonTitles:nil, nil];
-//        [alert show];
-//        [alert release];
-//        
-//    }
-//
-//}
+-(void)handleSendTextThroughAlert:(UIAlertView *)alert {
+    NSString *messageString = [alert textFieldAtIndex:0].text;
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
+    [dict setObject:messageString forKey:@"message"];
+
+    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
+    NSError *error = nil;
+    
+    NSArray *devices = [[DataModel sharedInstance] allConnectedDevices];
+    for (Device *device in devices) {
+        [[RJSessionManager sharedInstance] sendPayload:data toDevice:device];
+    }
+    
+    if (error) {
+        NSLog(@"error sending data %@", error);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error_sending_data
+                                                        message:[NSString stringWithFormat:@"%@", error] 
+                                                       delegate:nil 
+                                              cancelButtonTitle:kOk 
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+        
+    }
+
+}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
@@ -117,8 +120,7 @@
             break;
             
         case kSessionSendText: {
-            NSAssert(FALSE, @"no longer sending text through session");
-           // [self handleSendTextThroughAlert:alertView];
+            [self handleSendTextThroughAlert:alertView];
             break;
         }
             
@@ -162,10 +164,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     Device *tappedDevice = [self.fetchController objectAtIndexPath:indexPath];
-    switch (tappedDevice.state) {
+    switch ([tappedDevice.state intValue]) {
         case GKPeerStateConnected: {
             NSLog(@"Logic to push a view controller or send data");
-            if (tappedDevice.isServer) {
+            if ([tappedDevice.isServer boolValue]) {
                 [self.tabBarController setSelectedIndex:2];
             }
         }
@@ -198,8 +200,8 @@
     
 
 }
-- (NSString *)sessionTitleForState:(NSInteger)state {
-    switch (state) {
+- (NSString *)sessionTitleForState:(NSNumber *)state {
+    switch ([state intValue]) {
         case GKPeerStateAvailable:
             return @"Available";
 
@@ -241,13 +243,13 @@
     
     cell.detailTextLabel.text = [self sessionTitleForState:device.state];
 
-    if (device.isServer) {
+    if ([device.isServer boolValue]) {
         cell.imageView.image = [UIImage imageNamed:@"first.png"];
     } else {
         cell.imageView.image = nil;
     }
     
-    if (device.state == GKPeerStateConnecting) {
+    if ([device.state intValue] == GKPeerStateConnecting) {
         [self handleConnecting:device];
     }
     
@@ -269,7 +271,7 @@
     self.fetchController.delegate = self;
     
     for (Device *d in self.fetchController.fetchedObjects) {
-        d.state = GKPeerStateUnavailable;
+        d.state = [NSNumber numberWithInt:GKPeerStateUnavailable];
     }
     [[DataModel sharedInstance] save];
     [[RJSessionManager sharedInstance] findServer];

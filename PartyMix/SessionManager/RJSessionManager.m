@@ -62,7 +62,7 @@ static RJSessionManager *_sessionManager = nil;
                                                  sessionMode:GKSessionModeServer] autorelease];
         self.session.delegate = self;
         [self.session setDataReceiveHandler:self withContext:nil];
-        [DataModel sharedInstance].localDevice.isServer = YES;
+        [DataModel sharedInstance].localDevice.isServer = [NSNumber numberWithBool:YES];
 
     }
     BOOL available = self.session.available;
@@ -93,9 +93,11 @@ static RJSessionManager *_sessionManager = nil;
  */
 - (void)session:(GKSession *)aSession peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state {
     NSLog(@"The session state changed %@ %@ %d", peerID, [self.session displayNameForPeer:peerID], state);
-    Device *device = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:peerID];
+    NSString *deviceName = [aSession displayNameForPeer:peerID];
+    Device *device = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:peerID
+                                                                    deviceName:deviceName];
     NSLog(@"We had %@, now we have %@", peerID, device.peerId);
-    device.state = state;
+    device.state = [NSNumber numberWithInt:state];
     [[DataModel sharedInstance] save];
     
     switch (state) {
@@ -104,7 +106,7 @@ static RJSessionManager *_sessionManager = nil;
             //Handle an odd situation where the session returns nil for the peer
             NSString *displayName = [self.session displayNameForPeer:peerID];
             NSLog(@"a new peer is available %@", displayName);
-            device.isServer = YES;
+            device.isServer = [NSNumber numberWithInt:YES];
             if (!displayName) {
                 NSAssert(false, @"I think this should never happen. no display name and available");
                 return;
@@ -149,13 +151,18 @@ static RJSessionManager *_sessionManager = nil;
 }
 
 #pragma mark - protocol calls
-- (void) sendSingleSongMethod:(NSArray *)payload {
+- (void)sendTextMessage:(NSArray *)payload {
+    
+}
+
+- (void)sendSingleSongMethod:(NSArray *)payload {
     NSDictionary *data = [payload objectAtIndex:1];
     NSString *peerId = [payload objectAtIndex:0];
     MediaItem *mediaItem = [data objectForKey:mediakey];
     Playlist *playlist = [[DataModel sharedInstance] currentPlaylist];
     
-    Device *device = [[DataModel sharedInstance] deviceWithPeerId:peerId];
+    NSString *deviceName = [self.session displayNameForPeer:peerId];
+    Device *device = [[DataModel sharedInstance] deviceWithName:deviceName];
     [[DataModel sharedInstance] insertNewPlaylistItem:mediaItem 
                                            fromDevice:device 
                                            toPlaylist:playlist];
@@ -178,7 +185,9 @@ static RJSessionManager *_sessionManager = nil;
 
 - (void)addMediaFromListMethod:(NSArray *)packagedWithPeer {
     NSString *peerId = [packagedWithPeer objectAtIndex:0];
-    Device *owner = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:peerId];
+    NSString *deviceName = [self.session displayNameForPeer:peerId];
+    Device *owner = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:peerId
+                                                                   deviceName:deviceName];
     
     NSDictionary *data = [packagedWithPeer objectAtIndex:1];
     NSLog(@"items are from %@\n %@", peerId, data);
@@ -214,7 +223,9 @@ static RJSessionManager *_sessionManager = nil;
     
     NSString *peerId = [packagedWithPeer objectAtIndex:0];
     
-    Device *device = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:peerId];
+    NSString *deviceName = [self.session displayNameForPeer:peerId];
+    Device *device = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:peerId 
+                                                                    deviceName:deviceName];
     NSArray *media = [[DataModel sharedInstance] fetchAllLocalMedia];
     
     NSUInteger pageSize = 10;
@@ -242,7 +253,7 @@ static RJSessionManager *_sessionManager = nil;
 - (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
     NSDictionary *dict = [PayloadTranslator extractDictionaryFromPayload:data];
     
-    //NSLog(@"we got some data %@", dict);
+    NSLog(@"we got some data %@", dict);
     NSArray *packagedWithPeer = [NSArray arrayWithObjects:peer, dict, nil];
     NSString *executeAction = [dict objectForKey:action];
     if (executeAction) {
@@ -289,13 +300,13 @@ static RJSessionManager *_sessionManager = nil;
                                              sessionMode:GKSessionModeClient] autorelease];
     self.session.delegate = self;
     self.session.available = YES;
-    [DataModel sharedInstance].localDevice.isServer = NO;
+    [DataModel sharedInstance].localDevice.isServer = [NSNumber numberWithBool:NO];
     [self.session setDataReceiveHandler:self 
                             withContext:nil];
 }
 
 - (void)disconnect {
-    [DataModel sharedInstance].localDevice.isServer = NO;
+    [DataModel sharedInstance].localDevice.isServer = [NSNumber numberWithBool:NO];
     self.session.available = NO;
     self.session.delegate = nil;
     [self.session disconnectFromAllPeers];
@@ -303,8 +314,8 @@ static RJSessionManager *_sessionManager = nil;
     
     NSArray *connectedPeers = [[DataModel sharedInstance] fetchPeersWithState:GKPeerStateConnected];
     for (Device *peer in connectedPeers) {
-        peer.state = GKPeerStateDisconnected;
-        peer.isServer = NO;
+        peer.state = [NSNumber numberWithInt:GKPeerStateDisconnected];
+        peer.isServer = [NSNumber numberWithBool:NO];
     }
     [[DataModel sharedInstance] save];
 }
@@ -312,7 +323,7 @@ static RJSessionManager *_sessionManager = nil;
 - (void)denySessionRequestFrom:(Device *)device {
     NSString *peerId = device.peerId;
     [self.session denyConnectionFromPeer:peerId];
-    device.state = GKPeerStateDisconnected;
+    device.state = [NSNumber numberWithInt:GKPeerStateDisconnected];
 }
 
 - (NSError *)handleSessionRequestFrom:(Device *)device {
