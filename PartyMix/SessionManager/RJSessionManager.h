@@ -57,6 +57,8 @@
 
 - (void)sendSingleSongRequest:(MediaItem *)media;
 
+- (void)sendMessageToAll:(NSString *)message;
+
 - (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device;
 
 - (Device *)currentServer;

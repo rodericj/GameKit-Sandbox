@@ -14,13 +14,15 @@
 #define remoteFetchAllSongsByArtistCall       @"remoteFetchAllSongsByArtistMethod:"
 #define addMediaFromListCall       @"addMediaFromListMethod:"
 #define sendSingleSongRequestCall       @"sendSingleSongMethod:"
+#define sendMessageCall       @"sendMessageMethod:"
 
 #define kSessionName                    @"com.rodericj.partymix.session"
 
 #define unavailable                     @"Unavailable"
 
 #define mediakey                       @"media key"
-#define action                          @"action"   
+#define actionkey                          @"action"   
+#define messagekey                          @"message"   
 
 @interface RJSessionManager ()
 //Server
@@ -147,8 +149,8 @@ static RJSessionManager *_sessionManager = nil;
 }
 
 #pragma mark - protocol calls
-- (void)sendTextMessage:(NSArray *)payload {
-    
+- (void)sendMessageMethod:(NSArray *)payload {
+    NSLog(@"a message was sent: %@", [[payload objectAtIndex:1] objectForKey:messagekey]);
 }
 
 - (void)sendSingleSongMethod:(NSArray *)payload {
@@ -164,6 +166,23 @@ static RJSessionManager *_sessionManager = nil;
                                            toPlaylist:playlist];
 }
 
+- (void)sendMessageToAll:(NSString *)message {
+   
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+    [dict setObject:message 
+             forKey:messagekey];
+    [dict setObject:sendMessageCall 
+             forKey:actionkey];
+    
+    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
+    
+    NSArray *devices = [[DataModel sharedInstance] allConnectedDevices];
+    for (Device *device in devices) {
+        [self sendPayload:data toDevice:device];
+    }
+
+}
+
 - (void)sendSingleSongRequest:(MediaItem *)media {
     Device *server =  [[RJSessionManager sharedInstance] currentServer];
     
@@ -171,7 +190,7 @@ static RJSessionManager *_sessionManager = nil;
     [dict setObject:media 
              forKey:mediakey];
     [dict setObject:sendSingleSongRequestCall 
-             forKey:action];
+             forKey:actionkey];
     
     NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
     
@@ -205,7 +224,7 @@ static RJSessionManager *_sessionManager = nil;
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
     [dict setObject:remoteFetchAllSongsByArtistCall 
-             forKey:action];
+             forKey:actionkey];
     
     
     NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
@@ -235,7 +254,7 @@ static RJSessionManager *_sessionManager = nil;
             [payloadData setObject:currentPackage 
                             forKey:mediakey];
             [payloadData setObject:addMediaFromListCall
-                            forKey:action];
+                            forKey:actionkey];
             
             NSData *data = [PayloadTranslator buildPayLoadWithDictionary:payloadData];
             [self sendPayload:data toDevice:device];
@@ -251,7 +270,7 @@ static RJSessionManager *_sessionManager = nil;
     
     NSLog(@"we got some data %@", dict);
     NSArray *packagedWithPeer = [NSArray arrayWithObjects:peer, dict, nil];
-    NSString *executeAction = [dict objectForKey:action];
+    NSString *executeAction = [dict objectForKey:actionkey];
     if (executeAction) {
         [self performSelector:NSSelectorFromString(executeAction) withObject:packagedWithPeer];
     }

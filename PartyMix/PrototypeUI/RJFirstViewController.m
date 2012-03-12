@@ -79,29 +79,8 @@
 -(void)handleSendTextThroughAlert:(UIAlertView *)alert {
     NSString *messageString = [alert textFieldAtIndex:0].text;
     
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:1];
-    [dict setObject:messageString forKey:@"message"];
-
-    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
-    NSError *error = nil;
+    [[RJSessionManager sharedInstance] sendMessageToAll:messageString];
     
-    NSArray *devices = [[DataModel sharedInstance] allConnectedDevices];
-    for (Device *device in devices) {
-        [[RJSessionManager sharedInstance] sendPayload:data toDevice:device];
-    }
-    
-    if (error) {
-        NSLog(@"error sending data %@", error);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error_sending_data
-                                                        message:[NSString stringWithFormat:@"%@", error] 
-                                                       delegate:nil 
-                                              cancelButtonTitle:kOk 
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-        [alert release];
-        
-    }
-
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
