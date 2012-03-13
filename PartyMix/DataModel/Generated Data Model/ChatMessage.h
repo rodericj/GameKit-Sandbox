@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) NSString * messageContent;
 @property (nonatomic, retain) NSDate * time;
+@property (nonatomic, retain) NSNumber * unread;
 @property (nonatomic, retain) Device *device;
 
 @end

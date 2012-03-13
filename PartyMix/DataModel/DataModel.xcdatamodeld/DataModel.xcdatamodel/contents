@@ -3,6 +3,7 @@
     <entity name="ChatMessage" representedClassName="ChatMessage" syncable="YES">
         <attribute name="messageContent" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="unread" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <relationship name="device" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Device" inverseName="messages" inverseEntity="Device" syncable="YES"/>
     </entity>
     <entity name="Device" representedClassName="Device" syncable="YES">
@@ -41,6 +42,6 @@
         <element name="MediaItem" positionX="403" positionY="189" width="128" height="135"/>
         <element name="Playlist" positionX="-27" positionY="474" width="128" height="105"/>
         <element name="PlaylistItem" positionX="412" positionY="450" width="128" height="90"/>
-        <element name="ChatMessage" positionX="160" positionY="192" width="128" height="90"/>
+        <element name="ChatMessage" positionX="160" positionY="192" width="128" height="105"/>
     </elements>
 </model>

@@ -181,12 +181,12 @@ static RJSessionManager *_sessionManager = nil;
     [dict setObject:sendMessageCall 
              forKey:actionkey];
     
-    Device *me = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:self.session.peerID deviceName:nil];
+    Device *me = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:self.session.peerID deviceName:@"Me"];
      
     [[DataModel sharedInstance] insertNewMessage:message fromDevice:me];
     NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
     
-    NSArray *devices = [[DataModel sharedInstance] allConnectedDevices];
+    NSArray *devices = [[DataModel sharedInstance] fetchPeersWithState:GKPeerStateConnected];
     for (Device *device in devices) {
         [self sendPayload:data toDevice:device];
     }

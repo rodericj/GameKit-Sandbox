@@ -573,6 +573,16 @@ static DataModel *_dataModel = nil;
     return [self fetchOrInsertDeviceWithPeerId:nil deviceName:deviceName];
 }
 
+- (NSUInteger)numberOfUnreadMessage {
+    NSFetchRequest *countUnreadMessages = [self fetchRequestForEntity:kEntityNameMessage
+                                                                where:[NSPredicate predicateWithFormat:@"unread == %@", [NSNumber numberWithInt:1]]
+                                                              orderBy:nil];
+    NSArray *unreadMessage = [self.managedObjectContext executeFetchRequest:countUnreadMessages
+                                                     error:nil];
+    NSLog(@"unread messages %@", unreadMessage);
+    return  [unreadMessage count];
+}
+
 #pragma mark - probably should not be moved to Session code
 - (void)deleteDevice:(Device *) device{
     [self.managedObjectContext deleteObject:device];

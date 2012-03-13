@@ -45,7 +45,7 @@
 		17BE97A1150DB588009B5FD0 /* MediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BE97A0150DB588009B5FD0 /* MediaItem.m */; };
 		17BE97AA150DBE7B009B5FD0 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BE97A9150DBE7B009B5FD0 /* Device.m */; };
 		17BE97AD150DC0C5009B5FD0 /* ChatMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BE97AC150DC0C5009B5FD0 /* ChatMessagesViewController.m */; };
-		17BE97B3150DC795009B5FD0 /* ChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BE97B2150DC795009B5FD0 /* ChatMessage.m */; };
+		17BE97BB150DD1D1009B5FD0 /* ChatMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BE97BA150DD1D1009B5FD0 /* ChatMessage.m */; };
 		17D7581A14E833CB008183B1 /* RJMusicPlayerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7581814E833CB008183B1 /* RJMusicPlayerInterface.m */; };
 		17D7581B14E833CB008183B1 /* RJMusicPlayerInterface.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17D7581914E833CB008183B1 /* RJMusicPlayerInterface.xib */; };
 		17D7581F14E83971008183B1 /* UIFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7581E14E83971008183B1 /* UIFactory.m */; };
@@ -126,8 +126,8 @@
 		17BE97A9150DBE7B009B5FD0 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = "DataModel/Generated Data Model/Device.m"; sourceTree = "<group>"; };
 		17BE97AB150DC0C5009B5FD0 /* ChatMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatMessagesViewController.h; path = PrototypeUI/ChatMessagesViewController.h; sourceTree = "<group>"; };
 		17BE97AC150DC0C5009B5FD0 /* ChatMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatMessagesViewController.m; path = PrototypeUI/ChatMessagesViewController.m; sourceTree = "<group>"; };
-		17BE97B1150DC795009B5FD0 /* ChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatMessage.h; path = "DataModel/Generated Data Model/ChatMessage.h"; sourceTree = "<group>"; };
-		17BE97B2150DC795009B5FD0 /* ChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatMessage.m; path = "DataModel/Generated Data Model/ChatMessage.m"; sourceTree = "<group>"; };
+		17BE97B9150DD1D1009B5FD0 /* ChatMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatMessage.h; path = "DataModel/Generated Data Model/ChatMessage.h"; sourceTree = "<group>"; };
+		17BE97BA150DD1D1009B5FD0 /* ChatMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatMessage.m; path = "DataModel/Generated Data Model/ChatMessage.m"; sourceTree = "<group>"; };
 		17D7581714E833CB008183B1 /* RJMusicPlayerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJMusicPlayerInterface.h; path = PrototypeUI/RJMusicPlayerInterface.h; sourceTree = "<group>"; };
 		17D7581814E833CB008183B1 /* RJMusicPlayerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJMusicPlayerInterface.m; path = PrototypeUI/RJMusicPlayerInterface.m; sourceTree = "<group>"; };
 		17D7581914E833CB008183B1 /* RJMusicPlayerInterface.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RJMusicPlayerInterface.xib; path = PrototypeUI/RJMusicPlayerInterface.xib; sourceTree = "<group>"; };
@@ -330,8 +330,8 @@
 		17D8824A14BE914F004D3722 /* Generated Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				17BE97B1150DC795009B5FD0 /* ChatMessage.h */,
-				17BE97B2150DC795009B5FD0 /* ChatMessage.m */,
+				17BE97B9150DD1D1009B5FD0 /* ChatMessage.h */,
+				17BE97BA150DD1D1009B5FD0 /* ChatMessage.m */,
 				17BE97A8150DBE7B009B5FD0 /* Device.h */,
 				17BE97A9150DBE7B009B5FD0 /* Device.m */,
 				17BE979F150DB588009B5FD0 /* MediaItem.h */,
@@ -481,7 +481,7 @@
 				17BE97A1150DB588009B5FD0 /* MediaItem.m in Sources */,
 				17BE97AA150DBE7B009B5FD0 /* Device.m in Sources */,
 				17BE97AD150DC0C5009B5FD0 /* ChatMessagesViewController.m in Sources */,
-				17BE97B3150DC795009B5FD0 /* ChatMessage.m in Sources */,
+				17BE97BB150DD1D1009B5FD0 /* ChatMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,8 @@
 
 #import "FetchedResultsBackedTableViewController.h"
 
-@interface ChatMessagesViewController : FetchedResultsBackedTableViewController <NSFetchedResultsControllerDelegate>
+@interface ChatMessagesViewController : FetchedResultsBackedTableViewController <UITextFieldDelegate> {
+    UITextField *_textField;
+}
 
 @end

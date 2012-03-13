@@ -14,6 +14,7 @@
 
 @dynamic messageContent;
 @dynamic time;
+@dynamic unread;
 @dynamic device;
 
 @end
