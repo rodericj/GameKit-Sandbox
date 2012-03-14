@@ -85,15 +85,15 @@
             
             UIButton *setCurrentPlaylist = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             setCurrentPlaylist.backgroundColor = [UIColor whiteColor];
-            [setCurrentPlaylist setTitle:@"Make current Playlist" 
+            [setCurrentPlaylist setTitle:@"Make this the current Playlist" 
                                        forState:UIControlStateNormal];
             CGSize size = [setCurrentPlaylist.titleLabel.text sizeWithFont:setCurrentPlaylist.titleLabel.font];
-            setCurrentPlaylist.frame = CGRectMake(0, 0, size.width, size.height);
+            setCurrentPlaylist.frame = CGRectMake(0, 0, size.width, 50);
             setCurrentPlaylist.titleLabel.textColor = [UIColor brownColor];
             [setCurrentPlaylist addTarget:self 
                                           action:@selector(makeCurrentPlaylist:) 
                                 forControlEvents:UIControlEventTouchUpInside];
-            UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+            UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
             [header addSubview:setCurrentPlaylist];
             self.tableView.tableHeaderView = header;
             [header release];
