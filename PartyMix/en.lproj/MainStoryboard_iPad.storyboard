@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1938" systemVersion="11C74" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2177" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="4">
     <dependencies>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="933"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1173"/>
     </dependencies>
     <scenes>
+        <!--First View Controller - Community-->
         <scene sceneID="11">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
@@ -71,10 +72,10 @@
                                     <action selector="findServerButtonPushed:" destination="2" eventType="touchUpInside" id="Ugn-Qp-chz"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="OQn-Ss-PHs">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="OQn-Ss-PHs">
                                 <rect key="frame" x="20" y="262" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="2" id="OVZ-ed-XXb"/>
                                     <outlet property="delegate" destination="2" id="waj-qu-22b"/>
@@ -96,13 +97,13 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         <connections>
                             <outlet property="dataSource" destination="2" id="qjL-L0-AXz"/>
                             <outlet property="delegate" destination="2" id="ysp-79-Ogu"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="First" image="first" id="7"/>
+                    <tabBarItem key="tabBarItem" title="Community" image="first" id="7"/>
                     <connections>
                         <outlet property="serverLabel" destination="o7H-yr-gLs" id="1EQ-YO-MYg"/>
                         <outlet property="tableView" destination="OQn-Ss-PHs" id="LbZ-k9-1Bh"/>
@@ -111,6 +112,7 @@
             </objects>
             <point key="canvasLocation" x="3041" y="150"/>
         </scene>
+        <!--Second View Controller - Your Music-->
         <scene sceneID="13">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="12" sceneMemberID="firstResponder"/>
@@ -148,11 +150,130 @@
                             <outlet property="delegate" destination="3" id="YWH-Cd-HnC"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" image="second" id="6"/>
+                    <tabBarItem key="tabBarItem" title="Your Music" image="second" id="6"/>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="3042" y="1284"/>
         </scene>
+        <!--Third View Controller - Host's Music-->
+        <scene sceneID="EYb-24-6ds">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IWP-iH-eBE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="UGc-oY-eYn" customClass="RJThirdViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="JYV-I7-IZQ">
+                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <button key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hGN-2s-vhK" userLabel="Fetch Remote Songs">
+                            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" title="Fetch Remote Songs">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="getRemoteMedia:" destination="UGc-oY-eYn" eventType="touchUpInside" id="ELw-M1-A1G"/>
+                            </connections>
+                        </button>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="rtN-Vl-S2w">
+                                <rect key="frame" x="0.0" y="66" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="UGc-oY-eYn" id="vix-y1-Zfu"/>
+                            <outlet property="delegate" destination="UGc-oY-eYn" id="mMP-He-bBl"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Host's Music" image="second.png" id="Klx-XK-axJ"/>
+                    <connections>
+                        <outlet property="fetchButton" destination="hGN-2s-vhK" id="uVB-f4-QPf"/>
+                    </connections>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="3041" y="2415"/>
+        </scene>
+        <!--Fourth View Controller - Title-->
+        <scene sceneID="Qw0-aZ-7ec">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q2m-Fs-PeV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="TXp-Ch-ekF" customClass="RJFourthViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="NmU-Ke-kht">
+                        <rect key="frame" x="0.0" y="64" width="768" height="916"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <button key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HlA-L4-SMP">
+                            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" title="Add Playlist">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="addPlaylist:" destination="TXp-Ch-ekF" eventType="touchUpInside" id="nqy-AQ-LzP"/>
+                            </connections>
+                        </button>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="a3L-tj-v5B">
+                                <rect key="frame" x="0.0" y="66" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="teU-S1-25j"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <navigationBar contentMode="scaleToFill" id="yau-7k-xqV">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <items>
+                        <navigationItem title="Title" id="12P-BG-sIi"/>
+                    </items>
+                </navigationBar>
+            </objects>
+            <point key="canvasLocation" x="3927" y="3567"/>
+        </scene>
+        <!--Navigation Controller - Playlists-->
+        <scene sceneID="5kE-So-DWQ">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="coh-4g-7fN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="cbq-71-32j" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Playlists" image="first.png" id="BvN-68-Azq"/>
+                    <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wrW-OD-g7u">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="TXp-Ch-ekF" kind="relationship" relationship="rootViewController" id="1Ir-HY-1cl"/>
+                    </connections>
+                </navigationController>
+                <navigationBar contentMode="scaleToFill" id="3nm-KE-d8I">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                </navigationBar>
+            </objects>
+            <point key="canvasLocation" x="2899" y="3567"/>
+        </scene>
+        <!--Tab Bar Controller-->
         <scene sceneID="15">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="14" sceneMemberID="firstResponder"/>
@@ -166,6 +287,8 @@
                     <connections>
                         <segue destination="2" kind="relationship" relationship="viewControllers" id="27"/>
                         <segue destination="3" kind="relationship" relationship="viewControllers" id="28"/>
+                        <segue destination="UGc-oY-eYn" kind="relationship" relationship="viewControllers" id="hs9-V7-3nt"/>
+                        <segue destination="cbq-71-32j" kind="relationship" relationship="viewControllers" id="DfE-tE-vVu"/>
                     </connections>
                 </tabBarController>
             </objects>
@@ -174,7 +297,9 @@
     </scenes>
     <resources>
         <image name="first" width="16" height="16"/>
+        <image name="first.png" width="30" height="30"/>
         <image name="second" width="16" height="16"/>
+        <image name="second.png" width="30" height="30"/>
     </resources>
     <classes>
         <class className="FetchedResultsBackedTableViewController" superclassName="UITableViewController">
@@ -187,10 +312,20 @@
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
+        <class className="RJFourthViewController" superclassName="FetchedResultsBackedTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RJFourthViewController.h"/>
+        </class>
         <class className="RJSecondViewController" superclassName="FetchedResultsBackedTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RJSecondViewController.h"/>
             <relationships>
                 <relationship kind="action" name="getMPMediaItems:"/>
+            </relationships>
+        </class>
+        <class className="RJThirdViewController" superclassName="FetchedResultsBackedTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RJThirdViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="getRemoteMedia:"/>
+                <relationship kind="outlet" name="fetchButton" candidateClass="UIButton"/>
             </relationships>
         </class>
     </classes>
