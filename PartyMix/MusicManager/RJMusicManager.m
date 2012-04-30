@@ -78,33 +78,9 @@ static RJMusicManager *_musicManager = nil;
 
 }
 
-- (void)putCurrentTrackIntoMusicPlayer {
-    
-    //This is not what i want to do
-    MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
-    
-    //TODO add this to a category on the playlist called currentPlaylistItem
-    PlaylistItem *item = [[self.playlist.playlistItems allObjects] objectAtIndex:[self.playlist.currentTrack intValue]];
-    
-    MPMediaQuery *query = [MPMediaQuery songsQuery];
-    NSLog(@"mediaItem %@", item.mediaItem.persistentID);
-    NSNumber *persistentID = item.mediaItem.persistentID;
-    MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:persistentID 
-                                                                           forProperty:MPMediaItemPropertyPersistentID];
-    
-    [query addFilterPredicate:predicate];
-    
-    NSArray *queriedItems = [query items];
-    NSLog(@"queried items %@", queriedItems);
-    MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:queriedItems];
-    [musicPlayer setQueueWithItemCollection:collection];
-    [collection release];
-}
-
 - (void)playNextTrack {
     // TODO obviously this needs to be revisited
     //self.playlist.currentTrack = (self.playlist.currentTrack+1) % [self.playlist.playlistItem count];
-    //[self putCurrentTrackIntoMusicPlayer];
     MPMusicPlayerController *musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
     [musicPlayer skipToNextItem];
     //[self playCurrentTrack];
@@ -117,7 +93,6 @@ static RJMusicManager *_musicManager = nil;
     if (self.playlist.currentTrack < 0) {
         self.playlist.currentTrack = 0;
     }
-//    [self putCurrentTrackIntoMusicPlayer];
     [self playCurrentTrack];
 }
 
@@ -132,7 +107,6 @@ static RJMusicManager *_musicManager = nil;
         NSLog(@"nothing is playing");
         self.playlist.currentTrack = 0;
         [musicPlayer skipToBeginning];        
-       // [self putCurrentTrackIntoMusicPlayer];
     }
     
 	if (playbackState == MPMusicPlaybackStateStopped || playbackState == MPMusicPlaybackStatePaused) {

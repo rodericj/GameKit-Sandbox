@@ -108,7 +108,9 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.cancelButtonIndex != buttonIndex) {
+        
         NSString *newPlaylistName = [alertView textFieldAtIndex:0].text;
+        
         [[DataModel sharedInstance] insertNewPlaylistWithTitle:newPlaylistName];
     }
 }

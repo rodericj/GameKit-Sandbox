@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1170" systemVersion="11D50b" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50b" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="ChatMessage" representedClassName="ChatMessage" syncable="YES">
         <attribute name="messageContent" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
@@ -38,10 +38,10 @@
         <relationship name="playlist" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Playlist" inverseName="playlistItems" inverseEntity="Playlist" syncable="YES"/>
     </entity>
     <elements>
+        <element name="ChatMessage" positionX="-63" positionY="264" width="128" height="105"/>
         <element name="Device" positionX="160" positionY="192" width="128" height="180"/>
         <element name="MediaItem" positionX="403" positionY="189" width="128" height="135"/>
-        <element name="Playlist" positionX="-27" positionY="474" width="128" height="105"/>
+        <element name="Playlist" positionX="115" positionY="486" width="128" height="105"/>
         <element name="PlaylistItem" positionX="412" positionY="450" width="128" height="90"/>
-        <element name="ChatMessage" positionX="160" positionY="192" width="128" height="105"/>
     </elements>
 </model>

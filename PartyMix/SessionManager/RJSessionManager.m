@@ -215,7 +215,7 @@ static RJSessionManager *_sessionManager = nil;
                                                                    deviceName:deviceName];
     
     NSDictionary *data = [packagedWithPeer objectAtIndex:1];
-    NSLog(@"items are from %@\n %@", peerId, data);
+    //NSLog(@"items are from %@\n %@", peerId, data);
     
     NSArray *mediaItems = [data objectForKey:mediakey];
     for (MediaItem *m in mediaItems) {
@@ -278,7 +278,7 @@ static RJSessionManager *_sessionManager = nil;
 - (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
     NSDictionary *dict = [PayloadTranslator extractDictionaryFromPayload:data];
     
-    NSLog(@"we got some data %@", dict);
+    //NSLog(@"we got some data %@", dict);
     NSArray *packagedWithPeer = [NSArray arrayWithObjects:peer, dict, nil];
     NSString *executeAction = [dict objectForKey:actionkey];
     if (executeAction) {
@@ -381,7 +381,7 @@ static RJSessionManager *_sessionManager = nil;
 }
 
 - (NSString *)displayNameForPeer:(NSString *)peerId {
-    NSLog(@"DisplayNameForPeer: peerId is %@ display name for peer is %@", peerId, [self.session displayNameForPeer:peerId]);
+    //NSLog(@"DisplayNameForPeer: peerId is %@ display name for peer is %@", peerId, [self.session displayNameForPeer:peerId]);
     NSString *displayName = [self.session displayNameForPeer:peerId];
     
     return displayName;
