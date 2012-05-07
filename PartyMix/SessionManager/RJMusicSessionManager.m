@@ -12,11 +12,8 @@
 #import "DataModel.h"
 
 #define remoteFetchAllSongsByArtistCall       @"remoteFetchAllSongsByArtistMethod:"
-#define actionkey                          @"action"   
 #define mediakey                       @"media key"
 #define sendSingleSongRequestCall       @"sendSingleSongMethod:"
-#define messagekey                          @"message"   
-#define sendMessageCall       @"sendMessageMethod:"
 #define addMediaFromListCall       @"addMediaFromListMethod:"
 
 @implementation RJMusicSessionManager
@@ -29,17 +26,7 @@ static RJMusicSessionManager *_sessionManager = nil;
     return _sessionManager;
 }
 
-- (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
-    NSDictionary *dict = [PayloadTranslator extractDictionaryFromPayload:data];
-    
-    //NSLog(@"we got some data %@", dict);
-    NSArray *packagedWithPeer = [NSArray arrayWithObjects:peer, dict, nil];
-    NSString *executeAction = [dict objectForKey:actionkey];
-    if (executeAction) {
-        [self performSelector:NSSelectorFromString(executeAction) withObject:packagedWithPeer];
-    }
-}
-
+#pragma mark - The Protocol specific to the Music app
 - (void)sendMessageMethod:(NSArray *)payload {
     NSString *message = [[payload objectAtIndex:1] objectForKey:messagekey];
     NSLog(@"a message was sent: %@", message);
@@ -62,27 +49,6 @@ static RJMusicSessionManager *_sessionManager = nil;
     [[DataModel sharedInstance] insertNewPlaylistItem:mediaItem 
                                            fromDevice:device 
                                            toPlaylist:playlist];
-}
-
-- (void)sendMessageToAll:(NSString *)message {
-    
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-    [dict setObject:message 
-             forKey:messagekey];
-    [dict setObject:sendMessageCall 
-             forKey:actionkey];
-    
-    NSString *peerId = [RJMusicSessionManager sharedInstance].session.peerID;
-    Device *me = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:peerId deviceName:@"Me"];
-    
-    [[DataModel sharedInstance] insertNewMessage:message fromDevice:me];
-    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
-    
-    NSArray *devices = [[DataModel sharedInstance] fetchPeersWithState:GKPeerStateConnected];
-    for (Device *device in devices) {
-        [[RJMusicSessionManager sharedInstance] sendPayload:data toDevice:device];
-    }
-    
 }
 
 - (void)remoteFetchAllSongsByArtistMethod:(NSArray *)packagedWithPeer {

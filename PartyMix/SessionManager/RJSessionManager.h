@@ -10,6 +10,9 @@
 #import <GameKit/GameKit.h>
 #import "Device.h"
 
+#define actionkey                          @"action"   
+#define messagekey                          @"message"   
+
 @interface RJSessionManager : NSObject <GKSessionDelegate> {
     //Server
     GKSession                   *session;
@@ -19,12 +22,11 @@
 
 @property (nonatomic, retain)           GKSession                   *session;
 
-//+(RJSessionManager *)sharedInstance;
-
 - (void)findServer;
 
 - (NSError *)handleSessionRequestFrom:(Device *)device;
 - (void)denySessionRequestFrom:(Device *)device;
+- (void)sendMessageToAll:(NSString *)message;
 
 
 /*

@@ -13,8 +13,8 @@
 //commands
 
 #define kSessionName                    @"com.rodericj.partymix.session"
-
 #define unavailable                     @"Unavailable"
+#define sendMessageCall       @"sendMessageMethod:"
 
 
 @interface RJSessionManager ()
@@ -37,6 +37,39 @@
 //    return _sessionManager;
 //}
 
+
+
+- (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
+    NSDictionary *dict = [PayloadTranslator extractDictionaryFromPayload:data];
+    
+    //NSLog(@"we got some data %@", dict);
+    NSArray *packagedWithPeer = [NSArray arrayWithObjects:peer, dict, nil];
+    NSString *executeAction = [dict objectForKey:actionkey];
+    if (executeAction) {
+        [self performSelector:NSSelectorFromString(executeAction) withObject:packagedWithPeer];
+    }
+}
+
+- (void)sendMessageToAll:(NSString *)message {
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
+    [dict setObject:message 
+             forKey:messagekey];
+    [dict setObject:sendMessageCall 
+             forKey:actionkey];
+    
+    NSString *peerId = self.session.peerID;
+    Device *me = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:peerId deviceName:@"Me"];
+    
+    [[DataModel sharedInstance] insertNewMessage:message fromDevice:me];
+    NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
+    
+    NSArray *devices = [[DataModel sharedInstance] fetchPeersWithState:GKPeerStateConnected];
+    for (Device *device in devices) {
+        [self sendPayload:data toDevice:device];
+    }
+    
+}
 
 #pragma mark -
 

@@ -18,7 +18,6 @@
 
 - (void)sendSingleSongRequest:(MediaItem *)media;
 
-- (void)sendMessageToAll:(NSString *)message;
 
 
 @end
