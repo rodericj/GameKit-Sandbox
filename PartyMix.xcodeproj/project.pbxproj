@@ -21,6 +21,9 @@
 		178685BF14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 178685BD14C7D4C4000EDF48 /* PayloadTranslator.m */; };
 		1792A78214D5141E00D2EDC4 /* RJPlaylistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1792A78014D5141E00D2EDC4 /* RJPlaylistViewController.m */; };
 		1792A78314D5141E00D2EDC4 /* RJPlaylistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1792A78114D5141E00D2EDC4 /* RJPlaylistViewController.xib */; };
+		17A99BDE1557512000A8FDF6 /* RJMusicSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A99BDD1557512000A8FDF6 /* RJMusicSessionManager.m */; };
+		17A99BDF1557529200A8FDF6 /* RJSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17396A1B14E62B9F00F19B8C /* RJSessionManager.m */; };
+		17A99BE01557529600A8FDF6 /* RJMusicSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A99BDD1557512000A8FDF6 /* RJMusicSessionManager.m */; };
 		17ACB39F14789242008832E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB39E14789242008832E5 /* UIKit.framework */; };
 		17ACB3A114789242008832E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A014789242008832E5 /* Foundation.framework */; };
 		17ACB3A314789242008832E5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ACB3A214789242008832E5 /* CoreGraphics.framework */; };
@@ -92,6 +95,8 @@
 		1792A77F14D5141E00D2EDC4 /* RJPlaylistViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJPlaylistViewController.h; sourceTree = "<group>"; };
 		1792A78014D5141E00D2EDC4 /* RJPlaylistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJPlaylistViewController.m; sourceTree = "<group>"; };
 		1792A78114D5141E00D2EDC4 /* RJPlaylistViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RJPlaylistViewController.xib; sourceTree = "<group>"; };
+		17A99BDC1557512000A8FDF6 /* RJMusicSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJMusicSessionManager.h; path = SessionManager/RJMusicSessionManager.h; sourceTree = "<group>"; };
+		17A99BDD1557512000A8FDF6 /* RJMusicSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJMusicSessionManager.m; path = SessionManager/RJMusicSessionManager.m; sourceTree = "<group>"; };
 		17ACB39A14789242008832E5 /* partymix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = partymix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17ACB39E14789242008832E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		17ACB3A014789242008832E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -195,6 +200,8 @@
 		17396A1814E62B6E00F19B8C /* Session Manager */ = {
 			isa = PBXGroup;
 			children = (
+				17A99BDC1557512000A8FDF6 /* RJMusicSessionManager.h */,
+				17A99BDD1557512000A8FDF6 /* RJMusicSessionManager.m */,
 				17396A1A14E62B9F00F19B8C /* RJSessionManager.h */,
 				17396A1B14E62B9F00F19B8C /* RJSessionManager.m */,
 			);
@@ -482,6 +489,7 @@
 				17BE97AA150DBE7B009B5FD0 /* Device.m in Sources */,
 				17BE97AD150DC0C5009B5FD0 /* ChatMessagesViewController.m in Sources */,
 				17BE97BB150DD1D1009B5FD0 /* ChatMessage.m in Sources */,
+				17A99BE01557529600A8FDF6 /* RJMusicSessionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +502,8 @@
 				17FCA61814C00BD8004DDAA8 /* MediaItem+Additions.m in Sources */,
 				17FCA61C14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */,
 				178685BF14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */,
+				17A99BDE1557512000A8FDF6 /* RJMusicSessionManager.m in Sources */,
+				17A99BDF1557529200A8FDF6 /* RJSessionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

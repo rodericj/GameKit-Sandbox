@@ -17,7 +17,9 @@
     id<GKSessionDelegate> _sessionDelegate;
 }
 
-+(RJSessionManager *)sharedInstance;
+@property (nonatomic, retain)           GKSession                   *session;
+
+//+(RJSessionManager *)sharedInstance;
 
 - (void)findServer;
 
@@ -53,11 +55,6 @@
 - (void)connectToPeer:(Device *)device;
 
 #pragma mark -
-- (void)requestSongsFromServer;
-
-- (void)sendSingleSongRequest:(MediaItem *)media;
-
-- (void)sendMessageToAll:(NSString *)message;
 
 - (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device;
 

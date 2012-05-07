@@ -11,7 +11,7 @@
 #import "DataModel.h"
 #import "Playlist.h"
 #import "RJPlaylistViewController.h"
-#import "RJSessionManager.h"
+#import "RJMusicSessionManager.h"
 
 @implementation RJFourthViewController
 
@@ -69,7 +69,7 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidAppear:(BOOL)animated {
-    if(![[RJSessionManager sharedInstance] currentServer]) {
+    if(![[RJMusicSessionManager sharedInstance] currentServer]) {
         NSString *text = @"Set up your playlists here. When you host your own party, you can set the current playlist and others will be able to add songs to it remotely.";
         UITextView *textView = [[[UITextView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
         textView.text = text;

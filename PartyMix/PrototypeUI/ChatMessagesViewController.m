@@ -11,7 +11,7 @@
 #import "ChatMessage.h"
 #import "DataModel.h"
 #import "Device.h"
-#import "RJSessionManager.h"
+#import "RJMusicSessionManager.h"
 
 @interface ChatMessagesViewController ()
 @property (nonatomic, retain) UITextField *textField;
@@ -55,7 +55,7 @@
 }
 
 - (void)sendChat {
-    [[RJSessionManager sharedInstance] sendMessageToAll:self.textField.text];
+    [[RJMusicSessionManager sharedInstance] sendMessageToAll:self.textField.text];
     self.textField.text = @"";
     [self.textField resignFirstResponder];
 }

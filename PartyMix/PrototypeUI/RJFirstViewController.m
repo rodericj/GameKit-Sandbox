@@ -15,7 +15,7 @@
 #import "NSArray+PageableArray.h"
 #import "PayloadTranslator.h"
 #import "RJFirstViewController.h"
-#import "RJSessionManager.h"
+#import "RJMusicSessionManager.h"
 
 #define kSessionRequestAlert            100
 #define kSessionSendText                101
@@ -45,15 +45,15 @@
 
 -(IBAction)toggleServerAvailabiltyButtonPushed:(id)sender {
     
-    [[RJSessionManager sharedInstance] toggleServerAvailabilty];
-    NSString *listeningState = [[RJSessionManager sharedInstance] isListening] ? listening : not_listening;
+    [[RJMusicSessionManager sharedInstance] toggleServerAvailabilty];
+    NSString *listeningState = [[RJMusicSessionManager sharedInstance] isListening] ? listening : not_listening;
     self.serverLabel.text = listeningState;
     
 }
 
 -(IBAction)findServerButtonPushed:(id)sender {
     
-    [[RJSessionManager sharedInstance] findServer];
+    [[RJMusicSessionManager sharedInstance] findServer];
 
 }
 
@@ -70,7 +70,7 @@
 }
 
 -(IBAction)disconnectButtonPushed:(id)sender {
-    [[RJSessionManager sharedInstance] disconnect];
+    [[RJMusicSessionManager sharedInstance] disconnect];
 }
 
 
@@ -79,7 +79,7 @@
 -(void)handleSendTextThroughAlert:(UIAlertView *)alert {
     NSString *messageString = [alert textFieldAtIndex:0].text;
     
-    [[RJSessionManager sharedInstance] sendMessageToAll:messageString];
+    [[RJMusicSessionManager sharedInstance] sendMessageToAll:messageString];
     
 }
 
@@ -88,13 +88,13 @@
     switch (alertView.tag) {
         case kSessionRequestAlert:
             if (buttonIndex) {
-                NSError *error = [[RJSessionManager sharedInstance] handleSessionRequestFrom:self.deviceToConnectTo];
+                NSError *error = [[RJMusicSessionManager sharedInstance] handleSessionRequestFrom:self.deviceToConnectTo];
                 if (error) {
                     NSLog(@"error handling session request %@", error);
                 }
             }
             else {
-                [[RJSessionManager sharedInstance] denySessionRequestFrom:self.deviceToConnectTo];
+                [[RJMusicSessionManager sharedInstance] denySessionRequestFrom:self.deviceToConnectTo];
             }
             break;
             
@@ -112,7 +112,7 @@
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {        
-        [[RJSessionManager sharedInstance] connectToPeer:self.deviceToConnectTo];
+        [[RJMusicSessionManager sharedInstance] connectToPeer:self.deviceToConnectTo];
     }
 }
 #pragma mark - MessageRecipient
@@ -123,7 +123,7 @@
     
 -(void)handleConnecting:(Device *) device {
     NSLog(@"peer is connecting %@", device);
-    NSString *displayName = [[RJSessionManager sharedInstance] displayNameForPeer:device.peerId];
+    NSString *displayName = [[RJMusicSessionManager sharedInstance] displayNameForPeer:device.peerId];
     
     self.deviceToConnectTo = device;
     NSString *title = [NSString stringWithFormat:allow_connections_from, displayName];
@@ -155,10 +155,10 @@
         case GKPeerStateAvailable: {
             self.deviceToConnectTo = tappedDevice;
             NSLog(@"device %@, peerId %@, device.deviceName %@", self.deviceToConnectTo, self.deviceToConnectTo.peerId, self.deviceToConnectTo.deviceName);
-            NSString *displayName = [[RJSessionManager sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
+            NSString *displayName = [[RJMusicSessionManager sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
         
             if (!displayName) {
-                NSString *name = [[RJSessionManager sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
+                NSString *name = [[RJMusicSessionManager sharedInstance] displayNameForPeer:self.deviceToConnectTo.peerId];
                 NSLog(@"name = %@", name);
                 NSAssert(displayName, @"Display name must not be nil for available state");
             }
@@ -213,7 +213,7 @@
     }
     
     Device *device = (Device *)[self.fetchController objectAtIndexPath:indexPath];
-    NSString *deviceName = [[RJSessionManager sharedInstance] displayNameForPeer:device.peerId];
+    NSString *deviceName = [[RJMusicSessionManager sharedInstance] displayNameForPeer:device.peerId];
     if(!deviceName) {
         NSLog(@"should perhaps have a cache name");
         //deviceName = device.cachedName;
@@ -254,12 +254,12 @@
         d.state = [NSNumber numberWithInt:GKPeerStateUnavailable];
     }
     [[DataModel sharedInstance] save];
-    [[RJSessionManager sharedInstance] findServer];
+    [[RJMusicSessionManager sharedInstance] findServer];
     
 }
 
 - (void)updateServerListeningString {
-    self.serverLabel.text = [RJSessionManager sharedInstance].isListening ? listening : not_listening;
+    self.serverLabel.text = [RJMusicSessionManager sharedInstance].isListening ? listening : not_listening;
 }
 
 - (void)viewDidUnload

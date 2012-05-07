@@ -10,7 +10,7 @@
 #import "MediaItem+Additions.h"
 #import "RJThirdViewController.h"
 #import "DataModel.h"
-#import "RJSessionManager.h"
+#import "RJMusicSessionManager.h"
 #define kAddToRemotePlaylist    @"Would you like to add this song to the remote playlist"
 
 @interface RJThirdViewController () 
@@ -26,9 +26,9 @@
 @synthesize mediaToSend = _mediaToSend;
 
 -(IBAction)getRemoteMedia:(id)sender {
-    if( [[RJSessionManager sharedInstance] currentServer]) {
+    if( [[RJMusicSessionManager sharedInstance] currentServer]) {
         NSLog(@"fetch remote");
-        [[RJSessionManager sharedInstance] requestSongsFromServer];
+        [[RJMusicSessionManager sharedInstance] requestSongsFromServer];
     }
     else {
         NSString *alertTitle = @"Requesting remote tracks";
@@ -44,7 +44,7 @@
 }
 
 -(NSPredicate *)predicate {
-    Device *device =  [[RJSessionManager sharedInstance] currentServer];
+    Device *device =  [[RJMusicSessionManager sharedInstance] currentServer];
     if (!device) {
         return [NSPredicate predicateWithFormat:@"title == %@", @"no title at all. just don't show anything"];
     }
@@ -85,7 +85,7 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {        
         NSLog(@"send song %@", self.mediaToSend);
-        [[RJSessionManager sharedInstance] sendSingleSongRequest:self.mediaToSend];
+        [[RJMusicSessionManager sharedInstance] sendSingleSongRequest:self.mediaToSend];
         self.mediaToSend = nil;
         //[DataModel sharedInstance] 
     }
@@ -119,7 +119,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if(![[RJSessionManager sharedInstance] currentServer]) {
+    if(![[RJMusicSessionManager sharedInstance] currentServer]) {
         NSString *text = @"When connected to a party, you'll need to get the list of songs available to you. Use this view to fetch and view those songs.";
         UITextView *textView = [[[UITextView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
         textView.text = text;
