@@ -59,6 +59,11 @@
 		17FCA61814C00BD8004DDAA8 /* MediaItem+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA61614C00BD8004DDAA8 /* MediaItem+Additions.m */; };
 		17FCA61B14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA61A14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m */; };
 		17FCA61C14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA61A14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m */; };
+		90202C0915BFA48E00BAF53B /* RJPhotoFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90202C0815BFA48E00BAF53B /* RJPhotoFeedViewController.m */; };
+		9041D51915BFA84600C8400B /* RJPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9041D51815BFA84600C8400B /* RJPhotoManager.m */; };
+		9041D51C15BFA8F600C8400B /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9041D51B15BFA8F600C8400B /* AssetsLibrary.framework */; };
+		9041D52115BFB5D700C8400B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9041D52015BFB5D700C8400B /* CoreLocation.framework */; };
+		90B290BE15BFBCFF001D8E33 /* PhotoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B290BD15BFBCFF001D8E33 /* PhotoItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +151,14 @@
 		17FCA61614C00BD8004DDAA8 /* MediaItem+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MediaItem+Additions.m"; path = "DataModel/MediaItem+Additions.m"; sourceTree = "<group>"; };
 		17FCA61914C01077004DDAA8 /* FetchedResultsBackedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchedResultsBackedTableViewController.h; sourceTree = "<group>"; };
 		17FCA61A14C01077004DDAA8 /* FetchedResultsBackedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchedResultsBackedTableViewController.m; sourceTree = "<group>"; };
+		90202C0715BFA48E00BAF53B /* RJPhotoFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJPhotoFeedViewController.h; path = PrototypeUI/RJPhotoFeedViewController.h; sourceTree = "<group>"; };
+		90202C0815BFA48E00BAF53B /* RJPhotoFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJPhotoFeedViewController.m; path = PrototypeUI/RJPhotoFeedViewController.m; sourceTree = "<group>"; };
+		9041D51715BFA84600C8400B /* RJPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJPhotoManager.h; path = PHotoManager/RJPhotoManager.h; sourceTree = "<group>"; };
+		9041D51815BFA84600C8400B /* RJPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJPhotoManager.m; path = PHotoManager/RJPhotoManager.m; sourceTree = "<group>"; };
+		9041D51B15BFA8F600C8400B /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		9041D52015BFB5D700C8400B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		90B290BC15BFBCFF001D8E33 /* PhotoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoItem.h; path = "DataModel/Generated Data Model/PhotoItem.h"; sourceTree = "<group>"; };
+		90B290BD15BFBCFF001D8E33 /* PhotoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoItem.m; path = "DataModel/Generated Data Model/PhotoItem.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +166,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9041D52115BFB5D700C8400B /* CoreLocation.framework in Frameworks */,
+				9041D51C15BFA8F600C8400B /* AssetsLibrary.framework in Frameworks */,
 				17D8825914BFF631004D3722 /* CoreData.framework in Frameworks */,
 				17040AA3148A120500231BD9 /* MediaPlayer.framework in Frameworks */,
 				17ACB3E2147893B3008832E5 /* GameKit.framework in Frameworks */,
@@ -227,6 +242,8 @@
 				17D7581914E833CB008183B1 /* RJMusicPlayerInterface.xib */,
 				17BE97AB150DC0C5009B5FD0 /* ChatMessagesViewController.h */,
 				17BE97AC150DC0C5009B5FD0 /* ChatMessagesViewController.m */,
+				90202C0715BFA48E00BAF53B /* RJPhotoFeedViewController.h */,
+				90202C0815BFA48E00BAF53B /* RJPhotoFeedViewController.m */,
 			);
 			name = "Prototype UI";
 			sourceTree = "<group>";
@@ -255,13 +272,15 @@
 		17ACB39D14789242008832E5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9041D51B15BFA8F600C8400B /* AssetsLibrary.framework */,
 				17D8825814BFF631004D3722 /* CoreData.framework */,
-				17040AA2148A120500231BD9 /* MediaPlayer.framework */,
-				17ACB3E1147893B3008832E5 /* GameKit.framework */,
-				17ACB39E14789242008832E5 /* UIKit.framework */,
-				17ACB3A014789242008832E5 /* Foundation.framework */,
 				17ACB3A214789242008832E5 /* CoreGraphics.framework */,
+				9041D52015BFB5D700C8400B /* CoreLocation.framework */,
+				17ACB3A014789242008832E5 /* Foundation.framework */,
+				17ACB3E1147893B3008832E5 /* GameKit.framework */,
+				17040AA2148A120500231BD9 /* MediaPlayer.framework */,
 				17ACB3CA14789242008832E5 /* SenTestingKit.framework */,
+				17ACB39E14789242008832E5 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -269,6 +288,7 @@
 		17ACB3A414789242008832E5 /* PartyMix */ = {
 			isa = PBXGroup;
 			children = (
+				90202C0515BFA44400BAF53B /* Photo Manager */,
 				17020C3614F7402B008A2DB3 /* Music Manager */,
 				17396A1814E62B6E00F19B8C /* Session Manager */,
 				1789C15614D278110097CF81 /* Prototype UI */,
@@ -337,6 +357,8 @@
 		17D8824A14BE914F004D3722 /* Generated Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				90B290BC15BFBCFF001D8E33 /* PhotoItem.h */,
+				90B290BD15BFBCFF001D8E33 /* PhotoItem.m */,
 				17BE97B9150DD1D1009B5FD0 /* ChatMessage.h */,
 				17BE97BA150DD1D1009B5FD0 /* ChatMessage.m */,
 				17BE97A8150DBE7B009B5FD0 /* Device.h */,
@@ -349,6 +371,15 @@
 				17BE9797150DB587009B5FD0 /* PlaylistItem.m */,
 			);
 			name = "Generated Data Model";
+			sourceTree = "<group>";
+		};
+		90202C0515BFA44400BAF53B /* Photo Manager */ = {
+			isa = PBXGroup;
+			children = (
+				9041D51715BFA84600C8400B /* RJPhotoManager.h */,
+				9041D51815BFA84600C8400B /* RJPhotoManager.m */,
+			);
+			name = "Photo Manager";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -490,6 +521,9 @@
 				17BE97AD150DC0C5009B5FD0 /* ChatMessagesViewController.m in Sources */,
 				17BE97BB150DD1D1009B5FD0 /* ChatMessage.m in Sources */,
 				17A99BE01557529600A8FDF6 /* RJMusicSessionManager.m in Sources */,
+				90202C0915BFA48E00BAF53B /* RJPhotoFeedViewController.m in Sources */,
+				9041D51915BFA84600C8400B /* RJPhotoManager.m in Sources */,
+				90B290BE15BFBCFF001D8E33 /* PhotoItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

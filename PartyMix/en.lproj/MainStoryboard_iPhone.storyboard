@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2177" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11E53" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
     <dependencies>
+        <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
     <scenes>
         <!--First View Controller - Nearby Parties-->
@@ -104,7 +105,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="653" y="-138"/>
+            <point key="canvasLocation" x="631" y="-136"/>
         </scene>
         <!--Chat Messages View Controller - Chat-->
         <scene sceneID="fdv-XP-LpU">
@@ -136,6 +137,52 @@
             </objects>
             <point key="canvasLocation" x="625" y="2247"/>
         </scene>
+        <!--Photo Feed View Controller - Root View Controller-->
+        <scene sceneID="OcN-eH-HYE">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n0A-Ys-bKQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="IcF-Nz-OR9" customClass="RJPhotoFeedViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="hoo-10-7oM">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="wHF-8P-03y">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="IcF-Nz-OR9" id="dUu-jB-x0V"/>
+                            <outlet property="delegate" destination="IcF-Nz-OR9" id="8TF-W3-jUi"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="hgH-5e-zdU"/>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="1257" y="2812"/>
+        </scene>
+        <!--Navigation Controller - Photos-->
+        <scene sceneID="xvd-i2-5lD">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="42d-YP-wgI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController title="Photos" definesPresentationContext="YES" id="rgO-LR-ANB" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Photos" id="zeN-JV-PBn"/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="JFC-d1-p3e">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="IcF-Nz-OR9" kind="relationship" relationship="rootViewController" id="Ejj-YC-yVg"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="631" y="2826"/>
+        </scene>
         <!--Fourth View Controller - Music-->
         <scene sceneID="neK-pO-nMx">
             <objects>
@@ -154,7 +201,7 @@
                     <navigationItem key="navigationItem" id="hN7-Ra-k9w"/>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="653" y="1646"/>
+            <point key="canvasLocation" x="1141" y="1654"/>
         </scene>
         <!--Third View Controller - Host's Music-->
         <scene sceneID="hoO-6e-jDw">
@@ -188,7 +235,7 @@
                     <tabBarItem key="tabBarItem" title="Host's Music" image="second.png" id="Ir5-ml-P27"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="653" y="1072"/>
+            <point key="canvasLocation" x="631" y="1074"/>
         </scene>
         <!--Second View Controller - Local Fetch-->
         <scene sceneID="13">
@@ -224,7 +271,7 @@
                     <tabBarItem key="tabBarItem" title="Your Music" image="second" id="6"/>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="653" y="498"/>
+            <point key="canvasLocation" x="631" y="502"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="15">
@@ -244,10 +291,11 @@
                         <segue destination="YJN-EG-T3U" kind="relationship" relationship="viewControllers" id="JBf-Bb-NsL"/>
                         <segue destination="4c3-wA-3V4" kind="relationship" relationship="viewControllers" id="LkE-ZF-g5x"/>
                         <segue destination="vqr-lZ-Ptd" kind="relationship" relationship="viewControllers" id="xuA-Tc-D8P"/>
+                        <segue destination="rgO-LR-ANB" kind="relationship" relationship="viewControllers" id="wpA-xa-D7V"/>
                     </connections>
                 </tabBarController>
             </objects>
-            <point key="canvasLocation" x="293" y="212"/>
+            <point key="canvasLocation" x="-445" y="1062"/>
         </scene>
         <!--Navigation Controller - Item-->
         <scene sceneID="u52-JN-IEr">
@@ -263,7 +311,7 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="97" y="1646"/>
+            <point key="canvasLocation" x="631" y="1662"/>
         </scene>
     </scenes>
     <resources>
@@ -287,6 +335,9 @@
         </class>
         <class className="RJFourthViewController" superclassName="FetchedResultsBackedTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RJFourthViewController.h"/>
+        </class>
+        <class className="RJPhotoFeedViewController" superclassName="FetchedResultsBackedTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RJPhotoFeedViewController.h"/>
         </class>
         <class className="RJSecondViewController" superclassName="FetchedResultsBackedTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RJSecondViewController.h"/>

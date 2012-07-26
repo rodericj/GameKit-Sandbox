@@ -11,6 +11,7 @@
 #define kEntityNamePlaylist                     @"Playlist"
 #define kEntityNameDevice                       @"Device"
 #define kEntityNameMessage                      @"ChatMessage"
+#define kEntityNamePhoto                        @"PhotoItem"
 
 //Strings
 #define send_a_message                  @"Send a message"

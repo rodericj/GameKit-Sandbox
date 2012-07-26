@@ -14,12 +14,14 @@
 #import "ChatMessage.h"
 #import "NSArray+PageableArray.h"
 #import "RJMusicManager.h"
+#import "PhotoItem.h"
 
 #define kEntityNameMediaItem                    @"MediaItem"
 #define kEntityNameMessage                      @"ChatMessage"
 #define kEntityNamePlaylistItem                 @"PlaylistItem"
 #define kEntityNamePlaylist                     @"Playlist"
 #define kEntityNameDevice                       @"Device"
+#define kEntityNamePhotoItem                    @"PhotoItem"
 
 
 #define kPartyMixCoreDataBackupTempFile         @"PartyMixBackupTemp"
@@ -202,7 +204,12 @@ static DataModel *_dataModel = nil;
 }
 
 #pragma mark - insertion of NSManagedObjects
-
+- (PhotoItem *)insertNewPhotoWithUrl:(NSString *)url location:(CLLocation *)location type:(NSString *)type orientation:(NSNumber *)orientation date:(NSDate *)date representation:(NSString *)representation {
+    PhotoItem *photoItem = (PhotoItem *)[self insertNewObjectOfType:kEntityNameDevice];
+    photoItem.dateTaken = date;
+    photoItem.location = location;
+    return photoItem;
+}
 
 - (NSManagedObject *)insertNewObjectOfType:(NSString *)entityName {
     return (NSManagedObject *)[NSEntityDescription insertNewObjectForEntityForName:entityName
