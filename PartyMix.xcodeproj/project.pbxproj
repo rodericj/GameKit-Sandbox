@@ -88,6 +88,7 @@
 		1705DD7214D63674009439D4 /* RJSecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJSecondViewController.m; path = PrototypeUI/RJSecondViewController.m; sourceTree = "<group>"; };
 		1705DD7314D63674009439D4 /* RJThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJThirdViewController.h; path = PrototypeUI/RJThirdViewController.h; sourceTree = "<group>"; };
 		1705DD7414D63674009439D4 /* RJThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJThirdViewController.m; path = PrototypeUI/RJThirdViewController.m; sourceTree = "<group>"; };
+		1713ABE915576D460050C361 /* SessionManagerDataModelDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SessionManagerDataModelDelegate.h; path = SessionManager/SessionManagerDataModelDelegate.h; sourceTree = "<group>"; };
 		1738DDD314EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MPMediaItemCollection+Utils.h"; path = "lib/MPMediaItemCollection+Utils.h"; sourceTree = "<group>"; };
 		1738DDD414EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MPMediaItemCollection+Utils.m"; path = "lib/MPMediaItemCollection+Utils.m"; sourceTree = "<group>"; };
 		17396A1A14E62B9F00F19B8C /* RJSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJSessionManager.h; path = SessionManager/RJSessionManager.h; sourceTree = "<group>"; };
@@ -219,6 +220,7 @@
 				17A99BDD1557512000A8FDF6 /* RJMusicSessionManager.m */,
 				17396A1A14E62B9F00F19B8C /* RJSessionManager.h */,
 				17396A1B14E62B9F00F19B8C /* RJSessionManager.m */,
+				1713ABE915576D460050C361 /* SessionManagerDataModelDelegate.h */,
 			);
 			name = "Session Manager";
 			sourceTree = "<group>";

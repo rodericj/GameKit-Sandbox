@@ -88,7 +88,7 @@
     switch (alertView.tag) {
         case kSessionRequestAlert:
             if (buttonIndex) {
-                NSError *error = [[RJMusicSessionManager sharedInstance] handleSessionRequestFrom:self.deviceToConnectTo];
+                NSError *error = [[RJMusicSessionManager sharedInstance] handleSessionRequestFrom:self.deviceToConnectTo.peerId];
                 if (error) {
                     NSLog(@"error handling session request %@", error);
                 }
@@ -112,9 +112,10 @@
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {        
-        [[RJMusicSessionManager sharedInstance] connectToPeer:self.deviceToConnectTo];
+        [[RJMusicSessionManager sharedInstance] connectToPeer:self.deviceToConnectTo.peerId];
     }
 }
+
 #pragma mark - MessageRecipient
 -(void)newMessage:(NSDictionary *)data {
     NSLog(@"we got a new message %@", data);

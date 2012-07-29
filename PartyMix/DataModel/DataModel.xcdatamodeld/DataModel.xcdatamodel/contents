@@ -8,7 +8,7 @@
         <attribute name="messageContent" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="unread" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
-        <relationship name="device" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Device" syncable="YES"/>
+        <relationship name="device" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Device" inverseName="chatMessage" inverseEntity="Device" syncable="YES"/>
     </entity>
     <entity name="Device" representedClassName="Device" syncable="YES">
         <attribute name="cachedName" optional="YES" attributeType="String" syncable="YES"/>
@@ -18,6 +18,7 @@
         <attribute name="peerId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" maxValueString="4" defaultValueString="1" syncable="YES"/>
         <attribute name="titleFirstLetter" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <relationship name="chatMessage" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ChatMessage" inverseName="device" inverseEntity="ChatMessage" syncable="YES"/>
         <relationship name="deviceItem" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BaseDeviceItem" inverseName="deviceHome" inverseEntity="BaseDeviceItem" syncable="YES"/>
         <relationship name="playListItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlaylistItem" inverseName="device" inverseEntity="PlaylistItem" syncable="YES"/>
     </entity>
@@ -49,7 +50,7 @@
     <elements>
         <element name="BaseDeviceItem" positionX="394" positionY="60" width="128" height="75"/>
         <element name="ChatMessage" positionX="-63" positionY="264" width="128" height="105"/>
-        <element name="Device" positionX="160" positionY="192" width="128" height="180"/>
+        <element name="Device" positionX="160" positionY="192" width="128" height="195"/>
         <element name="MediaItem" positionX="394" positionY="207" width="128" height="135"/>
         <element name="PhotoItem" positionX="531" positionY="207" width="128" height="135"/>
         <element name="Playlist" positionX="115" positionY="486" width="128" height="105"/>

@@ -74,7 +74,7 @@ static RJMusicSessionManager *_sessionManager = nil;
                             forKey:actionkey];
             
             NSData *data = [PayloadTranslator buildPayLoadWithDictionary:payloadData];
-            [[RJMusicSessionManager sharedInstance] sendPayload:data toDevice:device];
+            [[RJMusicSessionManager sharedInstance] sendPayload:data toDevice:device.peerId];
             currentPackage = nil;
             currentPackage = [NSMutableArray arrayWithCapacity:10];
         }
@@ -109,7 +109,7 @@ static RJMusicSessionManager *_sessionManager = nil;
     
     NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
     
-    [[RJMusicSessionManager sharedInstance] sendPayload:data toDevice:server];
+    [[RJMusicSessionManager sharedInstance] sendPayload:data toDevice:server.peerId];
 }
 
 - (void)sendSingleSongRequest:(MediaItem *)media {
@@ -125,6 +125,6 @@ static RJMusicSessionManager *_sessionManager = nil;
     NSData *data = [PayloadTranslator buildPayLoadWithDictionary:dict];
     
     [sessionManager sendPayload:data 
-                       toDevice:server];
+                       toDevice:server.peerId];
 }
 @end

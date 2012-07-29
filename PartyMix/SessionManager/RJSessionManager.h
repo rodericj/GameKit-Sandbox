@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 #import "Device.h"
+#import "SessionManagerDataModelDelegate.h"
 
 #define actionkey                          @"action"   
 #define messagekey                          @"message"   
@@ -18,13 +19,14 @@
     GKSession                   *session;
     
     id<GKSessionDelegate> _sessionDelegate;
+    id<SessionManagerDataModelDelegate> _dataModel;
 }
 
 @property (nonatomic, retain)           GKSession                   *session;
 
 - (void)findServer;
 
-- (NSError *)handleSessionRequestFrom:(Device *)device;
+- (NSError *)handleSessionRequestFrom:(NSString *)devicePeerId;
 - (void)denySessionRequestFrom:(Device *)device;
 - (void)sendMessageToAll:(NSString *)message;
 
@@ -54,11 +56,11 @@
 /*
  * Given a device, attempt to make a connection to it's session
  */
-- (void)connectToPeer:(Device *)device;
+- (void)connectToPeer:(NSString *)devicePeerId;
 
 #pragma mark -
 
-- (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device;
+- (NSError *)sendPayload:(NSData *)payload toDevice:(NSString *)device;
 
 - (Device *)currentServer;
 

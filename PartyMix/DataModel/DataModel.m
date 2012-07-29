@@ -15,6 +15,7 @@
 #import "NSArray+PageableArray.h"
 #import "RJMusicManager.h"
 #import "PhotoItem.h"
+#import <CoreLocation/CoreLocation.h>
 
 #define kEntityNameMediaItem                    @"MediaItem"
 #define kEntityNameMessage                      @"ChatMessage"
@@ -193,6 +194,11 @@ static DataModel *_dataModel = nil;
 	}	
     
 	return _persistentStoreCoordinator;
+}
+
+#pragma mark - 
+- (void)setDeviceConnectionState:(NSUInteger)state {
+    NSAssert(NO, @"We never implemented setDeviceConnectionState. This was from a git stash that I don't remember. This was a very half baked solution I think :(");
 }
 
 #pragma mark - Set up of the singleton

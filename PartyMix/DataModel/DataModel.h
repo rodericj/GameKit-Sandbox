@@ -11,6 +11,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "Playlist.h"
 #import "PlaylistItem.h"
+#import "SessionManagerDataModelDelegate.h"
 
 @protocol MessageRecipient <NSObject>
 
@@ -18,11 +19,10 @@
 -(void)newMessage:(NSDictionary *)data;
 @end
 
-@interface DataModel : NSObject  {
+@interface DataModel : NSObject <SessionManagerDataModelDelegate> {
 	NSPersistentStoreCoordinator        *_persistentStoreCoordinator;
 	NSManagedObjectModel                *_managedObjectModel;
 	NSManagedObjectContext              *_managedObjectContext;	
-
 }
 
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;

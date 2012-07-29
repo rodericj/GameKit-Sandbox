@@ -20,7 +20,7 @@
 @interface RJSessionManager ()
 //Server
 @property (nonatomic, assign)           id <GKSessionDelegate>      sessionDelegate;
-
+@property (nonatomic, assign)           id <SessionManagerDataModelDelegate> dataModel;
 @end
 
 @implementation RJSessionManager
@@ -28,6 +28,7 @@
 //Server
 @synthesize session         = _Session;
 @synthesize sessionDelegate = _sessionDelegate;
+@synthesize dataModel = _dataModel;
 
 //+(RJSessionManager *)sharedInstance {
 //    NSAssert(FALSE, @"RJSessionManager should not be called");
@@ -66,7 +67,7 @@
     
     NSArray *devices = [[DataModel sharedInstance] fetchPeersWithState:GKPeerStateConnected];
     for (Device *device in devices) {
-        [self sendPayload:data toDevice:device];
+        [self sendPayload:data toDevice:device.peerId];
     }
     
 }
@@ -248,21 +249,25 @@
     [[DataModel sharedInstance] save];
 }
 
-- (void)denySessionRequestFrom:(Device *)device {
-    NSString *peerId = device.peerId;
-    [self.session denyConnectionFromPeer:peerId];
+- (void)denySessionRequestFrom:(NSString *)devicePeerId {
+    [self.session denyConnectionFromPeer:devicePeerId];
+//    [DataModel sharedInstance] deviceWithName:
+    
+    // TODO I unstashed this code and I'm not sure if this is correct.
+    Device *device = [[DataModel sharedInstance] fetchOrInsertDeviceWithPeerId:devicePeerId 
+                                                                    deviceName:nil];
     device.state = [NSNumber numberWithInt:GKPeerStateDisconnected];
 }
 
-- (NSError *)handleSessionRequestFrom:(Device *)device {
+- (NSError *)handleSessionRequestFrom:(NSString *)devicePeerId {
     NSError *error = nil;
-    [self.session acceptConnectionFromPeer:device.peerId
+    [self.session acceptConnectionFromPeer:devicePeerId
                                      error:&error];
     
     return error;
 }
 
-- (NSError *)sendPayload:(NSData *)payload toDevice:(Device *)device{
+- (NSError *)sendPayload:(NSData *)payload toDevice:(NSString *)devicePeerId{
     NSError *error = nil;
 //    if ([DataModel sharedInstance].localDevice.isServer) {    
 //        [self.session sendDataToAllPeers:payload 
@@ -270,7 +275,7 @@
 //                                   error:&error];
 //    }
 //    else {
-    NSArray *peer = [NSArray arrayWithObject:device.peerId];
+    NSArray *peer = [NSArray arrayWithObject:devicePeerId];
     [self.session sendData:payload
                    toPeers:peer 
               withDataMode:GKSendDataReliable error:&error];
@@ -286,8 +291,9 @@
     return displayName;
 }
 
-- (void)connectToPeer:(Device *)device {
-    [self.session connectToPeer:device.peerId withTimeout:10];
+- (void)connectToPeer:(NSString *)devicePeerId {
+    [self.session connectToPeer:devicePeerId 
+                    withTimeout:10];
 }
 
 
