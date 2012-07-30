@@ -16,6 +16,9 @@
 		172DF9AF15C4E2010048C02A /* PhotoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 172DF9AE15C4E2010048C02A /* PhotoItem.m */; };
 		172DF9B415C4FEFD0048C02A /* RJPhotoDisplayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 172DF9B315C4FEFD0048C02A /* RJPhotoDisplayCell.m */; };
 		172DF9B615C4FF140048C02A /* RJPhotoDisplayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 172DF9B515C4FF140048C02A /* RJPhotoDisplayCell.xib */; };
+		172DF9BE15C632D80048C02A /* PhotoItem+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 172DF9BD15C632D70048C02A /* PhotoItem+Additions.m */; };
+		172DF9BF15C632D80048C02A /* PhotoItem+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 172DF9BD15C632D70048C02A /* PhotoItem+Additions.m */; };
+		172DF9C515C635320048C02A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 172DF9C415C635320048C02A /* MapKit.framework */; };
 		1738DDD514EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1738DDD414EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m */; };
 		17396A1C14E62B9F00F19B8C /* RJSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17396A1B14E62B9F00F19B8C /* RJSessionManager.m */; };
 		175CDCCB148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */; };
@@ -96,6 +99,9 @@
 		172DF9B215C4FEFD0048C02A /* RJPhotoDisplayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJPhotoDisplayCell.h; path = PhotoTableView/RJPhotoDisplayCell.h; sourceTree = "<group>"; };
 		172DF9B315C4FEFD0048C02A /* RJPhotoDisplayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJPhotoDisplayCell.m; path = PhotoTableView/RJPhotoDisplayCell.m; sourceTree = "<group>"; };
 		172DF9B515C4FF140048C02A /* RJPhotoDisplayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RJPhotoDisplayCell.xib; path = PhotoTableView/RJPhotoDisplayCell.xib; sourceTree = "<group>"; };
+		172DF9BC15C632D70048C02A /* PhotoItem+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PhotoItem+Additions.h"; path = "DataModel/PhotoItem+Additions.h"; sourceTree = "<group>"; };
+		172DF9BD15C632D70048C02A /* PhotoItem+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PhotoItem+Additions.m"; path = "DataModel/PhotoItem+Additions.m"; sourceTree = "<group>"; };
+		172DF9C415C635320048C02A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1738DDD314EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MPMediaItemCollection+Utils.h"; path = "lib/MPMediaItemCollection+Utils.h"; sourceTree = "<group>"; };
 		1738DDD414EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MPMediaItemCollection+Utils.m"; path = "lib/MPMediaItemCollection+Utils.m"; sourceTree = "<group>"; };
 		17396A1A14E62B9F00F19B8C /* RJSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJSessionManager.h; path = SessionManager/RJSessionManager.h; sourceTree = "<group>"; };
@@ -172,6 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				172DF9C515C635320048C02A /* MapKit.framework in Frameworks */,
 				9041D52115BFB5D700C8400B /* CoreLocation.framework in Frameworks */,
 				9041D51C15BFA8F600C8400B /* AssetsLibrary.framework in Frameworks */,
 				17D8825914BFF631004D3722 /* CoreData.framework in Frameworks */,
@@ -295,6 +302,7 @@
 				9041D52015BFB5D700C8400B /* CoreLocation.framework */,
 				17ACB3A014789242008832E5 /* Foundation.framework */,
 				17ACB3E1147893B3008832E5 /* GameKit.framework */,
+				172DF9C415C635320048C02A /* MapKit.framework */,
 				17040AA2148A120500231BD9 /* MediaPlayer.framework */,
 				17ACB3CA14789242008832E5 /* SenTestingKit.framework */,
 				17ACB39E14789242008832E5 /* UIKit.framework */,
@@ -368,6 +376,8 @@
 				17D8825214BFF07D004D3722 /* DataModel.m */,
 				17FCA61514C00BD8004DDAA8 /* MediaItem+Additions.h */,
 				17FCA61614C00BD8004DDAA8 /* MediaItem+Additions.m */,
+				172DF9BC15C632D70048C02A /* PhotoItem+Additions.h */,
+				172DF9BD15C632D70048C02A /* PhotoItem+Additions.m */,
 			);
 			name = "Data Model";
 			sourceTree = "<group>";
@@ -544,6 +554,7 @@
 				9041D51915BFA84600C8400B /* RJPhotoManager.m in Sources */,
 				172DF9AF15C4E2010048C02A /* PhotoItem.m in Sources */,
 				172DF9B415C4FEFD0048C02A /* RJPhotoDisplayCell.m in Sources */,
+				172DF9BE15C632D80048C02A /* PhotoItem+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,6 +569,7 @@
 				178685BF14C7D4C4000EDF48 /* PayloadTranslator.m in Sources */,
 				17A99BDE1557512000A8FDF6 /* RJMusicSessionManager.m in Sources */,
 				17A99BDF1557529200A8FDF6 /* RJSessionManager.m in Sources */,
+				172DF9BF15C632D80048C02A /* PhotoItem+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

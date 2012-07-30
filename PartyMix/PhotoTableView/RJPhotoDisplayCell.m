@@ -10,6 +10,8 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AssetsLibrary/ALAssetsGroup.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <MapKit/Mapkit.h>
+#import "PhotoItem+Additions.h"
 
 @interface RJPhotoDisplayCell ()
 
@@ -17,8 +19,6 @@
 @property (retain, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
-
-
 
 @implementation RJPhotoDisplayCell
 @synthesize photoImageView = _photoImageView;
@@ -77,11 +77,16 @@
         self.mapView.centerCoordinate = location.coordinate;
         NSLog(@"horizontal acc: %f, vertical acc: %f", location.horizontalAccuracy, location.verticalAccuracy);
         self.mapView.region = MKCoordinateRegionMake(location.coordinate, MKCoordinateSpanMake(.001, .001));
+        [self.mapView addAnnotation:photoItem];
     }
     NSLog(@"photoItem is %@", photoItem);
     [self findLargeImageForAssetURL:photoItem.url];
     NSLog(@"exit findLarge");
     
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    return [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil] autorelease];
 }
 
 - (void)dealloc {
