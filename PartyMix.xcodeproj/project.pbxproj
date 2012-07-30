@@ -13,6 +13,9 @@
 		1705DD7614D63674009439D4 /* RJFourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7014D63674009439D4 /* RJFourthViewController.m */; };
 		1705DD7714D63674009439D4 /* RJSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7214D63674009439D4 /* RJSecondViewController.m */; };
 		1705DD7814D63674009439D4 /* RJThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1705DD7414D63674009439D4 /* RJThirdViewController.m */; };
+		172DF9AF15C4E2010048C02A /* PhotoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 172DF9AE15C4E2010048C02A /* PhotoItem.m */; };
+		172DF9B415C4FEFD0048C02A /* RJPhotoDisplayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 172DF9B315C4FEFD0048C02A /* RJPhotoDisplayCell.m */; };
+		172DF9B615C4FF140048C02A /* RJPhotoDisplayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 172DF9B515C4FF140048C02A /* RJPhotoDisplayCell.xib */; };
 		1738DDD514EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1738DDD414EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m */; };
 		17396A1C14E62B9F00F19B8C /* RJSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17396A1B14E62B9F00F19B8C /* RJSessionManager.m */; };
 		175CDCCB148AFA7300B385E8 /* NSArray+PageableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 175CDCCA148AFA7300B385E8 /* NSArray+PageableArray.m */; };
@@ -63,7 +66,6 @@
 		9041D51915BFA84600C8400B /* RJPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9041D51815BFA84600C8400B /* RJPhotoManager.m */; };
 		9041D51C15BFA8F600C8400B /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9041D51B15BFA8F600C8400B /* AssetsLibrary.framework */; };
 		9041D52115BFB5D700C8400B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9041D52015BFB5D700C8400B /* CoreLocation.framework */; };
-		90B290BE15BFBCFF001D8E33 /* PhotoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B290BD15BFBCFF001D8E33 /* PhotoItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +91,11 @@
 		1705DD7314D63674009439D4 /* RJThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJThirdViewController.h; path = PrototypeUI/RJThirdViewController.h; sourceTree = "<group>"; };
 		1705DD7414D63674009439D4 /* RJThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJThirdViewController.m; path = PrototypeUI/RJThirdViewController.m; sourceTree = "<group>"; };
 		1713ABE915576D460050C361 /* SessionManagerDataModelDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SessionManagerDataModelDelegate.h; path = SessionManager/SessionManagerDataModelDelegate.h; sourceTree = "<group>"; };
+		172DF9AD15C4E2010048C02A /* PhotoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoItem.h; path = "DataModel/Generated Data Model/PhotoItem.h"; sourceTree = "<group>"; };
+		172DF9AE15C4E2010048C02A /* PhotoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoItem.m; path = "DataModel/Generated Data Model/PhotoItem.m"; sourceTree = "<group>"; };
+		172DF9B215C4FEFD0048C02A /* RJPhotoDisplayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJPhotoDisplayCell.h; path = PhotoTableView/RJPhotoDisplayCell.h; sourceTree = "<group>"; };
+		172DF9B315C4FEFD0048C02A /* RJPhotoDisplayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJPhotoDisplayCell.m; path = PhotoTableView/RJPhotoDisplayCell.m; sourceTree = "<group>"; };
+		172DF9B515C4FF140048C02A /* RJPhotoDisplayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RJPhotoDisplayCell.xib; path = PhotoTableView/RJPhotoDisplayCell.xib; sourceTree = "<group>"; };
 		1738DDD314EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MPMediaItemCollection+Utils.h"; path = "lib/MPMediaItemCollection+Utils.h"; sourceTree = "<group>"; };
 		1738DDD414EE1A5E00D5AF21 /* MPMediaItemCollection+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MPMediaItemCollection+Utils.m"; path = "lib/MPMediaItemCollection+Utils.m"; sourceTree = "<group>"; };
 		17396A1A14E62B9F00F19B8C /* RJSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RJSessionManager.h; path = SessionManager/RJSessionManager.h; sourceTree = "<group>"; };
@@ -158,8 +165,6 @@
 		9041D51815BFA84600C8400B /* RJPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RJPhotoManager.m; path = PHotoManager/RJPhotoManager.m; sourceTree = "<group>"; };
 		9041D51B15BFA8F600C8400B /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		9041D52015BFB5D700C8400B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		90B290BC15BFBCFF001D8E33 /* PhotoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhotoItem.h; path = "DataModel/Generated Data Model/PhotoItem.h"; sourceTree = "<group>"; };
-		90B290BD15BFBCFF001D8E33 /* PhotoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhotoItem.m; path = "DataModel/Generated Data Model/PhotoItem.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +218,18 @@
 			name = lib;
 			sourceTree = "<group>";
 		};
+		172DF9B115C4FEAF0048C02A /* PhotoTableView */ = {
+			isa = PBXGroup;
+			children = (
+				90202C0715BFA48E00BAF53B /* RJPhotoFeedViewController.h */,
+				90202C0815BFA48E00BAF53B /* RJPhotoFeedViewController.m */,
+				172DF9B215C4FEFD0048C02A /* RJPhotoDisplayCell.h */,
+				172DF9B315C4FEFD0048C02A /* RJPhotoDisplayCell.m */,
+				172DF9B515C4FF140048C02A /* RJPhotoDisplayCell.xib */,
+			);
+			name = PhotoTableView;
+			sourceTree = "<group>";
+		};
 		17396A1814E62B6E00F19B8C /* Session Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,8 +261,6 @@
 				17D7581914E833CB008183B1 /* RJMusicPlayerInterface.xib */,
 				17BE97AB150DC0C5009B5FD0 /* ChatMessagesViewController.h */,
 				17BE97AC150DC0C5009B5FD0 /* ChatMessagesViewController.m */,
-				90202C0715BFA48E00BAF53B /* RJPhotoFeedViewController.h */,
-				90202C0815BFA48E00BAF53B /* RJPhotoFeedViewController.m */,
 			);
 			name = "Prototype UI";
 			sourceTree = "<group>";
@@ -290,6 +305,7 @@
 		17ACB3A414789242008832E5 /* PartyMix */ = {
 			isa = PBXGroup;
 			children = (
+				172DF9B115C4FEAF0048C02A /* PhotoTableView */,
 				90202C0515BFA44400BAF53B /* Photo Manager */,
 				17020C3614F7402B008A2DB3 /* Music Manager */,
 				17396A1814E62B6E00F19B8C /* Session Manager */,
@@ -359,8 +375,8 @@
 		17D8824A14BE914F004D3722 /* Generated Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				90B290BC15BFBCFF001D8E33 /* PhotoItem.h */,
-				90B290BD15BFBCFF001D8E33 /* PhotoItem.m */,
+				172DF9AD15C4E2010048C02A /* PhotoItem.h */,
+				172DF9AE15C4E2010048C02A /* PhotoItem.m */,
 				17BE97B9150DD1D1009B5FD0 /* ChatMessage.h */,
 				17BE97BA150DD1D1009B5FD0 /* ChatMessage.m */,
 				17BE97A8150DBE7B009B5FD0 /* Device.h */,
@@ -464,6 +480,7 @@
 				1792A78314D5141E00D2EDC4 /* RJPlaylistViewController.xib in Resources */,
 				17D7581B14E833CB008183B1 /* RJMusicPlayerInterface.xib in Resources */,
 				17BE9794150D9957009B5FD0 /* server.png in Resources */,
+				172DF9B615C4FF140048C02A /* RJPhotoDisplayCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,7 +542,8 @@
 				17A99BE01557529600A8FDF6 /* RJMusicSessionManager.m in Sources */,
 				90202C0915BFA48E00BAF53B /* RJPhotoFeedViewController.m in Sources */,
 				9041D51915BFA84600C8400B /* RJPhotoManager.m in Sources */,
-				90B290BE15BFBCFF001D8E33 /* PhotoItem.m in Sources */,
+				172DF9AF15C4E2010048C02A /* PhotoItem.m in Sources */,
+				172DF9B415C4FEFD0048C02A /* RJPhotoDisplayCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

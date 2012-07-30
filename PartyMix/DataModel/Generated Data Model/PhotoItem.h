@@ -2,7 +2,7 @@
 //  PhotoItem.h
 //  PartyMix
 //
-//  Created by Roderic Campbell on 7/24/12.
+//  Created by Roderic Campbell on 7/28/12.
 //  Copyright (c) 2012 Aliph. All rights reserved.
 //
 
@@ -17,6 +17,6 @@
 @property (nonatomic, retain) id location;
 @property (nonatomic, retain) NSNumber * orientation;
 @property (nonatomic, retain) NSString * representation;
-@property (nonatomic, retain) NSString * url;
+@property (nonatomic, retain) id url;
 
 @end

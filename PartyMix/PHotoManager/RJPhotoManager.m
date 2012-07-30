@@ -11,15 +11,22 @@
 #import <AssetsLibrary/ALAsset.h>
 #import <AssetsLibrary/ALAssetsGroup.h>
 #import <CoreLocation/CoreLocation.h>
+#import "DataModel.h"
 
 @implementation RJPhotoManager
 
 + (void)findLocalPhotos {
     NSMutableArray *assets = [NSMutableArray array];
-    
+    __block int totalCount = 0;
     void (^assetEnumerator)(ALAsset *, NSUInteger, BOOL *) = ^(ALAsset *result, NSUInteger index, BOOL *stop)
     {
-        NSLog(@"enumerating %@", result);
+        NSLog(@"enumerating %@ %d %d", result, index, totalCount);
+        totalCount++;
+        if (totalCount > 8) {
+            NSLog(@"We've already found 5. stop now");
+            *stop = YES;
+            return;
+        }
         if(result != nil)
         {
 //            NSString *const ALAssetPropertyType;
@@ -36,19 +43,32 @@
             NSArray *propertyRepresentations = [result valueForProperty:ALAssetPropertyRepresentations];
             NSDate *photoDate = [result valueForProperty:ALAssetPropertyDate];
             NSNumber *photoOrientation = [result valueForProperty:ALAssetPropertyOrientation];
-            NSNumber *duration = [result valueForProperty:ALAssetPropertyDuration];
             CLLocation *location = [result valueForProperty:ALAssetPropertyLocation];
             NSString *propertyType = [result valueForProperty:ALAssetPropertyType];
             
             NSLog(@"ALAssetPropertyType %@", propertyType);
             NSLog(@"ALAssetPropertyLocation %@", location);
-            NSLog(@"ALAssetPropertyDuration %@", duration);
             NSLog(@"ALAssetPropertyOrientation %@", photoOrientation);
             NSLog(@"ALAssetPropertyDate %@", photoDate);
             NSLog(@"ALAssetPropertyRepresentations %@", propertyRepresentations);
             NSLog(@"ALAssetPropertyURLs %@", propertyUrls);
             [assets addObject:result];
             NSLog(@"####################");
+            
+            NSString *key = propertyUrls.allKeys.lastObject;
+            NSURL *url = [propertyUrls objectForKey:key];
+            
+            if ([propertyType isEqualToString:@"ALAssetTypePhoto"]) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[DataModel sharedInstance] insertNewPhotoWithUrl:url
+                                                             location:location
+                                                                 type:propertyType 
+                                                          orientation:photoOrientation
+                                                                 date:photoDate
+                                                       representation:propertyRepresentations.lastObject];
+                });
+            }
         }
     };
     
@@ -67,7 +87,9 @@
     };
     
     ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
-    [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:assetGroupEnumerator failureBlock:assetFailureBlock];
+    [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupPhotoStream
+                                 usingBlock:assetGroupEnumerator 
+                               failureBlock:assetFailureBlock];
     
     [assetsLibrary release];
     

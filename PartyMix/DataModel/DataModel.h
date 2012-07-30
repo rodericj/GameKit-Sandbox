@@ -6,11 +6,14 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "Device.h"
+#import <CoreLocation/CoreLocation.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <Foundation/Foundation.h>
+
+#import "Device.h"
 #import "Playlist.h"
 #import "PlaylistItem.h"
+#import "PhotoItem.h"
 #import "SessionManagerDataModelDelegate.h"
 
 @protocol MessageRecipient <NSObject>
@@ -80,6 +83,8 @@
 
 - (NSArray *)fetchAllLocalMedia;
 
+#pragma mark - Photos
+- (PhotoItem *)insertNewPhotoWithUrl:(NSURL *)url location:(CLLocation *)location type:(NSString *)type orientation:(NSNumber *)orientation date:(NSDate *)date representation:(NSString *)representation;
 - (void)save;
 #if TARGET_IPHONE_SIMULATOR
 - (NSArray *)insertDummyMediaItems;

@@ -210,10 +210,14 @@ static DataModel *_dataModel = nil;
 }
 
 #pragma mark - insertion of NSManagedObjects
-- (PhotoItem *)insertNewPhotoWithUrl:(NSString *)url location:(CLLocation *)location type:(NSString *)type orientation:(NSNumber *)orientation date:(NSDate *)date representation:(NSString *)representation {
-    PhotoItem *photoItem = (PhotoItem *)[self insertNewObjectOfType:kEntityNameDevice];
-    photoItem.dateTaken = date;
+- (PhotoItem *)insertNewPhotoWithUrl:(NSURL *)url location:(CLLocation *)location type:(NSString *)assetType orientation:(NSNumber *)orientation date:(NSDate *)dateTaken representation:(NSString *)representation {
+    PhotoItem *photoItem = (PhotoItem *)[self insertNewObjectOfType:kEntityNamePhotoItem];
+    photoItem.url = url;
     photoItem.location = location;
+    photoItem.assetType = assetType;
+    photoItem.orientation = orientation;
+    photoItem.dateTaken = dateTaken;
+    photoItem.representation = representation;
     return photoItem;
 }
 

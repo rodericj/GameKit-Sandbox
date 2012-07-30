@@ -7,16 +7,19 @@
 //
 
 #import "UIFactory.h"
+#import "RJPhotoDisplayCell.h"
 
 @interface UIFactory ()
 
 @property (nonatomic, assign) IBOutlet RJMusicPlayerInterface *musicPlayerInterface;
+@property (retain, nonatomic) IBOutlet RJPhotoDisplayCell *photoDisplayCell;
 
 @end
 
 @implementation UIFactory
 
 @synthesize musicPlayerInterface = _musicPlayerInterface;
+@synthesize photoDisplayCell = _photoDisplayCell;
 
 static UIFactory *_uiFactory = nil;
 
@@ -24,6 +27,12 @@ static UIFactory *_uiFactory = nil;
     [[NSBundle mainBundle] loadNibNamed:@"RJMusicPlayerInterface" owner:self options:nil];
     RJMusicPlayerInterface *interface = _musicPlayerInterface;
     return interface;
+}
+
+- (RJPhotoDisplayCell *)generatePhotoDisplayCell {
+    [[NSBundle mainBundle] loadNibNamed:@"RJPhotoDisplayCell" owner:self options:nil];
+    RJPhotoDisplayCell *cell = _photoDisplayCell;
+    return cell;
 }
 
 + (UIFactory*)sharedUIFactory {
@@ -35,4 +44,8 @@ static UIFactory *_uiFactory = nil;
     return _uiFactory;
 }
 
+- (void)dealloc {
+    [_photoDisplayCell release];
+    [super dealloc];
+}
 @end

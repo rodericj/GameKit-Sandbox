@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RJMusicPlayerInterface.h"
+#import "RJPhotoDisplayCell.h"
 
 @interface UIFactory : NSObject {
     RJMusicPlayerInterface				*_musicPlayerInterface;
@@ -15,5 +16,6 @@
 
 + (UIFactory*)sharedUIFactory;
 - (RJMusicPlayerInterface *)generateMusicPlayerInterface;
+- (RJPhotoDisplayCell *)generatePhotoDisplayCell;
 
 @end

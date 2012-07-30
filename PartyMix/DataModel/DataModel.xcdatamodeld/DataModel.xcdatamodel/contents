@@ -30,10 +30,11 @@
     <entity name="PhotoItem" representedClassName="PhotoItem" parentEntity="BaseDeviceItem" syncable="YES">
         <attribute name="assetType" attributeType="String" syncable="YES"/>
         <attribute name="dateTaken" attributeType="Date" valueTransformerName="" syncable="YES"/>
+        <attribute name="imageData" optional="YES" attributeType="Transformable" storedInTruthFile="YES" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="orientation" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="representation" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="Transformable" syncable="YES"/>
     </entity>
     <entity name="Playlist" representedClassName="Playlist" syncable="YES">
         <attribute name="currentTrack" optional="YES" attributeType="Integer 16" defaultValueString="-1" syncable="YES"/>
@@ -50,9 +51,9 @@
     <elements>
         <element name="BaseDeviceItem" positionX="394" positionY="60" width="128" height="75"/>
         <element name="ChatMessage" positionX="-63" positionY="264" width="128" height="105"/>
-        <element name="Device" positionX="160" positionY="192" width="128" height="195"/>
+        <element name="Device" positionX="160" positionY="192" width="128" height="180"/>
         <element name="MediaItem" positionX="394" positionY="207" width="128" height="135"/>
-        <element name="PhotoItem" positionX="531" positionY="207" width="128" height="135"/>
+        <element name="PhotoItem" positionX="531" positionY="207" width="128" height="150"/>
         <element name="Playlist" positionX="115" positionY="486" width="128" height="105"/>
         <element name="PlaylistItem" positionX="412" positionY="450" width="128" height="90"/>
     </elements>

@@ -2,7 +2,7 @@
 //  PhotoItem.m
 //  PartyMix
 //
-//  Created by Roderic Campbell on 7/24/12.
+//  Created by Roderic Campbell on 7/28/12.
 //  Copyright (c) 2012 Aliph. All rights reserved.
 //
 
